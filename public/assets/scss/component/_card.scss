@@ -1,0 +1,47 @@
+// ----------------------------------------------
+// Card Style
+// ----------------------------------------------
+
+.card-title {
+    font-size: 18px;
+}
+
+.card-subtitle {
+    font-size: 14px;
+}
+
+.card {
+    margin-bottom: 30px;
+}
+
+.card-hover {
+    transition: 0.2s ease-in;
+
+    &:hover {
+        transform: translate3d(0px, -5px, 0px);
+    }
+}
+// newwwwwwwwwwwwwwwww
+.error-page {
+    .error-image {
+        img {
+            width: 70%;
+        }
+    }
+
+    .error-text {
+        margin-top: 50px;
+        padding-left: 0 !important;
+        text-align: center !important;
+        padding: 0px 100px !important;
+    }
+}
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+    margin-right: calc(var(--bs-gutter-x)/ -2);
+    margin-left: calc(var(--bs-gutter-x)/ -2)
+}

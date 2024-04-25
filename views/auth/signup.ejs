@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>adding title later by ejs</title>
+    <!---Custom CSS File--->
+    <link rel="stylesheet" href="/css/froms-style.css" />
+  </head>
+  <body>
+    <section class="container">
+      <header>إضافة مستخدم</header>
+      <form action="/signup" class="form" method="POST">
+        <div class="input-box">
+          <label>الاسم الكامل</label>
+          <input type="text" placeholder="أدخل الاسم الكامل" required />
+        </div>
+
+        <div class="input-box">
+          <label>العنوان البريدي</label>
+          <input type="text" placeholder="أدخل العنوان البريدي" required />
+        </div>
+        <div class="input-box">
+          <label>الرقم الوطني</label>
+          <input type="number" placeholder="أدخل الرقم الوطني" required />
+        </div>
+        <div class="column">
+          <div class="input-box">
+            <label>رقم الموبايل</label>
+            <input type="number" placeholder="أدخل رقم الموبايل" required />
+          </div>
+          <div class="input-box">
+            <label>تاريخ الولادة</label>
+            <input type="date" placeholder="أدخل تاريخ الولادة" required />
+          </div>
+        </div>
+        <div class="input-box">
+          <label>الشعبة</label>
+          <input type="text" placeholder="أدخل أسم شعبة التجنيد" required />
+        </div>
+        <!-- <div class="input-box">
+          <label for="select-search">اختر خيارًا:</label>
+          <select id="select-search" class=".select-box" placeholder="اختر خيارًا...">
+            <option value="">اختر خيارًا...</option>
+            <option value="Option1">الخيار 1</option>
+            <option value="Option2">الخيار 2</option>
+            <option value="Option3">الخيار 3</option>
+          </select>
+        </div> -->
+        <button class="btn" type="submit">إضافة</button>
+      </form>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+    <script>
+    $(document).ready(function() {
+      $('#select-search').selectize({
+        sortField: 'text'
+      });
+    });
+    </script>
+  </body>
+</html>

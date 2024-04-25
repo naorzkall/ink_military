@@ -1,0 +1,73 @@
+<%- include('../include/head.ejs') %>
+
+</head>
+
+<body>
+  <%- include('../include/navigation.ejs') %>
+      <div class="container-fluid">
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-body">
+            <section class="container">
+              <header>إضافة مستخدم</header>
+              <form action="/signup" class="form" method="POST">
+                <div class="column">
+                  <div class="input-box">
+                    <label>الاسم الكامل</label>
+                    <input type="text" placeholder="أدخل الاسم الكامل" required />
+                  </div>
+                  <div class="input-box">
+                    <label>الرقم الوطني</label>
+                    <input type="number" placeholder="أدخل الرقم الوطني" required />
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="input-box">
+                    <label>رقم التجنيد</label>
+                    <input type="number" placeholder="أدخل رقم التجنيد " required />
+                  </div>
+                  <div class="input-box">
+                    <label>تاريخ الولادة</label>
+                    <input type="date" placeholder="أدخل تاريخ الولادة" required />
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="input-box">
+                    <label>رقم الموبايل</label>
+                    <input type="number" placeholder="أدخل رقم الموبايل" required />
+                  </div>
+                  <div class="input-box">
+                    <label>أجل إلى تاريخ</label>
+                    <input type="date" placeholder="أدخل تاريخ الولادة" required />
+                  </div>
+                </div>
+                <div class="input-box">
+                  <div class="form">
+                    <div class="input-box mb-3">
+                      <label for="select-search" class="form-label">الشعبة</label>
+                      <select class="form-select" id="select-search" placeholder="اختر خيارًا...">
+                        <option value="" selected>اختر خيارًا...</option>
+                        <option value="Option1">الخيار 1</option>
+                        <option value="Option2">الخيار 2</option>
+                        <option value="Option3">الخيار 3</option>
+                      </select>
+                    </div>
+                  </div>                  
+                </div>
+                <div class="input-box">
+                  <label>العنوان البريدي</label>
+                  <input type="text" placeholder="أدخل العنوان البريدي" required />
+                </div>
+                <div class="input-box">
+                  <label>كلمة السر</label>
+                  <input type="password" placeholder="أدخل العنوان البريدي" required />
+                </div>
+                <button class="btn" type="submit">إضافة</button>
+              </form>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<%- include('../include/end.ejs') %>

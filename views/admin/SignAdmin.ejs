@@ -1,0 +1,33 @@
+<%- include('../include/head.ejs') %>
+
+</head>
+
+<body>
+  <%- include('../include/navigation.ejs') %>
+      <div class="container-fluid">
+        <div class="container-fluid">
+          <div class="card">
+            <section class="container">
+              <header>إضافة آدمن</header>
+              <form action="/signup" class="form" method="POST">
+                <div class="input-box">
+                  <label>الاسم الكامل</label>
+                  <input type="text" placeholder="أدخل الاسم الكامل" required />
+                </div>
+                <div class="input-box">
+                  <label>العنوان البريدي</label>
+                  <input type="text" placeholder="أدخل العنوان البريدي" required />
+                </div>
+                <div class="input-box">
+                  <label>كلمة السر</label>
+                  <input type="password" placeholder="أدخل العنوان البريدي" required />
+                </div>
+                <button class="btn" type="submit">إضافة</button>
+              </form>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<%- include('../include/end.ejs') %>

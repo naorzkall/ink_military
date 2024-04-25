@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>adding title later by ejs</title>
+    <!---Custom CSS File--->
+    <link rel="stylesheet" href="/css/froms-style.css" />
+  </head>
+  <body>
+
+    <section class="container">
+      <header>تسجيل الدخول</header>
+      <form action="/login" class="form" method="POST">
+        <div class="input-box">
+          <label>العنوان البريدي</label>
+          <input type="email" placeholder="أدخل الاسم الكامل" required />
+        </div>
+        <div class="input-box">
+          <label for="password">كلمة السر</label>
+          <input type="password" placeholder="أدخل كلمة المرور" required >
+      </div>
+      <div class="link">
+        <a href="./reset.html">إعادة ضبط كلمة السر</a>
+      </div>
+      <button class="btn" type="submit">تسجيل الدخول</button>
+      </form>
+    </section>
+
+  </body>
+</html>
