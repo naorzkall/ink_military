@@ -5,8 +5,6 @@ dotenv.config({path:"config.env"});
 const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 const PDFDocument = require('pdfkit');
 
-const ITEMS_PER_PAGE = 4;
-
 exports.getIndex = (req, res, next) => {
   res.render('platform/index', {
     path: '/index',
