@@ -10,35 +10,54 @@
             <div class="card-body">
               <section class="container">
                 <header>إضافة موظف</header>
-                <form action="/signup" class="form" method="POST">
+
+                <form action="/admin/signEmployee" class="form" method="POST">
                   <div class="input-box">
-                    <label>الاسم الكامل</label>
-                    <input type="text" placeholder="أدخل الاسم الكامل" required />
+                    <label for="name">الاسم الكامل</label>
+                    <input type="text" 
+                      name="name" 
+                      id="name"
+                      placeholder="أدخل الاسم الكامل" 
+                      required />
                   </div>
                   <div class="input-box">
                     <div class="form">
                       <div class="input-box mb-3">
                         <label for="select-search" class="form-label">الشعبة</label>
-                        <select class="form-select" id="select-search" placeholder="اختر خيارًا...">
+                        <select class="form-select"
+                          name="division" 
+                          id="division" 
+                          placeholder="اختر خيارًا...">
                           <option value="" selected>اختر خيارًا...</option>
-                          <option value="Option1">الخيار 1</option>
-                          <option value="Option2">الخيار 2</option>
-                          <option value="Option3">الخيار 3</option>
+                          <option value="division 1">division 1</option>
+                          <option value="division 2">division 2</option>
+                          <option value="division 3">division 3</option>
                         </select>
                       </div>
                     </div>                  
                   </div>  
                   <div class="input-box">
-                    <label>العنوان البريدي</label>
-                    <input type="text" placeholder="أدخل العنوان البريدي" required />
+                    <label for="email">العنوان البريدي</label>
+                    <input 
+                      type="email" 
+                      name="email" 
+                      id="email" 
+                      placeholder="أدخل العنوان البريدي" 
+                      required />
                   </div>
                   <div class="input-box">
-                    <label>كلمة السر</label>
-                    <input type="password" placeholder="أدخل العنوان البريدي" required />
+                    <label for="password">كلمة السر</label>
+                    <input 
+                      type="password" 
+                      name="password" 
+                      id="password"
+                      placeholder="أدخل كلمة السر" 
+                      required />
                   </div>
                   <button class="btn" type="submit">إضافة</button>
                 </form>
               </section>
+            </div>
           </div>
         </div>
       </div>

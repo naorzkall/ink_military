@@ -10,4 +10,11 @@ router.get('/SignEmployee', adminController.getSignEmployee);
 
 router.get('/SignAdmin', adminController.getSignAdmin);
 
+router.post('/SignAdmin', adminController.postSignAdmin);
+
+router.post('/signEmployee', adminController.postSignEmployee);
+
+router.post('/signStudent', adminController.postSignStudent);
+
+
 module.exports = router;

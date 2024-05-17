@@ -212,7 +212,7 @@ exports.postReset = (req, res, next) => {
         res.redirect('/');
         return transporter.sendMail({
           to: req.body.email,
-          from: NODEJS_GMAIL_APP_USER, // sender address,
+          from: process.env.NODEJS_GMAIL_APP_USER, // sender address,
           subject: 'Password reset',
           html: `
             <p>You requested a password reset</p>
@@ -275,7 +275,7 @@ exports.postNewPassword = (req, res, next) => {
       res.redirect('/login');
       return transporter.sendMail({
         to: email,
-        from: NODEJS_GMAIL_APP_USER, // sender address,
+        from: process.env.NODEJS_GMAIL_APP_USER, // sender address,
         subject: 'your Password have been reset',
         html: `
           <p>You changed password successfuly</p>
