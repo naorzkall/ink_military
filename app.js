@@ -1,6 +1,6 @@
 const path = require('path');
 const dotenv = require('dotenv');
-dotenv.config({path:"config.env"});
+dotenv.config({ path: "config.env" });
 const dbUrl = process.env.DB_URL;
 
 const express = require('express');
@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 // session setup the packages
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const flash  = require('connect-flash');
+const flash = require('connect-flash');
 const multer = require('multer');
 
 const errorController = require('./controllers/error');
@@ -37,7 +37,6 @@ const fileFilter = (req, file, cb) => {
     file.mimetype === 'image/jpeg'
   ) {
     cb(null, true);
-    // console.log("filterd true");
   } else {
     cb(null, false);
   }
@@ -48,16 +47,14 @@ app.set('views', 'views');
 
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
-const platform = require('./routes/platfrom');
-
-
+const platformRoutes = require('./routes/platform');
+const reservationRoutes = require('./routes/reservationRoutes');//add reservationRoutes
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
 
 //serving statically
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/images',express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(
   session({
@@ -70,10 +67,10 @@ app.use(
 
 app.use(flash());
 
-app.use((req,res,next)=>{
-  res.locals.isAuthenticated= req.session.isLoggedIn;
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
   next();
-})
+});
 
 app.use((req, res, next) => {
   if (!req.session.user) {
@@ -92,18 +89,16 @@ app.use((req, res, next) => {
     });
 });
 
-
 app.use('/admin', adminRoutes);
-app.use(platform);
+app.use(platformRoutes);
 app.use(authRoutes);
+app.use('/reservations', reservationRoutes); // add the reservationRoutes
 
 app.get('/500', errorController.get500);
 
 app.use(errorController.get404);
 
 // app.use((error, req, res, next) => {
-//   // res.status(error.httpStatusCode).render(...);
-//   // res.redirect('/500');
 //   res.status(500).render('500', {
 //     pageTitle: 'Error!',
 //     path: '/500',

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pageTitle %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <h1>حجز موعد</h1>
+  <form id="bookingForm">
+    <label for="email">البريد الإلكتروني:</label>
+    <input type="email" id="email" name="email" required>
+    <br>
+    <label for="name">الاسم:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="nationalNumber">الرقم الوطني:</label>
+    <input type="text" id="nationalNumber" name="nationalNumber" required>
+    <br>
+    <label for="date">التاريخ:</label>
+    <input type="date" id="date" name="date" required>
+    <br>
+    <label for="time">الوقت:</label>
+    <select id="time" name="time" required></select>
+    <br>
+    <button type="submit">حجز</button>
+  </form>
+
+  <script>
+    document.getElementById('date').addEventListener('change', async function () {
+      const date = this.value;
+      const response = await fetch(`/reservations/available-times?date=${date}`);
+      const availableTimes = await response.json();
+
+      const timeSelect = document.getElementById('time');
+      timeSelect.innerHTML = '';
+
+      availableTimes.forEach(time => {
+        const option = document.createElement('option');
+        option.value = time;
+        option.textContent = new Date(time).toLocaleTimeString();
+        timeSelect.appendChild(option);
+      });
+    });
+
+    document.getElementById('bookingForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+      const data = {
+        email: formData.get('email'),
+        name: formData.get('name'),
+        nationalNumber: formData.get('nationalNumber'),
+        date: formData.get('date') + 'T' + formData.get('time')
+      };
+
+      const response = await fetch('/reservations/book', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    });
+  </script>
+</body>
+</html>

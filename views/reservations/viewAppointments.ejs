@@ -1,0 +1,34 @@
+<!-- viewAppointments.ejs -->
+
+<%- include('../include/head.ejs') %>
+</head>
+
+<body>
+  <%- include('../include/navigation.ejs') %>
+  <div class="container-fluid">
+    <div class="row">
+      <% if (appointments.length > 0) { %>
+        <% appointments.forEach(appointment => { %>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="card-header">
+                <%= appointment.name %>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">تاريخ الحجز: <%= moment(appointment.date).format('YYYY-MM-DD') %> - الوقت: <%= appointment.time %></h5>
+                <p class="card-text">بعض النص الداعم كمقدمة للمزيد من المحتوى.</p>
+                <a href="#" class="btn btn-primary">معالجة الطلب</a>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="col-12">
+          <p class="text-center">لا توجد مواعيد متاحة لهذا اليوم.</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+<%- include('../include/end.ejs') %>
+

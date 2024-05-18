@@ -1,32 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>adding title later by ejs</title>
-    <!---Custom CSS File--->
-    <link rel="stylesheet" href="/css/froms-style.css" />
-  </head>
-  <body>
+<%- include('../include/head.ejs') %>
 
-    <section class="container">
-      <header>تسجيل الدخول</header>
-      <form action="/login" class="form" method="POST">
-        <div class="input-box">
-          <label>العنوان البريدي</label>
-          <input type="email" placeholder="أدخل الاسم الكامل" required />
-        </div>
-        <div class="input-box">
-          <label for="password">كلمة السر</label>
-          <input type="password" placeholder="أدخل كلمة المرور" required >
-      </div>
-      <div class="link">
-        <a href="./reset.html">إعادة ضبط كلمة السر</a>
-      </div>
-      <button class="btn" type="submit">تسجيل الدخول</button>
-      </form>
-    </section>
+</head>
 
-  </body>
+<body>
+  <%- include('../include/navigation.ejs') %>
+  <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="card">
+      <div class="card-body">
+        <section class="container">
+          <header>تسجيل الدخول</header>
+          <form action="/login" class="form" method="POST">
+            <div class="input-box">
+              <label>العنوان البريدي</label>
+              <input type="email" name="email" placeholder="أدخل العنوان البريدي" required />
+            </div>
+            <div class="input-box">
+              <label>كلمة السر</label>
+              <input type="password" name="password" placeholder="أدخل كلمة المرور" required />
+            </div>
+            <div class="link">
+              <a href="./reset.html">إعادة ضبط كلمة السر</a>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+  <%- include('../include/end.ejs') %>
+</body>
 </html>

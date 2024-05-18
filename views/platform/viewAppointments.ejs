@@ -1,0 +1,41 @@
+<!-- viewAppointments.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <h1>عرض المواعيد</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>البريد الإلكتروني</th>
+        <th>الرقم الوطني</th>
+        <th>التاريخ</th>
+        <th>الوقت</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (appointments.length > 0) { %>
+        <% appointments.forEach(appointment => { %>
+          <tr>
+            <td><%= appointment.name %></td>
+            <td><%= appointment.email %></td>
+            <td><%= appointment.nationalNumber %></td>
+            <td><%= appointment.date.toDateString() %></td>
+            <td><%= appointment.time %></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="5">لا توجد مواعيد</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</body>
+</html>
