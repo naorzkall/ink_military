@@ -75,7 +75,7 @@ exports.postSignAdmin = (req, res, next) => {
     return user.save();
   })
   .then(result => {
-    res.redirect('admin/SignAdmin');
+    res.redirect('/admin/SignAdmin');
     return transporter.sendMail({
       from: process.env.NODEJS_GMAIL_APP_USER,
       to: email,
@@ -97,7 +97,7 @@ exports.postSignEmployee = (req, res, next) => {
   const password = req.body.password;
   const division = req.body.division;
 
-  res.redirect('admin/SignEmployee');
+  res.redirect('/admin/SignEmployee');
   bcrypt
   .hash(password, 12)
   .then(hashedPassword => {
@@ -111,7 +111,7 @@ exports.postSignEmployee = (req, res, next) => {
     return employee.save();
   })
   .then(result => {
-    res.redirect('admin/SignEmployee');
+    res.redirect('/admin/SignEmployee');
     return transporter.sendMail({
       from: process.env.NODEJS_GMAIL_APP_USER,
       to: email,
@@ -158,7 +158,7 @@ exports.postSignStudent = (req, res, next) => {
     return employee.save();
   })
   .then(result => {
-    res.redirect('admin/SignStudent');
+    res.redirect('/admin/SignStudent');
     return transporter.sendMail({
       from: process.env.NODEJS_GMAIL_APP_USER,
       to: email,

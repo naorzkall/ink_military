@@ -3,6 +3,8 @@ const express = require('express');
 const { check, body } = require('express-validator');
 const adminController = require('../controllers/admin');
 const router = express.Router();
+const isAuth = require('../middleware/is-auth'); //isAuth: in future we will use it to athunticate user
+
 
 router.get('/SignStudent', adminController.getSignStudent);
 
