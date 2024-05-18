@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const stripe = require('stripe')('sk_test_51OtvXRRpfNdOVmP1KDdZEcpteHm0tHvc3FjhQ05DSIq9pbCjDW3pp9kdblNVbR5CYoayq8kBAblQPwkwdLg9I2vA00A5F9aTmL');
+const dotenv = require('dotenv');
+dotenv.config({path:"config.env"});
+const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 const PDFDocument = require('pdfkit');
-
-const ITEMS_PER_PAGE = 4;
 
 exports.getIndex = (req, res, next) => {
   res.render('platform/index', {

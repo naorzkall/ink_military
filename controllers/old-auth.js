@@ -18,9 +18,17 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.getLogin = (req, res, next) => {
+  let message = req.flash('error');
+  if (message){
+    message = message[0];
+  }
+  else {
+    message = null;
+  }
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'Login',
+    errorMessage: message,
     oldInput: {
       email: '',
       password: ''
@@ -49,29 +57,27 @@ exports.getSignup = (req, res, next) => {
     validationErrors: []
   });
 };
-// new 
+
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  console.log(email);
 
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return res.status(422).render('auth/login', {
-  //     path: '/login',
-  //     pageTitle: 'Login',
-  //     errorMessage: errors.array()[0].msg,
-  //     oldInput: {
-  //       email: email,
-  //       password: password
-  //     },
-  //     validationErrors: errors.array()
-  //   });
-  // }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/login', {
+      path: '/login',
+      pageTitle: 'Login',
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email: email,
+        password: password
+      },
+      validationErrors: errors.array()
+    });
+  }
 
   User.findOne({ email: email })
     .then(user => {
-      console.log(user);
       if (!user) {
         return res.status(422).render('auth/login', {
           path: '/login',
@@ -88,7 +94,6 @@ exports.postLogin = (req, res, next) => {
         .compare(password, user.password)
         .then(doMatch => {
           if (doMatch) {
-            console.log(doMatch);
             req.session.isLoggedIn = true;
             req.session.user = user;
             return req.session.save(err => {

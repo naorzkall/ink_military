@@ -7,24 +7,43 @@
       <div class="container-fluid">
         <div class="container-fluid">
           <div class="card">
-            <section class="container">
-              <header>إضافة آدمن</header>
-              <form action="/signup" class="form" method="POST">
-                <div class="input-box">
-                  <label>الاسم الكامل</label>
-                  <input type="text" placeholder="أدخل الاسم الكامل" required />
-                </div>
-                <div class="input-box">
-                  <label>العنوان البريدي</label>
-                  <input type="text" placeholder="أدخل العنوان البريدي" required />
-                </div>
-                <div class="input-box">
-                  <label>كلمة السر</label>
-                  <input type="password" placeholder="أدخل العنوان البريدي" required />
-                </div>
-                <button class="btn" type="submit">إضافة</button>
-              </form>
-            </section>
+            <div class="card-body">
+              <section class="container">
+                <header>إضافة آدمن</header>
+                
+                <form action="/admin/signAdmin" class="form" method="POST">
+                  <div class="input-box">
+                    <label for="name">الاسم الكامل</label>
+                    <input 
+                      type="text" 
+                      name="name" 
+                      id="nmae"
+                      placeholder="أدخل الاسم الكامل" 
+                      required />
+                  </div>
+                  <div class="input-box">
+                    <label for="email">العنوان البريدي</label>
+                    <input 
+                      type="email" 
+                      name="email" 
+                      id="email"
+                      placeholder="أدخل العنوان البريدي" 
+                      required />
+                  </div>
+                  <div class="input-box">
+                    <label for="password">كلمة السر</label>
+                    <input 
+                      type="password" 
+                      name="password" 
+                      id="password" 
+                      placeholder="أدخل كلمة السر"
+                      required />
+                  </div>
+                  <button class="btn" type="submit">إضافة</button>
+                </form>
+                
+              </section>
+            </div>
           </div>
         </div>
       </div>
