@@ -4,18 +4,16 @@
 
 <body>
   <%- include('../include/navigation.ejs') %>
-      <div class="container-fluid">
-        <div class="container-fluid">
-          <div class="card">
-            <div class="card-body">
-            <section class="container">
+        <div class="container-fluid d-flex justify-content-center align-items-center">
+          <div class="card-body container">
               <header>إضافة مستخدم</header>
 
               <form action="/admin/signStudent" class="form" method="POST">
                 <div class="column">
                   <div class="input-box">
                     <label for="name">الاسم الكامل</label>
-                    <input type="text" 
+                    <input type="text"
+                      class="form-control" 
                       name="name" 
                       id="name"
                       placeholder="أدخل الاسم الكامل" 
@@ -24,6 +22,7 @@
                   <div class="input-box">
                     <label for="nationalNumber">الرقم الوطني</label>
                     <input type="number"
+                      class="form-control"
                       name="nationalNumber" 
                       id="nationalNumber"
                       placeholder="أدخل الرقم الوطني" 
@@ -34,6 +33,7 @@
                   <div class="input-box">
                     <label for="militaryNumber">رقم التجنيد</label>
                     <input type="number" 
+                      class="form-control"
                       name="militaryNumber" 
                       id="militaryNumber"
                       placeholder="أدخل رقم التجنيد " 
@@ -41,7 +41,8 @@
                   </div>
                   <div class="input-box">
                     <label for="birthdate">تاريخ الولادة</label>
-                    <input type="date" 
+                    <input type="date"
+                      class="form-control" 
                       name="birthdate" 
                       id="birthdate"
                       placeholder="أدخل تاريخ الولادة" 
@@ -51,7 +52,8 @@
                 <div class="column">
                   <div class="input-box">
                     <label for="phoneNumber">رقم الموبايل</label>
-                    <input type="number" 
+                    <input type="number"
+                      class="form-control" 
                       name="phoneNumber"
                       id="phoneNumber"
                       placeholder="أدخل رقم الموبايل" 
@@ -60,10 +62,11 @@
                   <div class="input-box">
                     <label for="delayedTo">أجل إلى تاريخ</label>
                     <input type="date" 
-                    name="delayedTo"
-                    id="delayedTo"
-                    placeholder="أدخل تاريخ الولادة" 
-                    required />
+                      class="form-control"
+                      name="delayedTo"
+                      id="delayedTo"
+                      placeholder="أدخل تاريخ الولادة" 
+                      required />
                   </div>
                 </div>
                 <div class="input-box">
@@ -71,6 +74,7 @@
                     <div class="input-box mb-3">
                       <label for="division" class="form-label">الشعبة</label>
                       <select class="form-select"
+                        class="form-control"
                         name="division" 
                         id="division" 
                         placeholder="اختر خيارًا...">
@@ -85,6 +89,7 @@
                 <div class="input-box">
                   <label for="address">عنوان السكن</label>
                   <input type="text"
+                    class="form-control"
                     name="address"
                     id="address" 
                     placeholder="أدخل عنوان السكن" 
@@ -93,6 +98,7 @@
                 <div class="input-box">
                   <label for="email">العنوان </label>
                   <input type="text"
+                    class="form-control"
                     name="email"
                     id="email" 
                     placeholder="أدخل العنوان البريدي" 
@@ -101,17 +107,18 @@
                 <div class="input-box">
                   <label for="password">كلمة السر</label>
                   <input type="password"
+                    class="form-control"
                     name="password"
                     id="password" 
                     placeholder="أدخل كلمة السر" 
                     required />
                 </div>
-                <button class="btn" type="submit">إضافة</button>
+                <div class="col-md-12">
+                  <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit">إضافة</button>
+                </div>
               </form>
-            </section>
           </div>
         </div>
-      </div>
-    </div>
   </div>
+</div>
 <%- include('../include/end.ejs') %>

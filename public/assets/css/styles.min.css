@@ -20181,7 +20181,7 @@ ul {
     background: #fff;
     padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.06);
     margin: 10px 0;
   }
   .container header {
@@ -20199,7 +20199,7 @@ ul {
   }
   .input-box label {
     color: #222121;
-    font-weight: 500;
+    font-weight: 600;
   }
   .form :where(.input-box input, .select-box) {
     position: relative;
@@ -20237,7 +20237,7 @@ ul {
     margin-top: 10px;
   }
   .form button:hover {
-    background: #543acc;
+    background: #4a6ccc;
   }
   /* .input-box input:focus {
     direction: ltr;

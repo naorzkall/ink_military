@@ -3,44 +3,10 @@
 </head>
 
 <body>
-<<<<<<< HEAD
-  <%- include('../include/navigation.ejs') %>
-  <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
-    <div class="card">
-      <div class="card-body">
-        <section class="container">
-          <header>تسجيل الدخول</header>
-          <form action="/login" class="form" method="POST">
-            <div class="input-box">
-              <label>العنوان البريدي</label>
-              <input type="email" name="email" placeholder="أدخل العنوان البريدي" required />
-            </div>
-            <div class="input-box">
-              <label>كلمة السر</label>
-              <input type="password" name="password" placeholder="أدخل كلمة المرور" required />
-            </div>
-            <div class="link">
-              <a href="./reset.html">إعادة ضبط كلمة السر</a>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
-              </div>
-            </div>
-          </form>
-        </section>
-      </div>
-    </div>
-  </div>
-  <%- include('../include/end.ejs') %>
-</body>
-</html>
-=======
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
-    <div
-      class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
       <div class="d-flex align-items-center justify-content-center w-100">
         <div class="row justify-content-center w-100">
           <div class="col-md-8 col-lg-6 col-xxl-3">
@@ -77,7 +43,7 @@
                   </div>
                   <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit">تسجيل الدخول</button>
                   <div class="d-flex align-items-center justify-content-center">
-                    <a class="text-primary fw-bold ms-2" href="">حجز موعد للتسجيل</a>
+                    <a class="text-primary fw-bold ms-2" href="reservations/book">حجز موعد للتسجيل</a>
                   </div>
                 </form>
               </div>
@@ -88,4 +54,3 @@
     </div>
   </div>
 <%- include('../include/end.ejs') %>
->>>>>>> refs/remotes/origin/main

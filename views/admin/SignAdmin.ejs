@@ -4,17 +4,14 @@
 
 <body>
   <%- include('../include/navigation.ejs') %>
-      <div class="container-fluid">
-        <div class="container-fluid">
-          <div class="card">
-            <div class="card-body">
-              <section class="container">
+      <div class="container-fluid d-flex justify-content-center align-items-center ">
+        <div class="card-body container">
                 <header>إضافة آدمن</header>
-                
                 <form action="/admin/signAdmin" class="form" method="POST">
                   <div class="input-box">
                     <label for="name">الاسم الكامل</label>
                     <input 
+                      class="form-control"
                       type="text" 
                       name="name" 
                       id="nmae"
@@ -24,6 +21,7 @@
                   <div class="input-box">
                     <label for="email">العنوان البريدي</label>
                     <input 
+                      class="form-control"
                       type="email" 
                       name="email" 
                       id="email"
@@ -33,20 +31,21 @@
                   <div class="input-box">
                     <label for="password">كلمة السر</label>
                     <input 
+                      class="form-control"
                       type="password" 
                       name="password" 
                       id="password" 
                       placeholder="أدخل كلمة السر"
                       required />
                   </div>
-                  <button class="btn" type="submit">إضافة</button>
+                  <div class="col-md-12">
+                    <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit">إضافة</button>
+                  </div>
                 </form>
-                
-              </section>
-            </div>
-          </div>
         </div>
       </div>
-    </div>
+  <!--  close Main wrapper -->
   </div>
+<!--  close Body Wrapper -->
+</div>
 <%- include('../include/end.ejs') %>
