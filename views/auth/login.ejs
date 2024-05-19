@@ -4,37 +4,58 @@
 
 <body>
 <<<<<<< HEAD
-  <%- include('../include/navigation.ejs') %>
-  <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
-    <div class="card">
-      <div class="card-body">
-        <section class="container">
-          <header>تسجيل الدخول</header>
-          <form action="/login" class="form" method="POST">
-            <div class="input-box">
-              <label>العنوان البريدي</label>
-              <input type="email" name="email" placeholder="أدخل العنوان البريدي" required />
-            </div>
-            <div class="input-box">
-              <label>كلمة السر</label>
-              <input type="password" name="password" placeholder="أدخل كلمة المرور" required />
-            </div>
-            <div class="link">
-              <a href="./reset.html">إعادة ضبط كلمة السر</a>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <div
+      class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center justify-content-center w-100">
+        <div class="row justify-content-center w-100">
+          <div class="col-md-8 col-lg-6 col-xxl-3">
+
+              <div class="card-body container">
+                <a href="/" class="d-flex align-items-center justify-content-center text-nowrap logo-img">
+                  <img src="/assets/images/logos/logo.svg" width="180" alt="margin-left: 30%" />
+                </a>
+                <p class="text-center">منصة التأجيل الدراسي</p>
+                <form action="/login" method="POST">
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">العنوان البريدي</label>
+                    <input type="email" 
+                    class="form-control" 
+                    name="email" 
+                    id="email"  
+                    aria-describedby="emailHelp">
+                  </div>
+                  <div class="mb-4">
+                    <label for="exampleInputPassword1" class="form-label">كلمة السر</label>
+                    <input type="password"
+                      class="form-control" 
+                      name="password" 
+                      id="password" >
+                  </div>
+                  <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div class="form-check">
+                      <input class="form-check-input primary" type="checkbox" value="" id="flexCheckChecked" checked>
+                      <label class="form-check-label text-dark" for="flexCheckChecked">
+                        تذكرني
+                      </label>
+                    </div>
+                    <a class="text-primary fw-bold" href="">نسيت كلمة السر؟</a>
+                  </div>
+                  <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit">تسجيل الدخول</button>
+                  <div class="d-flex align-items-center justify-content-center">
+                    <a class="text-primary fw-bold ms-2" href="">حجز موعد للتسجيل</a>
+                  </div>
+                </form>
               </div>
-            </div>
-          </form>
-        </section>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <%- include('../include/end.ejs') %>
-</body>
-</html>
+<%- include('../include/end.ejs') %>
 =======
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
