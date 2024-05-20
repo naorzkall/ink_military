@@ -1,5 +1,0 @@
-<li class="main-header__item">
-                <form action="/logout" method="post">
-                    <button type="submit">Logout</button>
-                </form>
-            </li>
