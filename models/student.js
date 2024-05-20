@@ -33,10 +33,6 @@ const studentSchema = new Schema({
       type: Date,
       required: true
     },
-    division: {
-      type: String,
-      required: true
-    },
     address: {
       type: String,
       required: true

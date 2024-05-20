@@ -4,10 +4,6 @@ const User = require('./user');
 
 // Define the Admin schema with additional admin property
 const employeeSchema = new Schema({
-    division: {
-      type: String,
-      required: true
-    },
     cart: {
       items: [
         {

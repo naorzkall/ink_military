@@ -8,6 +8,10 @@ const defermentRequestSchema = new Schema({
         required: true,
         ref: 'User'
     },
+    division: {
+        type: String,
+        required: true
+    },
     docUrl: {
         type: String,
         required: true
@@ -16,13 +20,13 @@ const defermentRequestSchema = new Schema({
         type: String, // pending/in progress/approved/reject
         required: true
     },
-    employee: { 
-        type: Schema.Types.ObjectId,
-        ref: 'Employee'
-    },
+    // we do not need the employee bc we can feltering depending on status field
+    // employee: { 
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Employee'
+    // }, 
     feedback:{
-        type: String,
-        required: true
+        type: String
     }
     // proofDocument: Buffer,
 });
