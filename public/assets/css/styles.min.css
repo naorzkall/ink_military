@@ -2937,7 +2937,7 @@ progress {
 .form-control {
     display: block;
     width: 100%;
-    padding: 8px 16px;
+    padding: 9px 16px;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
@@ -20203,7 +20203,7 @@ ul {
   }
   .form :where(.input-box input, .select-box) {
     position: relative;
-    height: 50px;
+    height: 40px;
     width: 100%;
     outline: none;
     font-size: 1rem;
@@ -20239,21 +20239,6 @@ ul {
   .form button:hover {
     background: #4a6ccc;
   }
-  /* .input-box input:focus {
-    direction: ltr;
-  } */
-  .selectize-dropdown {
-    border-radius: 6px; /* Match the border radius of other inputs */
-    border: 1px solid #ddd; /* Match the border style of other inputs */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Match the box shadow of focused inputs */
-  }
-  .selectize-input {
-    height: 50px; /* Match the height of other inputs */
-    font-size: 1rem; /* Match the font size of other inputs */
-    padding: 0 15px; /* Match the padding of other inputs */
-    color: #707070; /* Match the color of other inputs */
-  }
-
   /* newwwwwwwwwwwww */
   .error-text {
     direction: rtl;
