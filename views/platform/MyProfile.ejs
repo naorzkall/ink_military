@@ -4,13 +4,25 @@
 
 <body>
   <%- include('../include/navigation.ejs') %>
-      <div class="container-fluid">
-        <div class="container-fluid">
-          <div class="card">
-            <p>the Profile</p>
-          </div>
+      <div class="page-wrapper position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5 card-body">
+            <div class="container text-center">
+                <!-- Student Photo -->
+                <img src="/path/to/student-photo.jpg" alt="Student Photo" class="rounded-circle mb-4" width="150">
+                <!-- Student Info -->
+                <h2>Student Profile</h2>
+                <p><strong>Name:</strong> John Doe</p>
+                <p><strong>National Number:</strong> 12345678901</p>
+                <p><strong>Birthdate:</strong> January 1, 2000</p>
+                <p><strong>Phone Number:</strong> 123-456-7890</p>
+                <p><strong>Delayed To:</strong> June 15, 2024</p>
+                <p><strong>Address:</strong> 123 Main St, City</p>
+                <p><strong>Balance:</strong> $500</p>
+                <!-- Edit Button -->
+                <button class="btn btn-primary w-100 py-2 mb-4">Edit Info</button>
+            </div>
         </div>
       </div>
-    </div>
   </div>
+</div>
 <%- include('../include/end.ejs') %>

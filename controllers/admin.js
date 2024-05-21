@@ -62,6 +62,7 @@ exports.postSignAdmin = (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
+  const division = req.body.division;
 
   bcrypt
   .hash(password, 12)
@@ -70,6 +71,7 @@ exports.postSignAdmin = (req, res, next) => {
       email: email,
       name:name,
       password: hashedPassword,
+      division:division,
       user_type:"Admin"
     });
     return user.save();
@@ -96,8 +98,7 @@ exports.postSignEmployee = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const division = req.body.division;
-
-  res.redirect('/admin/SignEmployee');
+  
   bcrypt
   .hash(password, 12)
   .then(hashedPassword => {
