@@ -3,141 +3,124 @@
 </head>
 
 <body>
-  <!--  Body Wrapper -->
-  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed">
-    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
-      <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5 ">
-          <div class="card-body container">
-            <a href="/" class="d-flex align-items-center justify-content-center text-nowrap logo-img">
-              <img src="/assets/images/logos/logo.svg" width="180" alt="margin-left: 30%" />
-            </a>
-              <h5 class="text-center">حجز موعد</h5>
-              <form action="/reservations/book" method="POST" class="form" id="bookForm">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="input-box">
-                      <label for="name" class="form-label">الاسم الكامل</label>
-                      <input type="text"
-                        class="form-control" 
-                        id="name"  
-                        name="name" 
-                        placeholder="أدخل الاسم الكامل" 
-                        required />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="input-box">
-                      <label for="nationalNumber" class="form-label">الرقم الوطني</label>
-                      <input type="text"
-                        class="form-control" 
-                        id="nationalNumber" 
-                        name="nationalNumber" 
-                        placeholder="أدخل الرقم الوطني (11 رقم)" 
-                        required pattern="\d{11}" 
-                        title="يجب أن يحتوي الرقم الوطني على 11 رقمًا" />
-                    </div>
-                  </div>
+  <%- include('../include/navigation.ejs') %>
+  <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="card">
+      <div class="card-body">
+        <section class="container">
+          <header>حجز موعد</header>
+          <form action="/reservations/book" method="POST" class="form" id="bookForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="input-box">
+                  <label for="name">الاسم الكامل</label>
+                  <input type="text" id="name" name="name" placeholder="أدخل الاسم الكامل" required />
                 </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="input-box">
-                      <label for="email" class="form-label">البريد الإلكتروني</label>
-                      <input type="email" 
-                        class="form-control"
-                        id="email" 
-                        name="email" 
-                        placeholder="أدخل البريد الإلكتروني" 
-                        required />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="input-box">
-                      <label for="date" class="form-label">تاريخ الحجز</label>
-                      <input type="date" 
-                        class="form-control"
-                        id="date" 
-                        name="date" 
-                        required />
-                    </div>
-                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box">
+                  <label for="nationalNumber">الرقم الوطني</label>
+                  <input type="text" id="nationalNumber" name="nationalNumber" placeholder="أدخل الرقم الوطني (11 رقم)" required pattern="\d{11}" title="يجب أن يحتوي الرقم الوطني على 11 رقمًا" />
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="input-box">
-                      <label for="time" class="form-label">الوقت المفضل للحجز</label>
-                      <select class="form-select" id="time" name="time" required>
-                        <% if (availableTimes.length > 0) { %>
-                          <% availableTimes.forEach(time => { %>
-                            <option value="<%= time %>"><%= time %></option>
-                          <% }); %>
-                        <% } else { %>
-                          <option value="">اختر تاريخًا أولاً</option>
-                        <% } %>
-                      </select>
-                    </div>
-                  </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="input-box">
+                  <label for="email">البريد الإلكتروني</label>
+                  <input type="email" id="email" name="email" placeholder="أدخل البريد الإلكتروني" required />
                 </div>
-                <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit">حجز موعد</button>
-              </form>
-          </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-box">
+                  <label for="date">تاريخ الحجز</label>
+                  <input type="date" id="date" name="date" required />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-box">
+                  <label for="time">الوقت المفضل للحجز</label>
+                  <select id="time" name="time" required>
+                    <% if (availableTimes.length > 0) { %>
+                      <% availableTimes.forEach(time => { %>
+                        <option value="<%= time %>"><%= time %></option>
+                      <% }); %>
+                    <% } else { %>
+                      <option value="">اختر تاريخًا أولاً</option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">حجز</button>
+              </div>
+            </div>
+          </form>
+        </section>
       </div>
     </div>
   </div>
-<script>
-// Set minimum date to tomorrow
-const dateInput = document.getElementById('date');
-const timeSelect = document.getElementById('time');
-const today = new Date();
-const tomorrow = new Date(today);
-tomorrow.setDate(today.getDate() );
-const formattedDate = tomorrow.toISOString().split('T')[0];
-dateInput.setAttribute('min', formattedDate);
 
-// Fetch available times when date changes
-dateInput.addEventListener('change', function() {
+<%- include('../include/end.ejs') %>
+
+<script>
+  // Set minimum date to tomorrow
+  const dateInput = document.getElementById('date');
+  const timeSelect = document.getElementById('time');
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() );
+  const formattedDate = tomorrow.toISOString().split('T')[0];
+  dateInput.setAttribute('min', formattedDate);
+
+  // Fetch available times when date changes
+  dateInput.addEventListener('change', function() {
     const date = this.value;
     timeSelect.innerHTML = '<option value="">جارٍ التحميل...</option>'; // Loading message
 
     fetch(`/reservations/available-times?date=${date}`)
-    .then(response => response.json())
-    .then(times => {
+      .then(response => response.json())
+      .then(times => {
         timeSelect.innerHTML = ''; // Clear loading message
         if (times.length > 0) {
-        times.forEach(time => {
+          times.forEach(time => {
             const option = document.createElement('option');
             option.value = time;
             option.textContent = time;
             timeSelect.appendChild(option);
-        });
+          });
         } else {
-        const option = document.createElement('option');
-        option.value = '';
-        option.textContent = 'لا توجد أوقات متاحة';
-        timeSelect.appendChild(option);
+          const option = document.createElement('option');
+          option.value = '';
+          option.textContent = 'لا توجد أوقات متاحة';
+          timeSelect.appendChild(option);
         }
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.error('Error fetching available times:', error);
         timeSelect.innerHTML = '<option value="">حدث خطأ ما</option>'; // Error message
-    });
-});
+      });
+  });
 
-// Form submission validation
-document.getElementById('bookForm').addEventListener('submit', async function(event) {
+  // Form submission validation
+  document.getElementById('bookForm').addEventListener('submit', async function(event) {
     const selectedDate = new Date(dateInput.value);
     if (selectedDate < tomorrow) {
-    event.preventDefault();
-    alert('لا يمكن حجز المواعيد إلا للتواريخ المستقبلية.');
-    return;
+      event.preventDefault();
+      alert('لا يمكن حجز المواعيد إلا للتواريخ المستقبلية.');
+      return;
     }
 
     // Check if the selected time is still available
     const selectedTime = timeSelect.value;
     if (!selectedTime) {
-    event.preventDefault();
-    alert('الرجاء اختيار وقت للحجز.');
-    return;
+      event.preventDefault();
+      alert('الرجاء اختيار وقت للحجز.');
+      return;
     }
 
     const date = dateInput.value;
@@ -145,9 +128,10 @@ document.getElementById('bookForm').addEventListener('submit', async function(ev
     const availableTimes = await response.json();
 
     if (!availableTimes.includes(selectedTime)) {
-    event.preventDefault();
-    alert('عذراً، الحجز لهذا الوقت غير متاح.');
+      event.preventDefault();
+      alert('عذراً، الحجز لهذا الوقت غير متاح.');
     }
-});
+  });
 </script>
-<%- include('../include/end.ejs') %>
+</body>
+</html>

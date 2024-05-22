@@ -35,6 +35,11 @@ const reservationSchema = new Schema({
     type: String,
     required: true
   },
+  division: {
+    type: String,
+    required: true,
+    enum: ['Qaymariya', 'Salihiya', 'Mezzeh', 'Amara', 'Maidan']
+  },
   resetToken: String,
   resetTokenExpiration: Date
 });
@@ -43,11 +48,12 @@ reservationSchema.pre('save', async function(next) {
   const reservation = this;
   const existingReservation = await Reservation.findOne({
     date: reservation.date,
-    time: reservation.time
+    time: reservation.time,
+    division: reservation.division
   });
 
   if (existingReservation) {
-    const error = new Error('A reservation already exists for the selected date and time.');
+    const error = new Error('A reservation already exists for the selected date, time, and division.');
     error.statusCode = 400;
     return next(error);
   }
@@ -55,15 +61,15 @@ reservationSchema.pre('save', async function(next) {
   next();
 });
 
-reservationSchema.statics.getAvailableTimes = async function(date) {
-  const times = ["08:00", "08:20", "08:40", "09:00", "09:20", "09:40", "10:00", "10:20", "10:40", "11:00"];
-  const reservations = await this.find({ date });
+reservationSchema.statics.getAvailableTimes = async function(date, division) {
+  const times = ["08:00", "08:20", "08:40", "09:00", "09:20", "09:40", "10:00", "10:20", "10:40", "11:00", "11:20", "11:40", "12:00", "12:20", "12:40", "13:00", "13:20", "13:40", "14:00", "14:20", "14:40", "15:00"];
+  const reservations = await this.find({ date, division });
   const reservedTimes = reservations.map(r => r.time);
   return times.filter(time => !reservedTimes.includes(time));
 };
 
-reservationSchema.statics.bookSpecificAppointment = async function(email, name, nationalNumber, date, time) {
-  const reservation = new this({ email, name, nationalNumber, date, time });
+reservationSchema.statics.bookSpecificAppointment = async function(email, name, nationalNumber, date, time, division) {
+  const reservation = new this({ email, name, nationalNumber, date, time, division });
   return reservation.save();
 };
 

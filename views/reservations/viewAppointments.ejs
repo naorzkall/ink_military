@@ -1,21 +1,51 @@
-<!-- viewAppointments.ejs -->
-
 <%- include('../include/head.ejs') %>
+  <style>
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      width: 100%;
+      max-width: 300px;
+    }
+    .no-appointments {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 
 <body>
   <%- include('../include/navigation.ejs') %>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row mb-4">
+      <div class="col-12">
+        <form id="divisionForm" class="form-inline">
+          <label for="division" class="mr-2">اختر القسم:</label>
+          <select id="division" name="division" class="form-control">
+            <option value="all" <%= selectedDivision === 'all' ? 'selected' : '' %>>كل الأقسام</option>
+            <% for (let key in divisionNames) { %>
+              <option value="<%= key %>" <%= selectedDivision === key ? 'selected' : '' %>><%= divisionNames[key] %></option>
+            <% } %>
+          </select>
+        </form>
+      </div>
+    </div>
+
+    <div class="row card-container">
       <% if (appointments.length > 0) { %>
         <% appointments.forEach(appointment => { %>
           <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card">
-              <div class="card-header">
-                <%= appointment.name %>
+            <div class="card shadow-sm">
+              <div class="card-header bg-primary text-white">
+                <h5 class="card-title"><%= appointment.name %></h5>
               </div>
               <div class="card-body">
-                <h5 class="card-title">تاريخ الحجز: <%= moment(appointment.date).format('YYYY-MM-DD') %> - الوقت: <%= appointment.time %></h5>
+                <p class="card-text">تاريخ الحجز: <strong><%= moment(appointment.date).format('YYYY-MM-DD') %></strong></p>
+                <p class="card-text">الوقت: <strong><%= appointment.time %></strong></p>
+                <p class="card-text">القسم: <strong><%= divisionNames[appointment.division] %></strong></p>
                 <p class="card-text">بعض النص الداعم كمقدمة للمزيد من المحتوى.</p>
                 <a href="#" class="btn btn-primary">معالجة الطلب</a>
               </div>
@@ -23,12 +53,19 @@
           </div>
         <% }); %>
       <% } else { %>
-        <div class="col-12">
+        <div class="col-12 no-appointments">
           <p class="text-center">لا توجد مواعيد متاحة لهذا اليوم.</p>
         </div>
       <% } %>
     </div>
   </div>
 
-<%- include('../include/end.ejs') %>
+  <%- include('../include/end.ejs') %>
+  <script>
+    document.getElementById('division').addEventListener('change', function() {
+      document.getElementById('divisionForm').submit();
+    });
+  </script>
+</body>
 
+</html>

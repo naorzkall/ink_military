@@ -8,40 +8,71 @@ exports.getBookAppointmentView = (req, res) => {
     path: '/reservations/book',
     availableTimes: [],
     selectedDate: null,
+    divisions: ['Qaymariya', 'Salihiya', 'Mezzeh', 'Amara', 'Maidan']
   });
 };
 
-// Get available times for a specific date
+// Get available times for a specific date and division
 exports.getAvailableTimes = async (req, res) => {
-  const date = new Date(req.query.date);
+  const { date, division } = req.query;
   try {
-    const availableTimes = await Reservation.getAvailableTimes(date);
+    const availableTimes = await Reservation.getAvailableTimes(new Date(date), division);
     res.json(availableTimes);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+const divisionNames = {
+  Qaymariya: 'قيمرية',
+  Salihiya: 'صالحية',
+  Mezzeh: 'مزة',
+  Amara: 'عمارة',
+  Maidan: 'ميدان'
+};
+
+
 // Book a specific appointment
 exports.bookSpecificAppointment = async (req, res) => {
-  const { email, name, nationalNumber, date, time } = req.body;
+  const { email, name, nationalNumber, date, time, division } = req.body;
   try {
-    const reservation = await Reservation.bookSpecificAppointment(email, name, nationalNumber, new Date(date), time);
-    res.render('reservations/success', { time });
+    const reservation = await Reservation.bookSpecificAppointment(email, name, nationalNumber, new Date(date), time, division);
+    const divisionInArabic = divisionNames[division];
+    res.render('reservations/success', { time, division: divisionInArabic });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
+
+
 // Render the view appointments page
+
 exports.getViewAppointmentsView = async (req, res) => {
   try {
-    const appointments = await Reservation.find(); // Fetch all appointments
+    const selectedDivision = req.query.division || 'all';
+    const today = moment().startOf('day').toDate();
+    const tomorrow = moment().add(1, 'days').startOf('day').toDate();
+    let query = {
+      date: {
+        $gte: today,
+        $lt: tomorrow
+      }
+    };
+
+    if (selectedDivision !== 'all') {
+      query.division = selectedDivision;
+    }
+
+    const appointments = await Reservation.find(query);
+
     res.render('reservations/viewAppointments', {
       pageTitle: 'عرض المواعيد',
       path: '/reservations/view',
       appointments: appointments,
-      moment: moment, // Include Moment.js for date formatting
+      moment: moment,
+      divisionNames: divisionNames,
+      selectedDivision: selectedDivision
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -71,4 +102,3 @@ exports.getAllAppointmentsForToday = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
