@@ -110,7 +110,7 @@ mongoose
   .connect(dbUrl)
   .then(result => {
     console.log("connected");
-    app.listen(2000);
+    app.listen(3000);
   })
   .catch(err => {
     console.log(err);
