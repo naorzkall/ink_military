@@ -6,17 +6,17 @@ const router = express.Router();
 const isAuth = require('../middleware/is-auth'); //isAuth: in future we will use it to athunticate user
 
 
-router.get('/SignStudent', adminController.getSignStudent);
+router.get('/SignStudent',isAuth, adminController.getSignStudent);
 
-router.get('/SignEmployee', adminController.getSignEmployee);
+router.get('/SignEmployee',isAuth, adminController.getSignEmployee);
 
-router.get('/SignAdmin', adminController.getSignAdmin);
+router.get('/SignAdmin',isAuth, adminController.getSignAdmin);
 
-router.post('/SignAdmin', adminController.postSignAdmin);
+router.post('/SignAdmin',isAuth, adminController.postSignAdmin);
 
-router.post('/signEmployee', adminController.postSignEmployee);
+router.post('/signEmployee',isAuth, adminController.postSignEmployee);
 
-router.post('/signStudent', adminController.postSignStudent);
+router.post('/signStudent',isAuth, adminController.postSignStudent);
 
 
 module.exports = router;

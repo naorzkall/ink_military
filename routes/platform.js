@@ -6,16 +6,16 @@ const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
 
-router.get('/', platformController.getIndex);
+router.get('/',isAuth, platformController.getIndex);
 
-router.get('/myrequest', platformController.getMyReq);
+router.get('/myrequest',isAuth, platformController.getMyReq);
 
-router.get('/incomingRequests', platformController.getIncReqs);
+router.get('/incomingRequests',isAuth, platformController.getIncReqs);
 
-router.get('/InProgress', platformController.getInProgress);
+router.get('/InProgress',isAuth, platformController.getInProgress);
 
-router.get('/MyProfile', platformController.getProfile);
+router.get('/MyProfile',isAuth, platformController.getProfile);
 
-router.get('/MyWallet', platformController.getWallet);
+router.get('/MyWallet',isAuth, platformController.getWallet);
 
 module.exports = router;

@@ -1,144 +1,157 @@
 <%- include('../include/head.ejs') %>
+
 </head>
 
 <body>
-  <!-- Body Wrapper -->
+  <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
+        data-sidebar-position="fixed" data-header-position="fixed">
     <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
-      <div class="d-flex align-items-center justify-content-center w-100">
-        <div class="row justify-content-center w-100">
-          <div class="col-md-10 col-lg-8 col-xxl-6">
-            <div class="card">
-              <div class="card-body d-flex flex-column align-items-center">
-                <a href="/" class="d-flex align-items-center justify-content-center text-nowrap logo-img mb-4">
-                  <img src="/assets/images/logos/logo.svg" width="180" alt="logo" />
-                </a>
-                <p class="text-center mb-4">منصة التأجيل الدراسي</p>
-                <section class="container text-center">
-                  <header class="text-center mb-4 fs-3">حجز موعد</header>
-                  <form action="/reservations/book" method="POST" class="form w-100" id="bookForm">
-                    <div class="row">
-                      <div class="col-md-6 mb-3">
-                        <div class="input-box">
-                          <label for="name" class="form-label">الاسم الكامل</label>
-                          <input type="text" id="name" name="name" class="form-control" placeholder="أدخل الاسم الكامل" required />
-                        </div>
-                      </div>
-                      <div class="col-md-6 mb-3">
-                        <div class="input-box">
-                          <label for="nationalNumber" class="form-label">الرقم الوطني</label>
-                          <input type="text" id="nationalNumber" name="nationalNumber" class="form-control" placeholder="أدخل الرقم الوطني (11 رقم)" required pattern="\d{11}" title="يجب أن يحتوي الرقم الوطني على 11 رقمًا" />
-                        </div>
-                      </div>
+      <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5 ">
+          <div class="card-body container">
+            <a href="/" class="d-flex align-items-center justify-content-center text-nowrap logo-img">
+              <img src="/assets/images/logos/logo.svg" width="180" alt="margin-left: 30%" />
+            </a>
+              <h5 class="text-center">حجز موعد</h5>
+              <form action="/reservations/book" method="POST" class="form" id="bookForm">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="input-box">
+                      <label for="name" class="form-label">الاسم الكامل</label>
+                      <input type="text"
+                        class="form-control" 
+                        id="name"  
+                        name="name" 
+                        placeholder="أدخل الاسم الكامل" 
+                        required />
                     </div>
-                    <div class="row">
-                      <div class="col-md-6 mb-3">
-                        <div class="input-box">
-                          <label for="email" class="form-label">البريد الإلكتروني</label>
-                          <input type="email" id="email" name="email" class="form-control" placeholder="أدخل البريد الإلكتروني" required />
-                        </div>
-                      </div>
-                      <div class="col-md-6 mb-3">
-                        <div class="input-box">
-                          <label for="date" class="form-label">تاريخ الحجز</label>
-                          <input type="date" id="date" name="date" class="form-control" required min="<%= new Date(new Date().getTime() + 1.1*(24 * 60 * 60 * 1000)).toISOString().split('T')[0] %>" />
-                        </div>                        
-                      </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="input-box">
+                      <label for="nationalNumber" class="form-label">الرقم الوطني</label>
+                      <input type="text"
+                        class="form-control" 
+                        id="nationalNumber" 
+                        name="nationalNumber" 
+                        placeholder="أدخل الرقم الوطني (11 رقم)" 
+                        required pattern="\d{11}" 
+                        title="يجب أن يحتوي الرقم الوطني على 11 رقمًا" />
                     </div>
-                    <div class="row">
-                      <div class="col-md-6 mb-3">
-                        <div class="input-box">
-                          <label for="division" class="form-label">الشعبة</label>
-                          <select id="division" name="division" class="form-select" required>
-                            <option value="">اختر القسم</option>
-                            <option value="Qaymariya">قيمرية</option>
-                            <option value="Salihiya">صالحية</option>
-                            <option value="Mezzeh">مزة</option>
-                            <option value="Amara">عمارة</option>
-                            <option value="Maidan">ميدان</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-md-6 mb-3">
-                        <div class="input-box">
-                          <label for="time" class="form-label">الوقت المفضل للحجز</label>
-                          <select id="time" name="time" class="form-select" required>
-                            <!-- Times will be dynamically populated based on selected date and division -->
-                            <option value="">اختر الوقت</option>
-                          </select>
-                        </div>
-                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="input-box">
+                      <label for="email" class="form-label">البريد الإلكتروني</label>
+                      <input type="email" 
+                        class="form-control"
+                        id="email" 
+                        name="email" 
+                        placeholder="أدخل البريد الإلكتروني" 
+                        required />
                     </div>
-                    <div class="row mb-4">
-                      <div class="col-md-12">
-                        <a class="text-primary fw-bold" href="/login">هل لديك حساب و تريد تسجيل الدخول؟</a>
-                      </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="input-box">
+                      <label for="date" class="form-label">تاريخ الحجز</label>
+                      <input type="date" 
+                        class="form-control"
+                        id="date" 
+                        name="date" 
+                        required />
                     </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary w-100 py-3 fs-4 mb-4 rounded-2">حجز</button>
-                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <div class="input-box">
+                      <label for="division" class="form-label">الشعبة</label>
+                      <select id="division" name="division" class="form-select" required>
+                        <option value="">اختر القسم</option>
+                        <option value="Qaymariya">قيمرية</option>
+                        <option value="Salihiya">صالحية</option>
+                        <option value="Mezzeh">مزة</option>
+                        <option value="Amara">عمارة</option>
+                        <option value="Maidan">ميدان</option>
+                      </select>
                     </div>
-                  </form>
-                </section>
-              </div>
-              <%- include('../include/end.ejs') %>
-              <script>
-                // Get references to the date and division select elements
-                const dateInput = document.getElementById('date');
-                const divisionSelect = document.getElementById('division');
-                const timeSelect = document.getElementById('time');
-
-                // Add event listeners to fetch available times when date or division changes
-                dateInput.addEventListener('change', fetchAvailableTimes);
-                divisionSelect.addEventListener('change', fetchAvailableTimes);
-
-
-// Define the function to fetch available times
-function fetchAvailableTimes() {
-  const selectedDate = dateInput.value;
-  const selectedDivision = divisionSelect.value;
-  if (!selectedDate || !selectedDivision) return; // Exit if date or division is not selected
-
-  const currentDate = new Date(); // Get the current date and time
-  const currentTime = currentDate.getHours() + ':' + currentDate.getMinutes(); // Format the current time
-
-  timeSelect.innerHTML = '<option value="">جارٍ التحميل...</option>'; // Loading message
-
-  fetch(`/reservations/available-times?date=${selectedDate}&division=${selectedDivision}`)
-    .then(response => response.json())
-    .then(times => {
-      timeSelect.innerHTML = ''; // Clear loading message
-      if (times.length > 0) {
-        times.forEach(time => {
-          // Split the time string to extract hours and minutes
-          const [hour, minute] = time.split(':').map(Number);
-          // Convert the time to a Date object for comparison
-          const timeDate = new Date(selectedDate);
-          timeDate.setHours(hour, minute);
-
-          // Check if the time is in the future
-          if (timeDate > currentDate || selectedDate !== currentDate.toISOString().split('T')[0]) {
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="input-box">
+                      <label for="time" class="form-label">الوقت المفضل للحجز</label>
+                      <select id="time" name="time" class="form-select" required>
+                        <!-- Times will be dynamically populated based on selected date and division -->
+                        <option value="">اختر الوقت</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="col-md-12">
+                    <a class="text-primary fw-bold" href="/login">هل لديك حساب و تريد تسجيل الدخول؟</a>
+                  </div>
+                </div>
+                <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit">حجز موعد</button>
+              </form>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Get references to the date and division select elements
+    const dateInput = document.getElementById('date');
+    const divisionSelect = document.getElementById('division');
+    const timeSelect = document.getElementById('time');
+  
+    // Add event listeners to fetch available times when date or division changes
+    dateInput.addEventListener('change', fetchAvailableTimes);
+    divisionSelect.addEventListener('change', fetchAvailableTimes);
+  
+  
+    // Define the function to fetch available times
+    function fetchAvailableTimes() {
+      const selectedDate = dateInput.value;
+      const selectedDivision = divisionSelect.value;
+      if (!selectedDate || !selectedDivision) return; // Exit if date or division is not selected
+  
+      const currentDate = new Date(); // Get the current date and time
+      const currentTime = currentDate.getHours() + ':' + currentDate.getMinutes(); // Format the current time
+  
+      timeSelect.innerHTML = '<option value="">جارٍ التحميل...</option>'; // Loading message
+  
+      fetch(`/reservations/available-times?date=${selectedDate}&division=${selectedDivision}`)
+        .then(response => response.json())
+        .then(times => {
+          timeSelect.innerHTML = ''; // Clear loading message
+          if (times.length > 0) {
+            times.forEach(time => {
+              // Split the time string to extract hours and minutes
+              const [hour, minute] = time.split(':').map(Number);
+              // Convert the time to a Date object for comparison
+              const timeDate = new Date(selectedDate);
+              timeDate.setHours(hour, minute);
+  
+              // Check if the time is in the future
+              if (timeDate > currentDate || selectedDate !== currentDate.toISOString().split('T')[0]) {
+                const option = document.createElement('option');
+                option.value = time;
+                option.textContent = time;
+                timeSelect.appendChild(option);
+              }
+            });
+          } else {
             const option = document.createElement('option');
-            option.value = time;
-            option.textContent = time;
+            option.value = '';
+            option.textContent = 'لا توجد أوقات متاحة';
             timeSelect.appendChild(option);
           }
+        })
+        .catch(error => {
+          console.error('Error fetching available times:', error);
+          timeSelect.innerHTML = '<option value="">حدث خطأ ما</option>'; // Error message
+          alert('حدث خطأ أثناء تحميل الأوقات المتاحة. يرجى المحاولة مرة أخرى لاحقًا.');
         });
-      } else {
-        const option = document.createElement('option');
-        option.value = '';
-        option.textContent = 'لا توجد أوقات متاحة';
-        timeSelect.appendChild(option);
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching available times:', error);
-      timeSelect.innerHTML = '<option value="">حدث خطأ ما</option>'; // Error message
-      alert('حدث خطأ أثناء تحميل الأوقات المتاحة. يرجى المحاولة مرة أخرى لاحقًا.');
-    });
-}
-              </script>
-</body>
-</html>
+    }
+  </script>
+<%- include('../include/end.ejs') %>
