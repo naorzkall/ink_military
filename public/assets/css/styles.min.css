@@ -20240,6 +20240,27 @@ ul {
     background: #4a6ccc;
   }
   /* newwwwwwwwwwwww */
+  .user-message {
+    margin: auto;
+    width: 90%;
+    border: 1px solid #4771fa;
+    padding: 0.5rem;
+    border-radius: 3px;
+    background: #b9c9ff;
+    text-align: center;
+  }
+  
+  .user-message--error {
+    border-color: red;
+    background: rgb(255, 176, 176);
+    color: red;
+  }
+  @media (min-width: 768px) {
+    .user-message {
+      width: 30rem;
+    }
+  }
+  
   .error-text {
     direction: rtl;
     text-align: right;
