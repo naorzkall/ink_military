@@ -5,48 +5,40 @@
 <body>
   <%- include('../include/navigation.ejs') %>
       <!-- Profile Content Start -->
-      <div
-      class="page-wrapper position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
-      <div
-        class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5 card-body">
-        <div class="container">
-          <div class="card-body">
-              <div class="card-header">
-                <h5 class="card-title">Your Profile</h5>
-              </div>
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
-                  <img src="/assets/images/profile/user-1.jpg" alt="Profile Picture" width="80" height="80" class="rounded-circle mr-3">
-                  <div>
-                    <h6 class="mb-0">Your Name</h6>
-                    <p class="mb-0 text-muted">yourname@gmail.com</p>
-                  </div>
+      <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+      <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5 ">
+          <div class="card-body container">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <img src="/assets/images/profile/user-1.jpg" alt="Profile Picture" width="80" height="80" class="rounded-circle mr-3">
+                <div>
+                  <h6 class="mb-0 spacing-r">ناورز قال</h6>
+                  <p class="mb-0 text-muted spacing-r">yourname@gmail.com</p>
                 </div>
-                <form>
-                  <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" value="Your Name">
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Email account</label>
-                    <input type="email" class="form-control" id="email" value="yourname@gmail.com" disabled>
-                  </div>
-                  <div class="form-group">
-                    <label for="mobile">Mobile number</label>
-                    <input type="text" class="form-control" id="mobile" placeholder="Add number">
-                  </div>
-                  <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="text" class="form-control" id="location" value="USA">
-                  </div>
-                  <button type="submit" class="btn btn-primary">Save Change</button>
-                </form>
               </div>
-            </div>
+              <form>
+                <div class="mb-4">
+                  <label for="name">تاريخ انتهاء التأجيل </label>
+                  <input type="text" class="form-control" id="name" value="2025/3/15" disabled>
+                </div>
+                <div class="mb-4">
+                  <label for="email">البريد الالكتروني</label>
+                  <input type="email" class="form-control" id="email" value="yourname@gmail.com" disabled>
+                </div>
+                <div class="mb-4">
+                  <label for="mobile">رقم الموبايل</label>
+                  <input type="text" class="form-control" id="mobile" value="0957507710" disabled>
+                </div>
+                <div class="mb-4">
+                  <label for="location">عنوان السكن</label>
+                  <input type="text" class="form-control" id="location" value="قدسيا" disabled>
+                </div>
+                <button type="submit" class="btn btn-primary">حفظ التغيرات</button>
+              </form>
           </div>
       </div>
-      </div>
-      <!-- Profile Content End -->
+    </div>
   </div>
-</div>
 <%- include('../include/end.ejs') %>

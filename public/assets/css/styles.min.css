@@ -20290,3 +20290,8 @@ ul {
     display: block;
     margin-bottom: 30px;
   }
+
+  .spacing-r {
+    margin-right: 10px; 
+  }
+  
