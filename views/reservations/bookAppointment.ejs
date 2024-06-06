@@ -55,11 +55,13 @@
                     <div class="input-box">
                       <label for="date" class="form-label">تاريخ الحجز</label>
                       <input type="date" 
-                        class="form-control"
-                        id="date" 
-                        name="date" 
-                        required />
-                    </div>
+                          class="form-control"
+                          id="date" 
+                          name="date" 
+                          required 
+                          min="<%= (new Date(Date.now() + 86400000)).toISOString().split('T')[0] %>" />
+                  </div>
+                  
                   </div>
                 </div>
                 <div class="row">
