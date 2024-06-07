@@ -18,4 +18,7 @@ router.get('/MyProfile',isAuth, platformController.getProfile);
 
 router.get('/MyWallet',isAuth, platformController.getWallet);
 
+router.post('/create-checkout-session',isAuth, platformController.postcheckout);
+
+
 module.exports = router;

@@ -15,7 +15,7 @@
                 <div class="row align-items-start">
                   <div class="col-8">
                     <h5 class="card-title mb-9 fw-semibold">الرصيد الحالي</h5>
-                    <h4 class="fw-semibold mb-3">$6,820</h4>
+                    <h4 class="fw-semibold mb-3">$<%= balance %></h4>
                     <div class="d-flex align-items-center pb-1">
                       <span
                         class="me-1 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
@@ -32,12 +32,22 @@
                       </div>
                     </div>
                   </div>
-                  <form id="add-balance-form" class="form" method="POST" action="/add-balance">
+                  <form id="add-balance-form" class="form" method="POST" action="/create-checkout-session">
                     <div class="mb-2">
                       <label for="amount" class="form-label mb-3">أدخل المراد إضافتها للحساب:</label>
                       <input type="number" class="form-control" id="amount" name="amount" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 ">زيادة الرصيد</button>
+                    <button type="order-btn" class="btn btn-primary w-100 ">زيادة الرصيد</button>
+                    <!-- <script src="https://js.stripe.com/v3/"></script>
+                    <script>
+                        var stripe = Stripe('pk_test_51OtvXRRpfNdOVmP1v0zpPWQOeVdPdlSF8L5FxVwEFIgwijUDX7Q609ixkuy6XuQgDQqago3sMcJ9hPH3f78Cj14k00CwhHnapU');
+                        var orderBtn = document.getElementById('order-btn');
+                        orderBtn.addEventListener('click', function() {
+                            stripe.redirectToCheckout({
+                                sessionId: ''
+                            });
+                        });
+                    </script> -->
                   </form>
                 </div>
                 

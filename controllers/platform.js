@@ -41,8 +41,40 @@ exports.getProfile = (req, res, next) => {
 };
 
 exports.getWallet = (req, res, next) => {
+  let balance = req.user.balance;
   res.render('platform/MyWallet', {
     path: '/MyWallet',
-    pageTitle: 'my Wallet'
+    pageTitle: 'my Wallet',
+    balance:balance
   });
+};
+
+exports.postcheckout = async (req, res, next) => {
+  const amount = req.body.amount;
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'إضافة رصيد',
+              description: 'إضافة إلى الرصيد',
+            },
+            unit_amount: amount * 100, // تحويل الدولار إلى سنت
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: req.protocol + '://' + req.get('host') + '/MyWallet/success',
+      cancel_url: req.protocol + '://' + req.get('host') + '/MyWallet/cancel'
+    });
+
+    res.redirect(303, session.url); // إعادة توجيه إلى صفحة الدفع في Stripe
+  } catch (error) {
+    console.error('خطأ في إنشاء جلسة الدفع باستخدام Stripe:', error);
+    res.status(500).send('خطأ داخلي في الخادم');
+  }
 };
