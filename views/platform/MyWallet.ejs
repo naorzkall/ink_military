@@ -1,43 +1,52 @@
 <%- include('../include/head.ejs') %>
 
-  </head>
+</head>
 
-  <body>
-    <%- include('../include/navigation.ejs') %>
-      <div
-        class="page-wrapper position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
-        <div
-          class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5 card-body">
-          <div class="container">
-            <div class="card-body">
-              <div class="row alig n-items-start">
-                <div class="col-8">
-                  <h5 class="card-title mb-9 fw-semibold">الرصيد الحالي</h5>
-                  <h4 class="fw-semibold mb-3">$6,820</h4>
-                  <div class="d-flex align-items-center pb-1">
-                    <span
-                      class="me-1 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
-                      <i class="ti ti-arrow-down text-danger"></i>
-                    </span>
-                    <p class="fs-3 mb-0">الرصيد يستخدم لدفع  الرسوم والطوابع</p>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <div class="d-flex justify-content-end">
-                    <div
-                      class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                      <i class="ti ti-currency-dollar fs-6"></i>
+<body>
+  <%- include('../include/navigation.ejs') %>
+      <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+          
+          <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5 ">
+            <div class="card-body container">
+
+
+                <div class="row align-items-start">
+                  <div class="col-8">
+                    <h5 class="card-title mb-9 fw-semibold">الرصيد الحالي</h5>
+                    <h4 class="fw-semibold mb-3">$6,820</h4>
+                    <div class="d-flex align-items-center pb-1">
+                      <span
+                        class="me-1 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                        <i class="ti ti-arrow-down text-danger"></i>
+                      </span>
+                      <p class="fs-3 mb-2">الرصيد يستخدم لدفع  الرسوم والطوابع</p>
                     </div>
                   </div>
+                  <div class="col-4">
+                    <div class="d-flex justify-content-end">
+                      <div
+                        class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                        <i class="ti ti-currency-dollar fs-6"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <form id="add-balance-form" class="form" method="POST" action="/add-balance">
+                    <div class="mb-2">
+                      <label for="amount" class="form-label mb-3">أدخل المراد إضافتها للحساب:</label>
+                      <input type="number" class="form-control" id="amount" name="amount" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 ">زيادة الرصيد</button>
+                  </form>
                 </div>
-              </div>
+                
             </div>
-            <div id="earning"></div>
-            <button class="btn btn-primary w-100 py-2 form mb-4">زيادة الرصيد</button>
           </div>
         </div>
       </div>
-</div>
-</div>
 
-<%- include('../include/end.ejs') %>
+  </div>
+</div>
+<%- include('../include/end.ejs') %>"""
+

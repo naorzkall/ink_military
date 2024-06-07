@@ -19924,7 +19924,7 @@ fieldset:disabled .btn {
 }
 
 .app-header {
-    position: relative;
+    position: fixed;
     z-index: 50;
     width: 100%;
     background: #fff;
