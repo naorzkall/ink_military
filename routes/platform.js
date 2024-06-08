@@ -18,6 +18,10 @@ router.get('/MyProfile',isAuth, platformController.getProfile);
 
 router.get('/MyWallet',isAuth, platformController.getWallet);
 
+router.get('/MyWallet/success/:session_id', platformController.getCheckoutSuccess);
+
+router.get('/MyWallet/cancel', platformController.getWallet);
+
 router.post('/create-checkout-session',isAuth, platformController.postcheckout);
 
 
