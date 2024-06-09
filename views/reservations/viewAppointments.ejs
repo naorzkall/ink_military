@@ -20,10 +20,9 @@
 <body>
   <%- include('../include/navigation.ejs') %>
   <div class="container-fluid vh-100 ">
-    <div class="row mb-4">
-      <div class="col-12">
-        <form id="divisionForm" class="form-inline">
-          <label for="division" class="mr-4">اختر القسم:</label>
+    <div class="container-fluid justify-content-center  col-md-10 col-lg-9 col-xxl-5 ">
+        <form id="divisionForm">
+          <label for="division" class="spacing-r mr-4 col-form-label">اختر القسم:</label>
           <select id="division" name="division" class="form-control">
             <option value="all" <%= selectedDivision === 'all' ? 'selected' : '' %>>كل الأقسام</option>
             <% for (let key in divisionNames) { %>
@@ -31,7 +30,6 @@
             <% } %>
           </select>
         </form>
-      </div>
     </div>
 
     <div class="row card-container">

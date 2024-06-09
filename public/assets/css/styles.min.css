@@ -812,6 +812,7 @@ progress {
 .container-sm,
 .container-xl,
 .container-xxl {
+    direction: rtl;
     --bs-gutter-x: 24px;
     --bs-gutter-y: 0;
     width: 100%;
@@ -872,6 +873,7 @@ progress {
 }
 
 .row {
+    direction: rtl;
     --bs-gutter-x: 24px;
     --bs-gutter-y: 0;
     display: -webkit-box;

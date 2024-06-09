@@ -870,6 +870,7 @@ progress {
 }
 
 .row {
+    direction: rtl;
     --bs-gutter-x: 24px;
     --bs-gutter-y: 0;
     display: -webkit-box;
