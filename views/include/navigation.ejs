@@ -1,5 +1,5 @@
 <!--  Body Wrapper -->
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+<div class="page-wrapper radial-gradient" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
   data-sidebar-position="fixed" data-header-position="fixed">
   <!-- Sidebar Start -->
   <aside class="left-sidebar">
@@ -86,6 +86,14 @@
                   <i class="ti ti-user-plus"></i>
                 </span>
                 <span class="hide-menu">تسجيل آدمن</span>
+              </a>
+            </li>
+            <li class="sidebar-item" <%= path === '/Settings' ? 'active' : '' %>>
+              <a class="sidebar-link" href="/admin/Settings" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">إدارة</span>
               </a>
             </li>
         </ul>

@@ -19,11 +19,11 @@
 
 <body>
   <%- include('../include/navigation.ejs') %>
-  <div class="container-fluid">
+  <div class="container-fluid vh-100 ">
     <div class="row mb-4">
       <div class="col-12">
         <form id="divisionForm" class="form-inline">
-          <label for="division" class="mr-2">اختر القسم:</label>
+          <label for="division" class="mr-4">اختر القسم:</label>
           <select id="division" name="division" class="form-control">
             <option value="all" <%= selectedDivision === 'all' ? 'selected' : '' %>>كل الأقسام</option>
             <% for (let key in divisionNames) { %>

@@ -12,11 +12,14 @@ router.get('/SignEmployee',Auth.isAuth, adminController.getSignEmployee);
 
 router.get('/SignAdmin',Auth.isAuth, adminController.getSignAdmin);
 
+router.get('/Settings',Auth.isAuth, adminController.getSettings);
+
 router.post('/SignAdmin',Auth.isAuth, adminController.postSignAdmin);
 
 router.post('/signEmployee',Auth.isAuth, adminController.postSignEmployee);
 
 router.post('/signStudent',Auth.isAuth, adminController.postSignStudent);
+
 
 
 module.exports = router;

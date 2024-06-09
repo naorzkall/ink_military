@@ -7,6 +7,7 @@ dotenv.config({path:"config.env"});
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer'); 
 
+const Settings = require('../models/settings');
 const User = require('../models/user');
 const Student = require('../models/student');
 const Employee = require('../models/employee');
@@ -49,6 +50,19 @@ exports.getSignAdmin= (req, res, next) => {
   res.render('admin/SignAdmin', {
     path: '/Signadmin',
     pageTitle: 'Signin Amin',
+    // errorMessage: message,
+    oldInput: {
+      email: '',
+      password: ''
+    },
+    validationErrors: []
+  });
+};
+
+exports.getSettings= (req, res, next) => {
+  res.render('admin/Settings', {
+    path: '/Settings',
+    pageTitle: 'Settings',
     // errorMessage: message,
     oldInput: {
       email: '',
