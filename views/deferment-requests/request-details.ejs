@@ -1,0 +1,22 @@
+<%- include('../include/head.ejs') %>
+</head>
+<body>
+  <%- include('../include/navigation.ejs') %>
+  <div class="container">
+    <h1>تفاصيل الطلب</h1>
+    <p>رقم الطلب: <%= request._id %></p>
+    <p>المستخدم: <%= request.userId %></p>
+    <p>القسم: <%= request.division %></p>
+    <p>حالة الطلب: <%= request.status %></p>
+    
+    <!-- <p>Identity Image URL: <%= request.identityUrl %></p> -->
+      <p>صورة الهوية: </p>
+    <img src="/<%= request.identityUrl %>" width="300" height="100">
+    <p>صورة المصدقة الدراسية: </p>
+    <img src="/<%= request.certificateUrl %>" width="300" height="100">
+
+    <!-- <p>رابط صورة الهوية: <a href="/<%= request.identityUrl %>">عرض</a></p>
+    <p>رابط شهادة الدراسة: <a href="/<%= request.certificateUrl %>">عرض</a></p> -->
+  </div>
+  <script src="/path/to/your/scripts.js"></script>
+  <%- include('../include/end.ejs') %>

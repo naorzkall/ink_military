@@ -1,0 +1,33 @@
+<%- include('../include/head.ejs') %>
+</head>
+<body>
+  <%- include('../include/navigation.ejs') %>
+  <div class="container">
+    <h1>جميع الطلبات</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>رقم الطلب</th>
+          <th>المستخدم</th>
+          <th>القسم</th>
+          <th>حالة الطلب</th>
+          <th>الإجراءات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% requests.forEach(request => { %>
+          <tr>
+            <td><%= request._id %></td>
+            <td><%= request.userId %></td>
+            <td><%= request.division %></td>
+            <td><%= request.status %></td>
+            <td>
+              <a href="/deferment-requests/request/<%= request._id %>">عرض التفاصيل</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <script src="/path/to/your/scripts.js"></script>
+  <%- include('../include/end.ejs') %>

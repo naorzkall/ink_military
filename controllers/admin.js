@@ -172,15 +172,15 @@ exports.postSignStudent = (req, res, next) => {
     });
     return employee.save();
   })
-  .then(result => {
-    res.redirect('/admin/SignStudent');
-    return transporter.sendMail({
-      from: process.env.NODEJS_GMAIL_APP_USER,
-      to: email,
-      subject: 'Signup succeeded!',
-      html: "<h1>you successfully signed up.</h1>"
-    });
-  })
+  // .then(result => {
+  //   res.redirect('/admin/SignStudent');
+  //   return transporter.sendMail({
+  //     from: process.env.NODEJS_GMAIL_APP_USER,
+  //     to: email,
+  //     subject: 'Signup succeeded!',
+  //     html: "<h1>you successfully signed up.</h1>"
+  //   });
+  // })
   .catch(err => {
     console.log(err);
     // const error = new Error(err);

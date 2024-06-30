@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define the DefermentRequest schema
+// تعريف نموذج طلب التأجيل
 const defermentRequestSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
@@ -12,23 +12,23 @@ const defermentRequestSchema = new Schema({
         type: String,
         required: true
     },
-    docUrl: {
+    identityUrl: {
+        type: String,
+        required: true
+    },
+    certificateUrl: {
         type: String,
         required: true
     },
     status: {
-        type: String, // pending/in progress/approved/reject
+        type: String, // pending/in progress/approved/rejected
         required: true
     },
-    // we do not need the employee bc we can feltering depending on status field
-    // employee: { 
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Employee'
-    // }, 
-    feedback:{
+    feedback: {
         type: String
     }
-    // proofDocument: Buffer,
-});
+}, { timestamps: true });
 
 const DefermentRequest = mongoose.model('DefermentRequest', defermentRequestSchema);
+
+module.exports = DefermentRequest;

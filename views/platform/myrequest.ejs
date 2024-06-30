@@ -2,81 +2,86 @@
 </head>
 <body>
   <%- include('../include/navigation.ejs') %>
-    <!-- Upload Content Start -->
-          <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5">
-            <div class="card-body container text-center">
-                <h2 class="title mb-2">طلب تأجيل</h2>
-                <p class="subtitle mb-4">يرجى إرسال مصدقة دراسية وصورة عن الهوية الشخصية</p>
-                <div class="upload-box mb-4">
-                    <input type="file" id="fileInput" multiple>
-                    <label for="fileInput">Drag and drop or browse files</label>
-                </div>
-                <div class="uploaded-files"></div>
-                <button id="submitButton" class="btn btn-primary mt-2 w-100">إرسال الطلب</button>
-            </div>   
-          </div>
+  <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5">
+    <div class="card-body container text-center">
+      <h2 class="title mb-2">طلب تأجيل</h2>
+      <p class="subtitle mb-4">يرجى إرسال مصدقة دراسية وصورة عن الهوية الشخصية</p>
+      <form id="defermentForm" method="POST" action="/deferment-requests/submit" enctype="multipart/form-data">
+        <div class="upload-box mb-4">
+          <input type="file" name="identity" id="identityInput" required>
+          <label for="identityInput">Upload Identity Document</label>
+        </div>
+        <div class="upload-box mb-4">
+          <input type="file" name="certificate" id="certificateInput" required>
+          <label for="certificateInput">Upload Certificate Document</label>
+        </div>
+        <button id="submitButton" class="btn btn-primary mt-2 w-100">إرسال الطلب</button>
+      </form>
+      <div class="uploaded-files"></div>
+    </div>   
   </div>
-</div>
-<script>
-  document.getElementById('fileInput').addEventListener('change', function(event) {
-    const files = event.target.files;
-    const uploadedFiles = document.querySelector('.uploaded-files');
+  <script>
+    document.getElementById('identityInput').addEventListener('change', function(event) {
+      handleFileUpload(event.target.files[0], 'identity');
+    });
 
-    for (let file of files) {
-        const fileItem = document.createElement('div');
-        fileItem.classList.add('file-item');
+    document.getElementById('certificateInput').addEventListener('change', function(event) {
+      handleFileUpload(event.target.files[0], 'certificate');
+    });
 
-        const fileName = document.createElement('span');
-        fileName.classList.add('file-name');
-        fileName.textContent = file.name;
+    function handleFileUpload(file, type) {
+      const uploadedFiles = document.querySelector('.uploaded-files');
+      const fileItem = document.createElement('div');
+      fileItem.classList.add('file-item');
 
-        const fileProgress = document.createElement('span');
-        fileProgress.classList.add('file-progress');
-        fileProgress.textContent = '0%';
+      const fileName = document.createElement('span');
+      fileName.classList.add('file-name');
+      fileName.textContent = `${type.toUpperCase()}: ${file.name}`;
 
-        const progressBar = document.createElement('div');
-        progressBar.classList.add('progress-bar');
-        const progress = document.createElement('div');
-        progress.classList.add('progress');
-        progress.style.width = '0%';
-        progressBar.appendChild(progress);
+      const fileProgress = document.createElement('span');
+      fileProgress.classList.add('file-progress');
+      fileProgress.textContent = '0%';
 
-        const fileStatus = document.createElement('span');
-        fileStatus.classList.add('file-status', 'delete');
-        fileStatus.textContent = 'X';
-        fileStatus.addEventListener('click', () => {
-            fileItem.remove();
-        });
+      const progressBar = document.createElement('div');
+      progressBar.classList.add('progress-bar');
+      const progress = document.createElement('div');
+      progress.classList.add('progress');
+      progress.style.width = '0%';
+      progressBar.appendChild(progress);
 
-        fileItem.appendChild(fileName);
-        fileItem.appendChild(fileProgress);
-        fileItem.appendChild(progressBar);
-        fileItem.appendChild(fileStatus);
+      const fileStatus = document.createElement('span');
+      fileStatus.classList.add('file-status', 'delete');
+      fileStatus.textContent = 'X';
+      fileStatus.addEventListener('click', () => {
+        fileItem.remove();
+      });
 
-        uploadedFiles.appendChild(fileItem);
+      fileItem.appendChild(fileName);
+      fileItem.appendChild(fileProgress);
+      fileItem.appendChild(progressBar);
+      fileItem.appendChild(fileStatus);
 
-        // Simulate file upload progress
-        simulateUpload(file, fileProgress, progress, fileStatus);
+      uploadedFiles.appendChild(fileItem);
+
+      simulateUpload(file, fileProgress, progress, fileStatus);
     }
-});
 
-function simulateUpload(file, fileProgress, progress, fileStatus) {
-    let progressValue = 0;
-    const interval = setInterval(() => {
+    function simulateUpload(file, fileProgress, progress, fileStatus) {
+      let progressValue = 0;
+      const interval = setInterval(() => {
         if (progressValue >= 100) {
-            clearInterval(interval);
-            fileProgress.textContent = '100%';
-            progress.style.width = '100%';
-            fileStatus.textContent = '✔';
-            fileStatus.classList.remove('delete');
-            fileStatus.classList.add('complete');
+          clearInterval(interval);
+          fileProgress.textContent = '100%';
+          progress.style.width = '100%';
+          fileStatus.textContent = '✔';
+          fileStatus.classList.remove('delete');
+          fileStatus.classList.add('complete');
         } else {
-            progressValue += Math.random() * 10;
-            fileProgress.textContent = `${Math.min(100, progressValue).toFixed(0)}%`;
-            progress.style.width = `${Math.min(100, progressValue).toFixed(0)}%`;
+          progressValue += Math.random() * 10;
+          fileProgress.textContent = `${Math.min(100, progressValue).toFixed(0)}%`;
+          progress.style.width = `${Math.min(100, progressValue).toFixed(0)}%`;
         }
-    }, 500);
-}
-
-</script>
+      }, 500);
+    }
+  </script>
 <%- include('../include/end.ejs') %>

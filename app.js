@@ -6,7 +6,6 @@ const dbUrl = process.env.DB_URL;
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-// session setup the packages
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const flash = require('connect-flash');
@@ -16,7 +15,6 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 const app = express();
-// excute the MongoDBStore as constructor
 const store = new MongoDBStore({
   uri: dbUrl,
   collection: 'sessions'
@@ -24,12 +22,13 @@ const store = new MongoDBStore({
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'images');
+    cb(null, 'uploads');
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
   }
 });
+
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === 'image/png' ||
@@ -48,14 +47,18 @@ app.set('views', 'views');
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const platformRoutes = require('./routes/platform');
-const reservationRoutes = require('./routes/reservationRoutes');//add reservationRoutes
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
+const reservationRoutes = require('./routes/reservationRoutes');
+const defermentRequestRoutes = require('./routes/defermentRequestRoute');
 
-//serving statically
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).fields([
+  { name: 'identity', maxCount: 1 },
+  { name: 'certificate', maxCount: 1 }
+]));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(
   session({
     secret: 'my secret',
@@ -92,19 +95,12 @@ app.use((req, res, next) => {
 app.use('/admin', adminRoutes);
 app.use(platformRoutes);
 app.use(authRoutes);
-app.use('/reservations', reservationRoutes); // add the reservationRoutes
+app.use('/reservations', reservationRoutes);
+app.use('/deferment-requests', defermentRequestRoutes);
 
 app.get('/500', errorController.get500);
 
 app.use(errorController.get404);
-
-// app.use((error, req, res, next) => {
-//   res.status(500).render('500', {
-//     pageTitle: 'Error!',
-//     path: '/500',
-//     isAuthenticated: req.session.isLoggedIn
-//   });
-// });
 
 mongoose
   .connect(dbUrl)
