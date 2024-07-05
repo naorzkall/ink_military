@@ -10,6 +10,12 @@ router.post('/submit', defermentRequestController.submitDefermentRequest);
 router.get('/all' ,defermentRequestController.getAllRequests);
 
 // عرض تفاصيل طلب محدد
-router.get('/request/:requestId', defermentRequestController.getRequestDetails);
+// router.get('/request/:requestId', defermentRequestController.getRequestDetails);
+
+router.post('/request/:id', defermentRequestController.processRequest);
+
+router.post('/request/:id/approve', defermentRequestController.approveRequest);
+
+router.post('/request/:id/reject', defermentRequestController.rejectRequest);
 
 module.exports = router;

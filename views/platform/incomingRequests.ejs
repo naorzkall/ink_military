@@ -1,29 +1,35 @@
 <%- include('../include/head.ejs') %>
-
 </head>
 
 <body>
   <%- include('../include/navigation.ejs') %>
-      <div class="container-fluid vh-100 ">
-        <div class="row">
+  <div class="container-fluid vh-100">
+    <div class="row">
+      <% if (requests.length > 0) { %>
+        <% requests.forEach(request => { %>
           <div class="col-md-4">
             <div class="card">
               <div class="card-header">
-                ناورز قال
+               <h2> <%= request.userId.name %> </h2>
               </div>
               <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">إضافة لقيد العمل</a>
+                <!-- <h5 class="card-title"><%= request.division %></h5> -->
+                <p class="card-text">حالة الطلب: <%= request.status %></p>
+                <p class="card-text">تاريخ الطلب: <%= new Date(request.createdAt).toLocaleDateString() %></p>
+                <form action="/deferment-requests/request/<%= request._id %>" method="POST">
+                  <button type="submit" class="btn btn-primary">معالجة الطلب</button>
+                </form>
               </div>
             </div>
           </div>
-        <!-- row close div -->
+        <% }) %>
+      <% } else { %>
+        <div class="col-md-12">
+          <p>لا توجد طلبات تاجيل مرسلة في الوقت الراهن </p>
         </div>
-      <!-- container-fluid -->
-      </div>          
-    <!-- body-wrapper close div -->
+      <% } %>
     </div>
-  <!-- page-wrapper close div -->
   </div>
-<%- include('../include/end.ejs') %>
+  <%- include('../include/end.ejs') %>
+</body>
+</html>
