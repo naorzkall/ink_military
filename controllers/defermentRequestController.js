@@ -132,7 +132,7 @@ exports.rejectRequest = async (req, res) => {
         
         // Update the request status to 'rejected' and add feedback
         const request = await DefermentRequest.findOneAndUpdate(
-            { _id: requestId, status: 'processing' },
+            { _id: requestId },
             { status: 'مرفوض', feedback },
         );
         

@@ -36,7 +36,7 @@
           </div>
         </div>
 
-        <% if (request.status === 'يعالج') { %>
+        
           <form action="/deferment-requests/request/<%= request._id %>/approve" method="POST" class="mb-3">
             <button type="submit" class="btn btn-success">الموافقة على الطلب</button>
           </form>
@@ -47,7 +47,7 @@
             </div>
             <button type="submit" class="btn btn-danger">رفض الطلب</button>
           </form>
-        <% } %>
+        
       </div>
     </div>
   </div>
