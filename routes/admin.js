@@ -12,7 +12,8 @@ router.get('/SignEmployee',Auth.isAuth, adminController.getSignEmployee);
 
 router.get('/SignAdmin',Auth.isAuth, adminController.getSignAdmin);
 
-router.get('/Settings',Auth.isAuth, adminController.getSettings);
+router.get('/Settings', adminController.getSettings);
+router.post('/delete-user/:userId', adminController.deleteUser);
 
 router.post('/SignAdmin',Auth.isAuth, adminController.postSignAdmin);
 

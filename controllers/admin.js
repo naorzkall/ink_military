@@ -59,17 +59,49 @@ exports.getSignAdmin= (req, res, next) => {
   });
 };
 
-exports.getSettings= (req, res, next) => {
-  res.render('admin/Settings', {
-    path: '/Settings',
-    pageTitle: 'Settings',
-    // errorMessage: message,
-    oldInput: {
-      email: '',
-      password: ''
-    },
-    validationErrors: []
-  });
+
+exports.getSettings = async (req, res, next) => {
+  try {
+    const userType = req.query.userType || 'all';
+    const searchQuery = req.query.search || '';
+    
+    let query = {};
+    
+    if (userType !== 'all') {
+      query.user_type = userType;
+    }
+    
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: searchQuery, $options: 'i' } },
+        { email: { $regex: searchQuery, $options: 'i' } }
+      ];
+    }
+
+    const users = await User.find(query).limit(10);
+
+    res.render('admin/Settings', {
+      path: '/Settings',
+      pageTitle: 'إدارة المستخدمين',
+      users: users,
+      currentUserType: userType,
+      searchQuery: searchQuery
+    });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    next(error);
+  }
+};
+
+exports.deleteUser = async (req, res, next) => {
+  const userId = req.params.userId;
+  try {
+    await User.findByIdAndDelete(userId);
+    res.redirect('/admin/Settings');
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    next(error);
+  }
 };
 
 exports.postSignAdmin = (req, res, next) => {
