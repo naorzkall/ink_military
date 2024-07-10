@@ -20174,7 +20174,13 @@ ul {
 .timeline-widget .timeline-item .timeline-badge.badge-primary {
     border: 2px solid #5D87FF
 }
-
+.container-xl{
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.06);
+    margin: 10px 0;
+}
 .container {
     direction: rtl;
     position: relative;

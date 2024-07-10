@@ -1,15 +1,90 @@
 <%- include('../include/head.ejs') %>
+<style>
+  .table th, .table td {
+    padding: 1rem; /* Increase padding for table cells */
+    font-size: 1.25rem; /* Increase font size */
+  }
+</style>
 
 </head>
 
 <body>
   <%- include('../include/navigation.ejs') %>
-        <div class="position-relative overflow-hidden min-vh-100 d-flex align-items-center justify-content-center">
-                      
-                
+  <div class="position-relative overflow-hidden min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="container-xl">
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <select class="form-select" aria-label="Select Role">
+            <option selected>أختر نوع البحث</option>
+            <option value="1">Student</option>
+            <option value="2">Employee</option>
+            <option value="3">Admin</option>
+          </select>
         </div>
+        <div class="col-md-6 offset-md-3">
+          <div class="input-group">
+            <button class="btn " type="button">
+              <i class="ti ti-search"></i>
+            </button>
+            <input type="text" class="form-control" placeholder="Search" aria-label="Search">
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-responsive-md">
+          <thead>
+            <tr class="sidebar-link">
+              <th scope="col">الاسم</th>
+              <th scope="col">الدور</th>
+              <th scope="col">الإيميل</th>
+              <th scope="col">تعديل</th>
+              <th scope="col">حذف</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr>
+                <td>ناورز قال</td>
+                <td>ادمن</td>
+                <td>naorzkall@gmail.com</td>
+                <td><a href="/edit/" class="btn btn-success">تعديل</a></td>
+                <td><a href="/delete/" class="btn btn-danger">حذف</a></td>
+              </tr>
+              <tr>
+                <td>ناورز قال</td>
+                <td>ادمن</td>
+                <td>naorzkall@gmail.com</td>
+                <td><a href="/edit/" class="btn btn-success">تعديل</a></td>
+                <td><a href="/delete/" class="btn btn-danger">حذف</a></td>
+              </tr>
+              <tr>
+                <td>ناورز قال</td>
+                <td>ادمن</td>
+                <td>naorzkall@gmail.com</td>
+                <td><a href="/edit/" class="btn btn-success">تعديل</a></td>
+                <td><a href="/delete/" class="btn btn-danger">حذف</a></td>
+              </tr>
+              <tr>
+                <td>ناورز قال</td>
+                <td>ادمن</td>
+                <td>naorzkall@gmail.com</td>
+                <td><a href="/edit/" class="btn btn-success">تعديل</a></td>
+                <td><a href="/delete/" class="btn btn-danger">حذف</a></td>
+              </tr>
+              <tr>
+                <td>ناورز قال</td>
+                <td>ادمن</td>
+                <td>naorzkall@gmail.com</td>
+                <td><a href="/edit/" class="btn btn-success">تعديل</a></td>
+                <td><a href="/delete/" class="btn btn-danger">حذف</a></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   </div>
 </div>
+
 <%- include('../include/end.ejs') %>
 
