@@ -1,0 +1,33 @@
+const { body } = require('express-validator');
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const nameRegex = /^[A-Za-z\s]{2,50}$/;
+const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+const divisionRegex = /^[A-Za-z\s]+$/;
+
+exports.validateSignUp = [
+  body('email')
+    .isEmail()
+    .withMessage('Please enter a valid email.')
+    .matches(emailRegex)
+    .withMessage('Invalid email format.')
+    .normalizeEmail(),
+  body('name')
+    .matches(nameRegex)
+    .withMessage('Name should only contain alphabets and spaces, and be between 2 and 50 characters long.'),
+  body('password')
+    .matches(passwordRegex)
+    .withMessage('Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.'),
+  body('division')
+    .matches(divisionRegex)
+    .withMessage('Division should only contain alphabets and spaces.')
+];
+
+exports.validateStudentSignUp = [
+  ...exports.validateSignUp,
+  body('nationalNumber').isLength({ min: 8 }).withMessage('National number is required.'),
+  body('militaryNumber').isLength({ min: 8 }).withMessage('Military number is required.'),
+  body('birthdate').isDate().withMessage('Invalid birthdate.'),
+  body('phoneNumber').isMobilePhone().withMessage('Invalid phone number.'),
+  body('address').notEmpty().withMessage('Address is required.')
+];
