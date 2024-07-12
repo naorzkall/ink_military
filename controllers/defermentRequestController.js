@@ -1,9 +1,9 @@
 const DefermentRequest = require('../models/defermentRequest');
 exports.submitDefermentRequest = async (req, res, next) => {
     try {
-        // console.log('Request body:', req.body);
-        // console.log('Request files:', req.files);
-        // console.log('Request user:', req.user);
+        console.log('Request body:', req.body);
+        console.log('Request files:', req.files);
+        console.log('Request user:', req.user);
 
         const { division } = req.user;
         const identityFile = req.files['identity'] ? req.files['identity'][0] : null;
@@ -80,11 +80,12 @@ exports.getAllRequests = async (req, res) => {
 exports.processRequest = async (req, res) => {
     try {
         const requestId = req.params.id;
-        
+        console.log(requestId)
         // Fetch the request and update the status to 'processing' if it's currently 'pending'
         const request = await DefermentRequest.findOneAndUpdate(
-            { _id: requestId },
-            { status: 'يعالج' }
+            { _id: requestId, status:  'قيد المعالجة' },
+            { status: 'يعالج' },
+            { new: true }
         ).populate('userId', 'name email');
         
         if (!request) {
@@ -110,6 +111,7 @@ exports.approveRequest = async (req, res) => {
         
         // Update the request status to 'approved'
         const request = await DefermentRequest.findOneAndUpdate(
+            { _id: requestId, status:  'يعالج' },
             { status: 'مقبول' },
 
         )
@@ -132,7 +134,7 @@ exports.rejectRequest = async (req, res) => {
         
         // Update the request status to 'rejected' and add feedback
         const request = await DefermentRequest.findOneAndUpdate(
-            { _id: requestId },
+            { _id: requestId, status:  'يعالج' },
             { status: 'مرفوض', feedback },
         );
         
@@ -146,14 +148,13 @@ exports.rejectRequest = async (req, res) => {
         res.status(500).send('خطأ في السيرفر');
     }
 };
-
-// exports.getUserRequests = async (req, res) => {
-//     try {
-//         const userId = req.user._id;
-//         const requests = await DefermentRequest.find({ userId });
-//         res.render('deferment-requests/user-requests', { requests, pageTitle: 'طلباتي', path: 'deferment-requests/my-requests' });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('خطأ في السيرفر');
-//     }
-// };
+exports.getUserRequests = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const requests = await DefermentRequest.find({ userId }).populate('userId', 'name email');
+        res.render('deferment-requests/user-requests', { requests, pageTitle: 'طلباتي', path: 'deferment-requests/my-requests' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('خطأ في السيرفر');
+    }
+};

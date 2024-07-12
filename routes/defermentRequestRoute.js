@@ -18,4 +18,6 @@ router.post('/request/:id/approve', defermentRequestController.approveRequest);
 
 router.post('/request/:id/reject', defermentRequestController.rejectRequest);
 
+router.get('/my-requests', defermentRequestController.getUserRequests);
+
 module.exports = router;

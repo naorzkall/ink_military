@@ -1,0 +1,25 @@
+<%- include('../include/head.ejs') %>
+</head>
+<body>
+  <%- include('../include/navigation.ejs') %>
+  <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5">
+    <div class="card-body container text-center">
+      <h2 class="title mb-2">Add News</h2>
+      <form id="addNewsForm" method="POST" action="/news/add-news" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+          <label for="body">Body</label>
+          <textarea class="form-control" id="body" name="body" rows="5" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="imageInput">Upload Image</label>
+          <input type="file" class="form-control-file" id="imageInput" name="image" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2 w-100">Submit</button>
+      </form>
+    </div>   
+  </div>
+<%- include('../include/end.ejs') %>

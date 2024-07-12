@@ -48,12 +48,47 @@ exports.bookSpecificAppointment = async (req, res) => {
 
 // Render the view appointments page
 
+exports.getViewAppointmentsViewA = async (req, res) => {
+  try {
+    const selectedDivision = req.query.division || 'all';
+    const today = moment().startOf('day').toDate();
+    const tomorrow = moment().add(1, 'days').startOf('day').toDate();
+    console.log(division);
+    let query = {
+      date: {
+        $gte: today,
+        $lt: tomorrow
+      }
+    };
+
+    if (selectedDivision !== 'all') {
+      query.division = selectedDivision;
+    }
+
+    const appointments = await Reservation.find(query);
+
+    res.render('reservations/viewAppointments', {
+      pageTitle: 'عرض المواعيد',
+      path: '/reservations/view',
+      appointments: appointments,
+      moment: moment,
+      divisionNames: divisionNames,
+      selectedDivision: selectedDivision
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 exports.getViewAppointmentsView = async (req, res) => {
   try {
     const selectedDivision = req.query.division || 'all';
     const today = moment().startOf('day').toDate();
     const tomorrow = moment().add(1, 'days').startOf('day').toDate();
+    const { division } = req.user;
     let query = {
+      division : division,
       date: {
         $gte: today,
         $lt: tomorrow
@@ -84,8 +119,10 @@ exports.getAllAppointmentsForToday = async (req, res) => {
   try {
     const today = moment().startOf('day');
     const tomorrow = moment(today).add(1, 'days');
-
+    const { division } = req.user;
+    console.log(division);
     const appointments = await Reservation.find({
+      division : division,
       date: {
         $gte: today.toDate(),
         $lt: tomorrow.toDate()
