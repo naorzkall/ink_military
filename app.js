@@ -72,6 +72,7 @@ app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.userType = req.session.user?.user_type || null;
   next();
 });
 
