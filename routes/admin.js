@@ -12,7 +12,7 @@ router.get('/SignEmployee',Auth.isAuth, adminController.getSignEmployee);
 
 router.get('/SignAdmin',Auth.isAuth, adminController.getSignAdmin);
 
-router.get('/Settings', adminController.getSettings);
+router.get('/manageUsers', adminController.manageUsers);
 router.post('/delete-user/:userId', adminController.deleteUser);
 
 router.post('/SignAdmin',Auth.isAuth, adminController.postSignAdmin);

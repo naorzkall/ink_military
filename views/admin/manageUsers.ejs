@@ -24,14 +24,14 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title fw-semibold mb-4">إدارة المستخدمين</h5>
-        <form action="/admin/Settings" method="GET">
+        <form action="/admin/manageUsers" method="GET">
           <div class="row mb-3">
             <div class="col-md-4">
               <select class="form-select" name="userType" onchange="this.form.submit()">
                 <option value="all" <%= currentUserType === 'all' ? 'selected' : '' %>>الكل</option>
-                <option value="employee" <%= currentUserType === 'employee' ? 'selected' : '' %>>الموظفين</option>
-                <option value="student" <%= currentUserType === 'student' ? 'selected' : '' %>>الطلاب</option>
-                <option value="admin" <%= currentUserType === 'admin' ? 'selected' : '' %>>الآدمن</option>
+                <option value="Employee" <%= currentUserType === 'Employee' ? 'selected' : '' %>>الموظفين</option>
+                <option value="Student" <%= currentUserType === 'Student' ? 'selected' : '' %>>الطلاب</option>
+                <option value="Admin" <%= currentUserType === 'Admin' ? 'selected' : '' %>>الآدمن</option>
               </select>
             </div>
             <div class="col-md-8">

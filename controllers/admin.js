@@ -60,28 +60,32 @@ exports.getSignAdmin= (req, res, next) => {
 };
 
 
-exports.getSettings = async (req, res, next) => {
+exports.manageUsers = async (req, res, next) => {
   try {
     const userType = req.query.userType || 'all';
     const searchQuery = req.query.search || '';
-    
+
+    console.log('User Type:', userType);
+    console.log('Search Query:', searchQuery);
+
     let query = {};
-    
+
     if (userType !== 'all') {
       query.user_type = userType;
     }
-    
+
     if (searchQuery) {
       query.$or = [
         { name: { $regex: searchQuery, $options: 'i' } },
         { email: { $regex: searchQuery, $options: 'i' } }
       ];
     }
+    // console.log('Query:', query);
 
     const users = await User.find(query).limit(10);
 
-    res.render('admin/Settings', {
-      path: '/Settings',
+    res.render('admin/manageUsers', {
+      path: '/manageUsers',
       pageTitle: 'إدارة المستخدمين',
       users: users,
       currentUserType: userType,
