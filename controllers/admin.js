@@ -48,6 +48,34 @@ exports.getSignEmployee= (req, res, next) => {
   });
 };
 
+exports.getEditEmployee = (req, res, next) => {
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect('/');
+  }
+  const userId = req.params.employeeId;
+  User.findById(userId)
+    .then(employee => {
+      if (!employee) {
+        return res.redirect('/');
+      }
+      res.render('admin/SignEmployee', {
+        pageTitle: 'Edit Employee',
+        path: '/admin/SignAdmin',
+        editing: editMode,
+        employee: employee,
+        hasError: false,
+        errorMessage: null,
+        validationErrors: []
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
+
 exports.getSignAdmin= (req, res, next) => {
   res.render('admin/SignAdmin', {
     path: '/Signadmin',
@@ -247,6 +275,46 @@ exports.postSignEmployee = (req, res, next) => {
     // error.httpStatusCode = 500;
     // return next(error);
   });  
+};
+
+exports.postEditEmployee = (req, res, next) => {
+  const employeeId = req.body.employeeId;
+  const name = req.body.name;
+  const email = req.body.email;
+  const newPassword = req.body.password;
+  const division = req.body.division;
+  let employee = null;
+
+  const errors = validationResult(req);
+
+  User.findById(employeeId)
+    .then(user => {
+      employee = user;
+      employee.name=name;
+      employee.email=email;
+      employee.division=division;
+      return bcrypt.hash(newPassword, 12);
+      })
+      .then(hashedPassword => {
+        employee.password = hashedPassword;
+        return employee.save();
+      })
+      .then(result => {
+        res.redirect('/');
+        return transporter.sendMail({
+          to: email,
+          from: process.env.NODEJS_GMAIL_APP_USER, // sender address,
+          subject: 'your acccount have been edit',
+          html: `
+            <p>info changed successfuly</p>
+          `
+        });
+      })
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
 };
 
 exports.postSignStudent = (req, res, next) => {
