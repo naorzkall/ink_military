@@ -11,11 +11,14 @@ router.get('/SignStudent',Auth.isAuth, adminController.getSignStudent);
 router.get('/SignEmployee',Auth.isAuth, adminController.getSignEmployee);
 
 router.get('/SignAdmin',Auth.isAuth, adminController.getSignAdmin);
+router.get('/edit-user/:adminId',Auth.isAuth, adminController.getEditAdmin);
 
-router.get('/manageUsers', adminController.manageUsers);
-router.post('/delete-user/:userId', adminController.deleteUser);
+router.get('/manageUsers',Auth.isAuth, adminController.manageUsers);
+router.post('/delete-user/:userId',Auth.isAuth,adminController.deleteUser);
 
 router.post('/SignAdmin',Auth.isAuth, adminController.postSignAdmin);
+router.post('/editAdmin',Auth.isAuth, adminController.postEditAdmin);
+
 
 router.post('/signEmployee',Auth.isAuth, adminController.postSignEmployee);
 

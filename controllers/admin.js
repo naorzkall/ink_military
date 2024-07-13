@@ -25,6 +25,7 @@ exports.getSignStudent = (req, res, next) => {
       path: '/SignStudent',
       pageTitle: 'Signin Student',
       // errorMessage: message,
+      editing: false,
       oldInput: {
         email: '',
         password: ''
@@ -38,6 +39,7 @@ exports.getSignEmployee= (req, res, next) => {
     path: '/SignEmployee',
     pageTitle: 'Signin Employee',
     // errorMessage: message,
+    editing: false,
     oldInput: {
       email: '',
       password: ''
@@ -51,12 +53,41 @@ exports.getSignAdmin= (req, res, next) => {
     path: '/Signadmin',
     pageTitle: 'Signin Amin',
     // errorMessage: message,
+    editing: false,
     oldInput: {
       email: '',
       password: ''
     },
     validationErrors: []
   });
+};
+
+exports.getEditAdmin = (req, res, next) => {
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect('/');
+  }
+  const userId = req.params.adminId;
+  User.findById(userId)
+    .then(admin => {
+      if (!admin) {
+        return res.redirect('/');
+      }
+      res.render('admin/SignAdmin', {
+        pageTitle: 'Edit Admin',
+        path: '/admin/SignAdmin',
+        editing: editMode,
+        admin: admin,
+        hasError: false,
+        errorMessage: null,
+        validationErrors: []
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 
@@ -141,6 +172,46 @@ exports.postSignAdmin = (req, res, next) => {
     // error.httpStatusCode = 500;
     // return next(error);
   });  
+};
+
+exports.postEditAdmin = (req, res, next) => {
+  const adminId = req.body.adminId;
+  const name = req.body.name;
+  const email = req.body.email;
+  const newPassword = req.body.password;
+  const division = req.body.division;
+  let admin = null;
+
+  const errors = validationResult(req);
+
+  User.findById(adminId)
+    .then(user => {
+      admin = user;
+      admin.name=name;
+      admin.email=email;
+      admin.division=division;
+      return bcrypt.hash(newPassword, 12);
+      })
+      .then(hashedPassword => {
+        admin.password = hashedPassword;
+        return admin.save();
+      })
+      .then(result => {
+        res.redirect('/');
+        return transporter.sendMail({
+          to: email,
+          from: process.env.NODEJS_GMAIL_APP_USER, // sender address,
+          subject: 'your acccount have been edit',
+          html: `
+            <p>info changed successfuly</p>
+          `
+        });
+      })
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
 };
 
 exports.postSignEmployee = (req, res, next) => {
