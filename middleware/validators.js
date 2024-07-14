@@ -1,4 +1,5 @@
 const { body } = require('express-validator');
+const User = require('../models/user');
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nameRegex = /^[A-Za-z\s]{2,50}$/;
@@ -12,7 +13,14 @@ exports.validateSignUp = [
     .withMessage('Please enter a valid email.')
     .matches(emailRegex)
     .withMessage('Invalid email format.')
-    .normalizeEmail(),
+    .normalizeEmail()
+    .custom((value, { req }) => {
+      return User.findOne({ email: value }).then(userDoc => {
+        if (userDoc) {
+          return Promise.reject('E-Mail exists already, please pick a different one.');
+        }
+      });
+    }),
   body('name')
     .matches(nameRegex)
     .withMessage('Name should only contain alphabets and spaces, and be between 2 and 50 characters long.'),
