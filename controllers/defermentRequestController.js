@@ -77,7 +77,7 @@ exports.getAllRequests = async (req, res) => {
 //     }
 // };
 
-exports.processRequest = async (req, res) => {
+exports.addRequestToCart = async (req, res) => {
     try {
         const requestId = req.params.id;
         console.log(requestId);
@@ -120,11 +120,9 @@ exports.processRequest = async (req, res) => {
         
         await employee.save();
 
-        res.render('deferment-requests/request-details', {
-            request,
-            pageTitle: 'تفاصيل الطلب',
-            path: 'deferment-requests/request-details'
-        });
+
+        res.redirect(`/deferment-requests/my-requests-in-Progress`);
+
     } catch (error) {
         console.error(error);
         res.status(500).send('خطأ في السيرفر');
@@ -138,13 +136,19 @@ exports.approveRequest = async (req, res) => {
         
         // Update the request status to 'approved'
         const request = await DefermentRequest.findOneAndUpdate(
-            { _id: requestId, status:  'يعالج' },
-            { status: 'مقبول' },
-
-        )
+            { _id: requestId, status: 'يعالج' },
+            { status: 'مقبول' }
+        );
+        
         if (!request) {
             return res.status(404).send('Request not found or not in processing state');
         }
+
+        // Remove the request from employee's cart
+        await Employee.updateOne(
+            { _id: request.userId },
+            { $pull: { 'cart.items': { request: requestId } } }
+        );
 
         res.redirect(`/deferment-requests/all`);
     } catch (error) {
@@ -161,13 +165,19 @@ exports.rejectRequest = async (req, res) => {
         
         // Update the request status to 'rejected' and add feedback
         const request = await DefermentRequest.findOneAndUpdate(
-            { _id: requestId, status:  'يعالج' },
-            { status: 'مرفوض', feedback },
+            { _id: requestId, status: 'يعالج' },
+            { status: 'مرفوض', feedback }
         );
         
         if (!request) {
             return res.status(404).send('Request not found or not in processing state');
         }
+
+        // Remove the request from employee's cart
+        await Employee.updateOne(
+            { _id: request.userId },
+            { $pull: { 'cart.items': { request: requestId } } }
+        );
 
         res.redirect(`/deferment-requests/all`);
     } catch (error) {
@@ -175,6 +185,8 @@ exports.rejectRequest = async (req, res) => {
         res.status(500).send('خطأ في السيرفر');
     }
 };
+
+
 exports.getUserRequests = async (req, res) => {
     try {
         const userId = req.user._id;
@@ -186,10 +198,9 @@ exports.getUserRequests = async (req, res) => {
     }
 };
 
-
 exports.getEmployeeCart = async (req, res) => {
     try {
-        const employeeId = req.params.id; // Assuming the employee ID is passed in the request parameters
+        const employeeId = req.user._id; // Assuming the employee ID is passed in the request parameters
 
         // Fetch the employee and populate the cart items with full request details
         const employee = await Employee.findById(employeeId).populate('cart.items.request');
@@ -198,11 +209,48 @@ exports.getEmployeeCart = async (req, res) => {
             return res.status(404).send('Employee not found');
         }
 
-        res.render('employee/cart', {
+        // Check if the cart is empty
+        if (!employee.cart || !employee.cart.items || employee.cart.items.length === 0) {
+            return res.render('platform/InProgress', {
+                employee,
+                cartItems: [],
+                pageTitle: 'قيد العمل',
+                path: 'platform/InProgress',
+                message: 'السلة فارغة'
+            });
+        }
+
+        res.render('platform/InProgress', {
             employee,
             cartItems: employee.cart.items,
-            pageTitle: 'سلة الموظف',
-            path: 'employee/cart'
+            pageTitle: 'قيد العمل',
+            path: 'platform/InProgress'
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('خطأ في السيرفر');
+    }
+};
+
+
+
+exports.processRequest = async (req, res) => {
+    try {
+        const requestId = req.params.id;
+        console.log(requestId);
+
+        const request = await DefermentRequest.findOne(
+            { _id: requestId }
+        ).populate('userId', 'name email');
+
+        if (!request) {
+            return res.status(404).send('Request not found or already being processed');
+        }
+
+        res.render('deferment-requests/request-details', {
+            request,
+            pageTitle: 'تفاصيل الطلب',
+            path: 'deferment-requests/request-details'
         });
     } catch (error) {
         console.error(error);

@@ -16,8 +16,8 @@
                 <!-- <h5 class="card-title"><%= request.division %></h5> -->
                 <p class="card-text">حالة الطلب: <%= request.status %></p>
                 <p class="card-text">تاريخ الطلب: <%= new Date(request.createdAt).toLocaleDateString() %></p>
-                <form action="/deferment-requests/request/<%= request._id %>" method="POST">
-                  <button type="submit" class="btn btn-primary">معالجة الطلب</button>
+                <form action="/deferment-requests/request/add-to-cart/<%= request._id %>" method="POST">
+                  <button type="submit" class="btn btn-primary">إضافة الطلب</button>
                 </form>
               </div>
             </div>

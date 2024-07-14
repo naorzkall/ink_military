@@ -9,17 +9,21 @@ router.post('/submit', defermentRequestController.submitDefermentRequest);
 // عرض جميع الطلبات الواردة للموظف
 router.get('/all' ,defermentRequestController.getAllRequests);
 
-// عرض تفاصيل طلب محدد
-// router.get('/request/:requestId', defermentRequestController.getRequestDetails);
-
+//اضافة طلب للسلة
+router.post('/request/add-to-cart/:id', defermentRequestController.addRequestToCart);
+//قبول طلب
+router.post('/request/:id/approve', defermentRequestController.approveRequest);
+//رفض طلب
+router.post('/request/:id/reject', defermentRequestController.rejectRequest);
+//طلبات اليوسر
+router.get('/my-requests', defermentRequestController.getUserRequests);
+//جيب السلة
+router.get('/my-requests-in-Progress', defermentRequestController.getEmployeeCart);
+// معالجة من السلة
 router.post('/request/:id', defermentRequestController.processRequest);
 
-router.post('/request/:id/approve', defermentRequestController.approveRequest);
 
-router.post('/request/:id/reject', defermentRequestController.rejectRequest);
-
-router.get('/my-requests', defermentRequestController.getUserRequests);
-
-router.get('/my-requests-in-Progress', defermentRequestController.getEmployeeCart);
+// عرض تفاصيل طلب محدد
+// router.get('/request/:requestId', defermentRequestController.getRequestDetails);
 
 module.exports = router;

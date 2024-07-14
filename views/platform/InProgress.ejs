@@ -4,98 +4,31 @@
 
 <body>
   <%- include('../include/navigation.ejs') %>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-4">
+  <div class="container-fluid">
+    <h1>قيد العمل</h1>
+    <% if (cartItems.length === 0) { %>
+      <p>لا يوجد طلبات قيد العمل</p>
+    <% } else { %>
+      <div class="row">
+        <% cartItems.forEach(item => { %>
+          <div class="col-md-4 mb-3">
             <div class="card">
               <div class="card-header">
-                ناورز قال
+                طلب رقم <%= item.request._id %>
               </div>
               <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">معالجة الطلب</a>
+                <h5 class="card-title">تفاصيل الطلب</h5>
+                <p class="card-text">القسم: <%= item.request.division %></p>
+                <p class="card-text">حالة الطلب: <%= item.request.status %></p>
+                <form action="/deferment-requests/request/<%= item.request._id %>" method="POST" style="margin-top: 10px;">
+                  <button type="submit" class="btn btn-success">معالجة الطلب</button>
+                </form>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-header">
-                ناورز قال
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-header">
-                ناورز قال
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-header">
-                ناورز قال
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-header">
-                ناورز قال
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-header">
-                ناورز قال
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-header">
-                ناورز قال
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-
-        </div>
+        <% }) %>
       </div>
-              
-    <!-- body-wrapper close div -->
-    </div>
-  <!-- page-wrapper close div -->
+    <% } %>
   </div>
+
 <%- include('../include/end.ejs') %>
