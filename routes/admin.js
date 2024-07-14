@@ -18,7 +18,7 @@ router.get('/editAdmin/:adminId',Auth.isAuth, adminController.getEditAdmin);
 router.get('/manageUsers',Auth.isAuth, adminController.manageUsers);
 router.post('/delete-user/:userId',Auth.isAuth,adminController.deleteUser);
 
-router.post('/SignAdmin',Auth.isAuth, adminController.postSignAdmin);
+router.post('/SignAdmin',validators.validateSignUp,Auth.isAuth, adminController.postSignAdmin);
 router.post('/editAdmin',Auth.isAuth, adminController.postEditAdmin);
 
 router.post('/signEmployee',validators.validateSignUp,Auth.isAuth, adminController.postSignEmployee);

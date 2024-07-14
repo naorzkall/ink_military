@@ -7,51 +7,58 @@
       <div class="container-fluid d-flex justify-content-center align-items-center ">
         <div class="card-body container">
                 <header>إضافة آدمن</header>
-                <form action="/admin/<% if (editing) { %>editAdmin<% } else { %>signAdmin<% } %>" class="form" method="POST">
+                <% if (errorMessage) { %>
+                  <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+                    <i class="ti ti-alert-circle-filled fs-5 me-2"></i>
+                    <div><%= errorMessage %></div>
+                  </div>
+                <% } %>
+                <form action="/admin/<% if (editing) { %>editAdmin<% } else { %>signAdmin<% } %>" class="form" method="POST" novalidate>
                   <div class="input-box">
                     <label for="name">الاسم الكامل</label>
                     <input 
-                      class="form-control"
+                      class="form-control <%= validationErrors.find(e => e.path === 'name') ? 'is-invalid' : '' %>"
                       type="text" 
                       name="name" 
                       id="nmae"
                       placeholder="أدخل الاسم الكامل" 
-                      value="<% if (editing) { %><%= admin.name %><% } %>"
+                      value="<% if (editing || hasError) { %><%= admin.name %><% } %>"
                       required />
                   </div>
                   <div class="input-box">
                     <label for="select-search" class="form-label">الشعبة</label>
-                    <select class="form-select form-control"
+                    <select class="form-select form-control <%= validationErrors.find(e => e.path === 'division') ? 'is-invalid' : '' %>"
                             name="division" 
                             id="division" 
                             placeholder="اختر الشعبة...">
                         <option value="">اختر الشعبة</option>
-                        <option value="Qaymariya" <% if (editing) { if (admin.division === 'Qaymariya') { %>selected<% } } %>>قيمرية</option>
-                        <option value="Salihiya" <% if (editing) { if (admin.division === 'Salihiya') { %>selected<% } } %>>صالحية</option>
-                        <option value="Mezzeh" <% if (editing) { if (admin.division === 'Mezzeh') { %>selected<% } } %>>مزة</option>
-                        <option value="Amara" <% if (editing) { if (admin.division === 'Amara') { %>selected<% } } %>>عمارة</option>
-                        <option value="Maidan" <% if (editing) { if (admin.division === 'Maidan') { %>selected<% } } %>>ميدان</option>
+                        <option value="Qaymariya" <% if (editing|| hasError) { if (admin.division === 'Qaymariya') { %>selected<% } } %>>قيمرية</option>
+                        <option value="Salihiya" <% if (editing|| hasError) { if (admin.division === 'Salihiya') { %>selected<% } } %>>صالحية</option>
+                        <option value="Mezzeh" <% if (editing|| hasError) { if (admin.division === 'Mezzeh') { %>selected<% } } %>>مزة</option>
+                        <option value="Amara" <% if (editing|| hasError) { if (admin.division === 'Amara') { %>selected<% } } %>>عمارة</option>
+                        <option value="Maidan" <% if (editing|| hasError) { if (admin.division === 'Maidan') { %>selected<% } } %>>ميدان</option>
                     </select>              
                   </div> 
                   <div class="input-box">
                     <label for="email">العنوان البريدي</label>
                     <input 
-                      class="form-control"
+                      class="form-control <%= validationErrors.find(e => e.path === 'email') ? 'is-invalid' : '' %>"
                       type="email" 
                       name="email" 
                       id="email"
                       placeholder="أدخل العنوان البريدي" 
-                      value="<% if (editing) { %><%= admin.email %><% } %>"
+                      value="<% if (editing || hasError) { %><%= admin.email %><% } %>"
                       required />
                   </div>
                   <div class="input-box">
                     <label for="password">كلمة السر</label>
                     <input 
-                      class="form-control"
+                      class="form-control <%= validationErrors.find(e => e.path === 'password') ? 'is-invalid' : '' %>"
                       type="password" 
                       name="password" 
                       id="password" 
                       placeholder="أدخل كلمة السر"
+                      value="<% if (hasError) { %><%= admin.password %><% } %>"
                       required />
                   </div>
                   <% if (editing) { %>
