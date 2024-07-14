@@ -67,14 +67,11 @@ app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
-<<<<<<< HEAD
   res.locals.userType = req.session.user?.user_type || null;
   next();
 });
 
 app.use((req, res, next) => {
-=======
->>>>>>> c6a2fcf (add-news)
   if (!req.session.user) {
     return next();
   }

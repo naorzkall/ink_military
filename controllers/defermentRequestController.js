@@ -1,4 +1,5 @@
 const DefermentRequest = require('../models/defermentRequest');
+const Employee =require("../models/employee");
 exports.submitDefermentRequest = async (req, res, next) => {
     try {
         console.log('Request body:', req.body);
@@ -76,33 +77,59 @@ exports.getAllRequests = async (req, res) => {
 //     }
 // };
 
-// In controllers/defermentRequests.js
 exports.processRequest = async (req, res) => {
     try {
         const requestId = req.params.id;
-        console.log(requestId)
+        console.log(requestId);
+
         // Fetch the request and update the status to 'processing' if it's currently 'pending'
         const request = await DefermentRequest.findOneAndUpdate(
-            { _id: requestId, status:  'قيد المعالجة' },
+            { _id: requestId, status: 'قيد المعالجة' },
             { status: 'يعالج' },
             { new: true }
         ).populate('userId', 'name email');
-        
+
         if (!request) {
             return res.status(404).send('Request not found or already being processed');
         }
 
+        // Fetch the employee who made the request
+        const employee = await Employee.findById(request.userId._id);
+
+        if (!employee) {
+            return res.status(404).send('Employee not found');
+        }
+
+        // Add the request to the employee's cart
+        const cartItemIndex = employee.cart.items.findIndex(cp => {
+            return cp.request.toString() === request._id.toString();
+        });
+
+        if (cartItemIndex >= 0) {
+            // If request already in cart, increase quantity
+            employee.cart.items[cartItemIndex].quantity += 1;
+        } else {
+            // If request not in cart, add new item
+            employee.cart.items.push({
+                request: request._id,
+                quantity: 1
+            });
+        }
+
+        console.log(employee);
+        
+        await employee.save();
+
         res.render('deferment-requests/request-details', {
-                        request,
-                        pageTitle: 'تفاصيل الطلب', 
-                        path: 'deferment-requests/request-details'
-                    });
+            request,
+            pageTitle: 'تفاصيل الطلب',
+            path: 'deferment-requests/request-details'
+        });
     } catch (error) {
         console.error(error);
         res.status(500).send('خطأ في السيرفر');
     }
 };
-
 
 // Function to approve a request
 exports.approveRequest = async (req, res) => {
@@ -153,6 +180,30 @@ exports.getUserRequests = async (req, res) => {
         const userId = req.user._id;
         const requests = await DefermentRequest.find({ userId }).populate('userId', 'name email');
         res.render('deferment-requests/user-requests', { requests, pageTitle: 'طلباتي', path: 'deferment-requests/my-requests' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('خطأ في السيرفر');
+    }
+};
+
+
+exports.getEmployeeCart = async (req, res) => {
+    try {
+        const employeeId = req.params.id; // Assuming the employee ID is passed in the request parameters
+
+        // Fetch the employee and populate the cart items with full request details
+        const employee = await Employee.findById(employeeId).populate('cart.items.request');
+
+        if (!employee) {
+            return res.status(404).send('Employee not found');
+        }
+
+        res.render('employee/cart', {
+            employee,
+            cartItems: employee.cart.items,
+            pageTitle: 'سلة الموظف',
+            path: 'employee/cart'
+        });
     } catch (error) {
         console.error(error);
         res.status(500).send('خطأ في السيرفر');
