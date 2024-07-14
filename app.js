@@ -41,6 +41,17 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
+const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
+const platformRoutes = require('./routes/platform');
+const reservationRoutes = require('./routes/reservationRoutes');
+const defermentRequestRoutes = require('./routes/defermentRequestRoute');
+const newsRoutes = require('./routes/news');
+
+app.use(bodyParser.urlencoded({ extended: false }));
 // Multer middleware setup
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).fields([
   { name: 'identity', maxCount: 1 },
@@ -48,20 +59,17 @@ app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).fields([
   {name : 'image', maxCount: 1}
 ]));
 
-
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-app.use(session({
-  secret: 'my secret',
-  resave: false,
-  saveUninitialized: false,
-  store: store
-}));
+app.use(
+  session({
+    secret: 'my secret',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
 
 app.use(flash());
 
@@ -84,16 +92,9 @@ app.use((req, res, next) => {
       next();
     })
     .catch(err => {
-      next(err); // Pass errors to the error handler
+      next(new Error(err));
     });
 });
-
-const authRoutes = require('./routes/auth');
-const adminRoutes = require('./routes/admin');
-const platformRoutes = require('./routes/platform');
-const reservationRoutes = require('./routes/reservationRoutes');
-const defermentRequestRoutes = require('./routes/defermentRequestRoute');
-const newsRoutes = require('./routes/news');
 
 app.use('/admin', adminRoutes);
 app.use(platformRoutes);
@@ -103,15 +104,15 @@ app.use('/deferment-requests', defermentRequestRoutes);
 app.use('/news', newsRoutes);
 
 app.get('/500', errorController.get500);
+
 app.use(errorController.get404);
 
-mongoose.connect(dbUrl)
-  .then(() => {
-    console.log("MongoDB connected");
-    app.listen(3000, () => {
-      console.log("Server started on port 3000");
-    });
+mongoose
+  .connect(dbUrl)
+  .then(result => {
+    console.log("connected");
+    app.listen(3000);
   })
   .catch(err => {
-    console.error("MongoDB connection error:", err);
+    console.log(err);
   });

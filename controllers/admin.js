@@ -25,6 +25,7 @@ exports.getSignStudent = (req, res, next) => {
       path: '/SignStudent',
       pageTitle: 'Signin Student',
       // errorMessage: message,
+      editing: false,
       oldInput: {
         email: '',
         password: ''
@@ -38,12 +39,41 @@ exports.getSignEmployee= (req, res, next) => {
     path: '/SignEmployee',
     pageTitle: 'Signin Employee',
     // errorMessage: message,
+    editing: false,
     oldInput: {
       email: '',
       password: ''
     },
     validationErrors: []
   });
+};
+
+exports.getEditEmployee = (req, res, next) => {
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect('/');
+  }
+  const userId = req.params.employeeId;
+  User.findById(userId)
+    .then(employee => {
+      if (!employee) {
+        return res.redirect('/');
+      }
+      res.render('admin/SignEmployee', {
+        pageTitle: 'Edit Employee',
+        path: '/admin/SignAdmin',
+        editing: editMode,
+        employee: employee,
+        hasError: false,
+        errorMessage: null,
+        validationErrors: []
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getSignAdmin= (req, res, next) => {
@@ -51,6 +81,7 @@ exports.getSignAdmin= (req, res, next) => {
     path: '/Signadmin',
     pageTitle: 'Signin Amin',
     // errorMessage: message,
+    editing: false,
     oldInput: {
       email: '',
       password: ''
@@ -59,29 +90,61 @@ exports.getSignAdmin= (req, res, next) => {
   });
 };
 
+exports.getEditAdmin = (req, res, next) => {
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect('/');
+  }
+  const userId = req.params.adminId;
+  User.findById(userId)
+    .then(admin => {
+      if (!admin) {
+        return res.redirect('/');
+      }
+      res.render('admin/SignAdmin', {
+        pageTitle: 'Edit Admin',
+        path: '/admin/SignAdmin',
+        editing: editMode,
+        admin: admin,
+        hasError: false,
+        errorMessage: null,
+        validationErrors: []
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
 
-exports.getSettings = async (req, res, next) => {
+
+exports.manageUsers = async (req, res, next) => {
   try {
     const userType = req.query.userType || 'all';
     const searchQuery = req.query.search || '';
-    
+
+    console.log('User Type:', userType);
+    console.log('Search Query:', searchQuery);
+
     let query = {};
-    
+
     if (userType !== 'all') {
       query.user_type = userType;
     }
-    
+
     if (searchQuery) {
       query.$or = [
         { name: { $regex: searchQuery, $options: 'i' } },
         { email: { $regex: searchQuery, $options: 'i' } }
       ];
     }
+    // console.log('Query:', query);
 
     const users = await User.find(query).limit(10);
 
-    res.render('admin/Settings', {
-      path: '/Settings',
+    res.render('admin/manageUsers', {
+      path: '/manageUsers',
       pageTitle: 'إدارة المستخدمين',
       users: users,
       currentUserType: userType,
@@ -139,6 +202,46 @@ exports.postSignAdmin = (req, res, next) => {
   });  
 };
 
+exports.postEditAdmin = (req, res, next) => {
+  const adminId = req.body.adminId;
+  const name = req.body.name;
+  const email = req.body.email;
+  const newPassword = req.body.password;
+  const division = req.body.division;
+  let admin = null;
+
+  const errors = validationResult(req);
+
+  User.findById(adminId)
+    .then(user => {
+      admin = user;
+      admin.name=name;
+      admin.email=email;
+      admin.division=division;
+      return bcrypt.hash(newPassword, 12);
+      })
+      .then(hashedPassword => {
+        admin.password = hashedPassword;
+        return admin.save();
+      })
+      .then(result => {
+        res.redirect('/');
+        return transporter.sendMail({
+          to: email,
+          from: process.env.NODEJS_GMAIL_APP_USER, // sender address,
+          subject: 'your acccount have been edit',
+          html: `
+            <p>info changed successfuly</p>
+          `
+        });
+      })
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
+};
+
 exports.postSignEmployee = (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
@@ -172,6 +275,46 @@ exports.postSignEmployee = (req, res, next) => {
     // error.httpStatusCode = 500;
     // return next(error);
   });  
+};
+
+exports.postEditEmployee = (req, res, next) => {
+  const employeeId = req.body.employeeId;
+  const name = req.body.name;
+  const email = req.body.email;
+  const newPassword = req.body.password;
+  const division = req.body.division;
+  let employee = null;
+
+  const errors = validationResult(req);
+
+  User.findById(employeeId)
+    .then(user => {
+      employee = user;
+      employee.name=name;
+      employee.email=email;
+      employee.division=division;
+      return bcrypt.hash(newPassword, 12);
+      })
+      .then(hashedPassword => {
+        employee.password = hashedPassword;
+        return employee.save();
+      })
+      .then(result => {
+        res.redirect('/');
+        return transporter.sendMail({
+          to: email,
+          from: process.env.NODEJS_GMAIL_APP_USER, // sender address,
+          subject: 'your acccount have been edit',
+          html: `
+            <p>info changed successfuly</p>
+          `
+        });
+      })
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
 };
 
 exports.postSignStudent = (req, res, next) => {

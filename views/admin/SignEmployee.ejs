@@ -7,7 +7,7 @@
       <div class="container-fluid d-flex justify-content-center align-items-center">
         <div class="card-body container">
                 <header>إضافة موظف</header>
-                <form action="/admin/signEmployee" class="form" method="POST">
+                <form action="/admin/<% if (editing) { %>editEmployee<% } else { %>signEmployee<% } %>" class="form" method="POST">
                   <div class="input-box">
                     <label for="name">الاسم الكامل</label>
                     <input type="text" 
@@ -15,21 +15,22 @@
                       name="name" 
                       id="name"
                       placeholder="أدخل الاسم الكامل" 
+                      value="<% if (editing) { %><%= employee.name %><% } %>"
                       required />
                   </div>
                   <div class="input-box">
                         <label for="select-search" class="form-label">الشعبة</label>
                         <select class="form-select form-control"
-                          name="division" 
-                          id="division" 
-                          placeholder="اختر الشعبة...">
+                            name="division" 
+                            id="division" 
+                            placeholder="اختر الشعبة...">
                           <option value="">اختر الشعبة</option>
-                          <option value="Qaymariya">قيمرية</option>
-                          <option value="Salihiya">صالحية</option>
-                          <option value="Mezzeh">مزة</option>
-                          <option value="Amara">عمارة</option>
-                          <option value="Maidan">ميدان</option>
-                        </select>              
+                          <option value="Qaymariya" <% if (editing) { if (employee.division === 'Qaymariya') { %>selected<% } } %>>قيمرية</option>
+                          <option value="Salihiya" <% if (editing) { if (employee.division === 'Salihiya') { %>selected<% } } %>>صالحية</option>
+                          <option value="Mezzeh" <% if (editing) { if (employee.division === 'Mezzeh') { %>selected<% } } %>>مزة</option>
+                          <option value="Amara" <% if (editing) { if (employee.division === 'Amara') { %>selected<% } } %>>عمارة</option>
+                          <option value="Maidan" <% if (editing) { if (employee.division === 'Maidan') { %>selected<% } } %>>ميدان</option>
+                      </select>              
                   </div>  
                   <div class="input-box">
                     <label for="email">العنوان البريدي</label>
@@ -39,6 +40,7 @@
                       name="email" 
                       id="email" 
                       placeholder="أدخل العنوان البريدي" 
+                      value="<% if (editing) { %><%= employee.email %><% } %>"
                       required />
                   </div>
                   <div class="input-box">
@@ -51,8 +53,13 @@
                       placeholder="أدخل كلمة السر" 
                       required />
                   </div>
+                  <% if (editing) { %>
+                    <input type="hidden" value="<%= employee._id %>" name="employeeId">
+                  <% } %>
                   <div class="col-md-12">
-                    <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit">إضافة</button>
+                    <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit">
+                      <% if (editing) { %>تعديل<% } else { %>إضافة<% } %>
+                    </button>
                   </div>
                 </form>
               

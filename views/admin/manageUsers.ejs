@@ -24,14 +24,14 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title fw-semibold mb-4">إدارة المستخدمين</h5>
-        <form action="/admin/Settings" method="GET">
+        <form action="/admin/manageUsers" method="GET">
           <div class="row mb-3">
             <div class="col-md-4">
               <select class="form-select" name="userType" onchange="this.form.submit()">
                 <option value="all" <%= currentUserType === 'all' ? 'selected' : '' %>>الكل</option>
-                <option value="employee" <%= currentUserType === 'employee' ? 'selected' : '' %>>الموظفين</option>
-                <option value="student" <%= currentUserType === 'student' ? 'selected' : '' %>>الطلاب</option>
-                <option value="admin" <%= currentUserType === 'admin' ? 'selected' : '' %>>الآدمن</option>
+                <option value="Employee" <%= currentUserType === 'Employee' ? 'selected' : '' %>>الموظفين</option>
+                <option value="Student" <%= currentUserType === 'Student' ? 'selected' : '' %>>الطلاب</option>
+                <option value="Admin" <%= currentUserType === 'Admin' ? 'selected' : '' %>>الآدمن</option>
               </select>
             </div>
             <div class="col-md-8">
@@ -73,7 +73,8 @@
                     <p class="mb-0 fw-normal"><%= user.email %></p>
                   </td>
                   <td class="border-bottom-0">
-                    <a href="/admin/edit-user/<%= user._id %>" class="btn btn-primary btn-sm mb-2">تعديل</a>
+                    <a href="/admin/<% if (user.user_type==='Admin') { %>editAdmin<% } else if (user.user_type==='Employee') {%>editEmployee<%} else{ %>editStudent<% } %>/<%= user._id %>?edit=true" 
+                       class="btn btn-primary btn-sm mb-2">تعديل</a>
                     <form action="/admin/delete-user/<%= user._id %>" method="POST">
                       <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم؟')">حـــــذف</button>
                     </form>
