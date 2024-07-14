@@ -4,7 +4,7 @@ const { check, body } = require('express-validator');
 const adminController = require('../controllers/admin');
 const router = express.Router();
 const Auth = require('../middleware/is-auth'); //isAuth: in future we will use it to athunticate user
-
+const validators = require('../middleware/validators');
 
 router.get('/SignStudent',Auth.isAuth, adminController.getSignStudent);
 router.get('/editStudent/:studentId',Auth.isAuth, adminController.getEditStudent);
@@ -21,7 +21,7 @@ router.post('/delete-user/:userId',Auth.isAuth,adminController.deleteUser);
 router.post('/SignAdmin',Auth.isAuth, adminController.postSignAdmin);
 router.post('/editAdmin',Auth.isAuth, adminController.postEditAdmin);
 
-router.post('/signEmployee',Auth.isAuth, adminController.postSignEmployee);
+router.post('/signEmployee',validators.validateSignUp,Auth.isAuth, adminController.postSignEmployee);
 router.post('/editEmployee',Auth.isAuth, adminController.postEditEmployee);
 
 router.post('/signStudent',Auth.isAuth, adminController.postSignStudent);
