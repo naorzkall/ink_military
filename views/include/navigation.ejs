@@ -60,6 +60,11 @@
               <span class="hide-menu">قيد العمل</span>
             </a>
           </li>
+          <% if (userType==="Admin"){ %>
+          <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">Admin</span>
+          </li>
           <li class="sidebar-item" <%= path === '/reservations/view' ? 'active' : '' %>>
             <a class="sidebar-link" href="/reservations/view" aria-expanded="false">
               <span>
@@ -67,10 +72,6 @@
               </span>
               <span class="hide-menu">الحجوزات الواردة</span>
             </a>
-          </li>
-          <li class="nav-small-cap">
-            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-            <span class="hide-menu">AUTH</span>
           </li>
           <li class="sidebar-item" <%= path === '/SignStudent' ? 'active' : '' %>>
             <a class="sidebar-link" href="/admin/SignStudent" aria-expanded="false">
@@ -101,9 +102,18 @@
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
-                <span class="hide-menu">إدارة</span>
+                <span class="hide-menu">إدارة المستخدمين</span>
               </a>
             </li>
+            <li class="sidebar-item" <%= path === '/manageHome' ? 'active' : '' %>>
+              <a class="sidebar-link" href="/admin/manageHome" aria-expanded="false">
+                <span>
+                  <i class="ti ti-text-plus"></i>
+                </span>
+                <span class="hide-menu">إدارة الصفحة الرئيسية</span>
+              </a>
+            </li>
+            <% } %>
         </ul>
       </nav>
       <!-- End Sidebar navigation -->

@@ -1,5 +1,6 @@
 const { body } = require('express-validator');
 const User = require('../models/user');
+const moment = require('moment');
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nameRegex = /^[A-Za-z\s]{2,50}$/;
@@ -23,7 +24,8 @@ exports.validateSignUp = [
     }),
   body('name')
     .matches(nameRegex)
-    .withMessage('Name should only contain alphabets and spaces, and be between 2 and 50 characters long.'),
+    .withMessage('Name should only contain alphabets and spaces, and be between 2 and 50 characters long.')
+    .trim(),
   body('password')
     .matches(passwordRegex)
     .withMessage('Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.'),
@@ -46,10 +48,25 @@ exports.validateStudentSignUp = [
     .withMessage('Military number must contain only numbers.'),
   body('birthdate')
     .isDate()
-    .withMessage('Invalid birthdate.'),
+    .withMessage('Invalid birthdate.')
+    .custom((value) => {
+      const birthDate = moment(value);
+      const now = moment();
+      const age = now.diff(birthDate, 'years');
+      
+      if (age < 17) {
+        throw new Error('You must be at least 17 years old.');
+      }
+      if (age > 27) {
+        throw new Error('You must be younger than 27 years old.');
+      }
+      return true;
+    }),
   body('delayedTo')
     .isDate()
-    .withMessage('Invalid delayedTo.'),
+    .withMessage('Invalid delayedTo date.')
+    .isAfter(new Date().toISOString())
+    .withMessage('DelayedTo date must be in the future.'),
   body('phoneNumber')
     .matches(phoneNumberRegex)
     .withMessage('Phone number must be 10 digits and start with 09.'),
