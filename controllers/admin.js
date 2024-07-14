@@ -243,14 +243,28 @@ exports.postSignAdmin = (req, res, next) => {
 };
 
 exports.postEditAdmin = (req, res, next) => {
-  const adminId = req.body.adminId;
-  const name = req.body.name;
-  const email = req.body.email;
-  const newPassword = req.body.password;
-  const division = req.body.division;
+  const {name,email,password:newPassword,division,adminId}=req.body;
+
   let admin = null;
 
   const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/SignAdmin', {
+      pageTitle: 'Sign Admin',
+      path: '/admin/SignAdmin',
+      editing: true,
+      hasError: true,
+      admin: {
+        name: name,
+        email: email,
+        password: newPassword,
+        division: division,
+        _id:adminId
+      },
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array()
+    });
+  }
 
   User.findById(adminId)
     .then(user => {
@@ -338,6 +352,23 @@ exports.postEditEmployee = (req, res, next) => {
   let employee = null;
 
   const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/SignEmployee', {
+      pageTitle: 'Edit Employee',
+      path: '/admin/SignEmployee',
+      editing: true,
+      hasError: true,
+      employee: {
+        name: name,
+        email: email,
+        password: newPassword,
+        division: division,
+        _id:employeeId
+      },
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array()
+    });
+  }
 
   User.findById(employeeId)
     .then(user => {

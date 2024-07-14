@@ -19,10 +19,10 @@ router.get('/manageUsers',Auth.isAuth, adminController.manageUsers);
 router.post('/delete-user/:userId',Auth.isAuth,adminController.deleteUser);
 
 router.post('/SignAdmin',validators.validateSignUp,Auth.isAuth, adminController.postSignAdmin);
-router.post('/editAdmin',Auth.isAuth, adminController.postEditAdmin);
+router.post('/editAdmin',validators.validateSignUp,Auth.isAuth, adminController.postEditAdmin);
 
 router.post('/signEmployee',validators.validateSignUp,Auth.isAuth, adminController.postSignEmployee);
-router.post('/editEmployee',Auth.isAuth, adminController.postEditEmployee);
+router.post('/editEmployee',validators.validateSignUp,Auth.isAuth, adminController.postEditEmployee);
 
 router.post('/signStudent',Auth.isAuth, adminController.postSignStudent);
 router.post('/editStudent',Auth.isAuth, adminController.postEditStudent);
