@@ -39,14 +39,14 @@ Create a .env file in the root directory and add the following environment varia
      NODEJS_GMAIL_APP_PASSWORD=<your-gmail-password>
      STRIPE_TEST_KEY=<your-stripe-test-key>
     ```
-6. **  Run the Application**
+6. **Run the Application**
     ```bash
      npm start
     ```
-Acknowledgements
-Node.js:https://nodejs.org/
-Express.js:https://expressjs.com/
-MongoDB:https://www.mongodb.com/
-Mongoose:https://mongoosejs.com/
-Stripe:https://stripe.com/en-ro
+## Acknowledgements
+- **Node.js:https://nodejs.org/
+- **Express.js:https://expressjs.com/
+- **MongoDB:https://www.mongodb.com/
+- **Mongoose:https://mongoosejs.com/
+- **Stripe:https://stripe.com/en-ro
 
