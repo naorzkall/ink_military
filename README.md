@@ -22,20 +22,27 @@ INK MILITARY is an innovative application designed to streamline and digitize th
 ## Installation
 
 1. **Clone the Repository**
-   git clone https://github.com/naorzkall/ink_military.git
-   cd ink_military
-2. **Install Dependencies**
-   npm install
-3. **Environment Variables**
+    ```bash
+      git clone https://github.com/naorzkall/ink_military.git
+      cd ink_military
+    ```
+3. **Install Dependencies**
+   ```bash
+      npm install
+    ```
+5. **Environment Variables**
 Create a .env file in the root directory and add the following environment variables:
-  MONGODB_URL=mongodb+srv://<username>:<password>@cluster0.mongodb.net/<database>?retryWrites=true&w=majority
-  DB_URL=mongodb://localhost:27017/<database>
-  NODEJS_GMAIL_APP_USER=<your-gmail-username>
-  NODEJS_GMAIL_APP_PASSWORD=<your-gmail-password>
-  STRIPE_TEST_KEY=<your-stripe-test-key>
-4. **  Run the Application**
-  npm start
-
+    ```bash
+     MONGODB_URL=mongodb+srv://<username>:<password>@cluster0.mongodb.net/<database>?retryWrites=true&w=majority
+     DB_URL=mongodb://localhost:27017/<database>
+     NODEJS_GMAIL_APP_USER=<your-gmail-username>
+     NODEJS_GMAIL_APP_PASSWORD=<your-gmail-password>
+     STRIPE_TEST_KEY=<your-stripe-test-key>
+    ```
+6. **  Run the Application**
+    ```bash
+     npm start
+    ```
 Acknowledgements
 Node.js:https://nodejs.org/
 Express.js:https://expressjs.com/
