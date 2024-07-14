@@ -24,12 +24,9 @@ exports.getSignStudent = (req, res, next) => {
     res.render('admin/SignStudent', {
       path: '/SignStudent',
       pageTitle: 'Signin Student',
-      // errorMessage: message,
       editing: false,
-      oldInput: {
-        email: '',
-        password: ''
-      },
+      hasError: false,
+      errorMessage: null,
       validationErrors: []
     });
 };
@@ -146,8 +143,8 @@ exports.manageUsers = async (req, res, next) => {
     const userType = req.query.userType || 'all';
     const searchQuery = req.query.search || '';
 
-    console.log('User Type:', userType);
-    console.log('Search Query:', searchQuery);
+    // console.log('User Type:', userType);
+    // console.log('Search Query:', searchQuery);
 
     let query = {};
 
@@ -403,6 +400,31 @@ exports.postEditEmployee = (req, res, next) => {
 exports.postSignStudent = (req, res, next) => {
   const {name,email,password,nationalNumber,militaryNumber,birthdate,phoneNumber, delayedTo,division,address} = req.body;
 
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/SignStudent', {
+      pageTitle: 'Sign Student',
+      path: '/admin/SignStudent',
+      editing: false,
+      hasError: true,
+      student: {
+        name: name,
+        email: email,
+        password: password,
+        nationalNumber:nationalNumber,
+        militaryNumber:militaryNumber,
+        birthdate:birthdate,
+        phoneNumber:phoneNumber,
+        delayedTo:delayedTo,
+        division: division,
+        address:address
+      },
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array()
+    });
+  }
+
   bcrypt
   .hash(password, 12)
   .then(hashedPassword => {
@@ -432,9 +454,9 @@ exports.postSignStudent = (req, res, next) => {
   })
   .catch(err => {
     console.log(err);
-    // const error = new Error(err);
-    // error.httpStatusCode = 500;
-    // return next(error);
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
   });  
 };
 

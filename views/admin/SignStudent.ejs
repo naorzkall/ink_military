@@ -7,27 +7,32 @@
         <div class="container-fluid d-flex justify-content-center align-items-center">
           <div class="card-body container">
               <header>إضافة مستخدم</header>
-
-              <form action="/admin/<% if (editing) { %>editStudent<% } else { %>signStudent<% } %>" class="form" method="POST">
+              <% if (errorMessage) { %>
+                <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+                  <i class="ti ti-alert-circle-filled fs-5 me-2"></i>
+                  <div><%= errorMessage %></div>
+                </div>
+              <% } %>
+              <form action="/admin/<% if (editing) { %>editStudent<% } else { %>signStudent<% } %>" class="form" method="POST" novalidate>
                 <div class="column">
                   <div class="input-box">
                     <label for="name">الاسم الكامل</label>
                     <input type="text"
-                      class="form-control" 
+                      class="form-control <%= validationErrors.find(e => e.path === 'name') ? 'is-invalid' : '' %>" 
                       name="name" 
                       id="name"
                       placeholder="أدخل الاسم الكامل" 
-                      value="<% if (editing) { %><%= student.name %><% } %>"
+                      value="<% if (editing || hasError) { %><%= student.name %><% } %>"
                       required />
                   </div>
                   <div class="input-box">
                     <label for="nationalNumber">الرقم الوطني</label>
                     <input type="number"
-                      class="form-control"
+                      class="form-control <%= validationErrors.find(e => e.path === 'nationalNumber') ? 'is-invalid' : '' %>"
                       name="nationalNumber" 
                       id="nationalNumber"
                       placeholder="أدخل الرقم الوطني" 
-                      value="<% if (editing) { %><%= student.nationalNumber %><% } %>"
+                      value="<% if (editing || hasError) { %><%= student.nationalNumber %><% } %>"
                       required />
                   </div>
                 </div>
@@ -35,21 +40,21 @@
                   <div class="input-box">
                     <label for="militaryNumber">رقم التجنيد</label>
                     <input type="number" 
-                      class="form-control"
+                      class="form-control <%= validationErrors.find(e => e.path === 'militaryNumber') ? 'is-invalid' : '' %>"
                       name="militaryNumber" 
                       id="militaryNumber"
                       placeholder="أدخل رقم التجنيد " 
-                      value="<% if (editing) { %><%= student.militaryNumber %><% } %>"
+                      value="<% if (editing || hasError) { %><%= student.militaryNumber %><% } %>"
                       required />
                   </div>
                   <div class="input-box">
                     <label for="birthdate">تاريخ الولادة</label>
                     <input type="date"
-                      class="form-control" 
+                      class="form-control <%= validationErrors.find(e => e.path === 'birthdate') ? 'is-invalid' : '' %>" 
                       name="birthdate" 
                       id="birthdate"
                       placeholder="أدخل تاريخ الولادة"
-                      value="<% if (editing) { %><%= new Date(student.birthdate).toISOString().substring(0, 10) %><% } %>" 
+                      value="<% if (editing || hasError) { %><%= new Date(student.birthdate).toISOString().substring(0, 10) %><% } %>" 
                       required />
                   </div>
                 </div>
@@ -57,67 +62,68 @@
                   <div class="input-box">
                     <label for="phoneNumber">رقم الموبايل</label>
                     <input type="number"
-                      class="form-control" 
+                      class="form-control <%= validationErrors.find(e => e.path === 'phoneNumber') ? 'is-invalid' : '' %>" 
                       name="phoneNumber"
                       id="phoneNumber"
                       placeholder="أدخل رقم الموبايل"
-                      value="<% if (editing) { %><%= student.phoneNumber %><% } %>"  
+                      value="<% if (editing || hasError) { %><%= student.phoneNumber %><% } %>"  
                       required />
                   </div>
                   <div class="input-box">
                     <label for="delayedTo">أجل إلى تاريخ</label>
                     <input type="date" 
-                      class="form-control"
+                      class="form-control <%= validationErrors.find(e => e.path === 'delayedTo') ? 'is-invalid' : '' %>"
                       name="delayedTo"
                       id="delayedTo"
                       placeholder="أدخل تاريخ الولادة" 
-                      value="<% if (editing) { %><%= new Date(student.delayedTo).toISOString().substring(0, 10) %><% } %>"  
+                      value="<% if (editing || hasError) { %><%= new Date(student.delayedTo).toISOString().substring(0, 10) %><% } %>"  
                       required />
                   </div>
                 </div>
                 <div class="column">
                   <div class="input-box">
                     <label for="select-search" class="form-label">الشعبة</label>
-                    <select class="form-select form-control"
+                    <select class="form-select form-control <%= validationErrors.find(e => e.path === 'division') ? 'is-invalid' : '' %>"
                             name="division" 
                             id="division" 
                             placeholder="اختر الشعبة...">
                           <option value="">اختر الشعبة</option>
-                          <option value="Qaymariya" <% if (editing) { if (student.division === 'Qaymariya') { %>selected<% } } %>>قيمرية</option>
-                          <option value="Salihiya" <% if (editing) { if (student.division === 'Salihiya') { %>selected<% } } %>>صالحية</option>
-                          <option value="Mezzeh" <% if (editing) { if (student.division === 'Mezzeh') { %>selected<% } } %>>مزة</option>
-                          <option value="Amara" <% if (editing) { if (student.division === 'Amara') { %>selected<% } } %>>عمارة</option>
-                          <option value="Maidan" <% if (editing) { if (student.division === 'Maidan') { %>selected<% } } %>>ميدان</option>
+                          <option value="Qaymariya" <% if (editing || hasError) { if (student.division === 'Qaymariya') { %>selected<% } } %>>قيمرية</option>
+                          <option value="Salihiya" <% if (editing || hasError) { if (student.division === 'Salihiya') { %>selected<% } } %>>صالحية</option>
+                          <option value="Mezzeh" <% if (editing|| hasError) { if (student.division === 'Mezzeh') { %>selected<% } } %>>مزة</option>
+                          <option value="Amara" <% if (editing|| hasError) { if (student.division === 'Amara') { %>selected<% } } %>>عمارة</option>
+                          <option value="Maidan" <% if (editing|| hasError) { if (student.division === 'Maidan') { %>selected<% } } %>>ميدان</option>
                       </select>               
                   </div> 
                   <div class="input-box">
                     <label for="address">عنوان السكن</label>
                     <input type="text"
-                      class="form-control"
+                      class="form-control <%= validationErrors.find(e => e.path === 'address') ? 'is-invalid' : '' %>"
                       name="address"
                       id="address" 
                       placeholder="أدخل عنوان السكن" 
-                      value="<% if (editing) { %><%= student.address %><% } %>"  
+                      value="<% if (editing || hasError) { %><%= student.address %><% } %>"  
                       required />
                   </div>
                 </div>
                 <div class="input-box">
                   <label for="email">العنوان البريدي</label>
                   <input type="text"
-                    class="form-control"
+                    class="form-control <%= validationErrors.find(e => e.path === 'email') ? 'is-invalid' : '' %>"
                     name="email"
                     id="email" 
                     placeholder="أدخل العنوان البريدي"
-                    value="<% if (editing) { %><%= student.email %><% } %>"  
+                    value="<% if (editing || hasError) { %><%= student.email %><% } %>"  
                     required />
                 </div>
                 <div class="input-box">
                   <label for="password">كلمة السر</label>
                   <input type="password"
-                    class="form-control"
+                    class="form-control <%= validationErrors.find(e => e.path === 'password') ? 'is-invalid' : '' %>"
                     name="password"
                     id="password" 
                     placeholder="أدخل كلمة السر" 
+                    value="<% if (hasError) { %><%= student.password %><% } %>"
                     required />
                 </div>
                 <% if (editing) { %>

@@ -24,8 +24,8 @@ router.post('/editAdmin',validators.validateSignUp,Auth.isAuth, adminController.
 router.post('/signEmployee',validators.validateSignUp,Auth.isAuth, adminController.postSignEmployee);
 router.post('/editEmployee',validators.validateSignUp,Auth.isAuth, adminController.postEditEmployee);
 
-router.post('/signStudent',Auth.isAuth, adminController.postSignStudent);
-router.post('/editStudent',Auth.isAuth, adminController.postEditStudent);
+router.post('/signStudent',validators.validateStudentSignUp,Auth.isAuth, adminController.postSignStudent);
+router.post('/editStudent',validators.validateStudentSignUp,Auth.isAuth, adminController.postEditStudent);
 
 
 module.exports = router;
