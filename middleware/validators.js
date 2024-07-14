@@ -4,6 +4,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nameRegex = /^[A-Za-z\s]{2,50}$/;
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 const divisionRegex = /^[A-Za-z\s]+$/;
+const phoneNumberRegex = /^09\d{8}$/;
 
 exports.validateSignUp = [
   body('email')
@@ -25,9 +26,26 @@ exports.validateSignUp = [
 
 exports.validateStudentSignUp = [
   ...exports.validateSignUp,
-  body('nationalNumber').isLength({ min: 8 }).withMessage('National number is required.'),
-  body('militaryNumber').isLength({ min: 8 }).withMessage('Military number is required.'),
-  body('birthdate').isDate().withMessage('Invalid birthdate.'),
-  body('phoneNumber').isMobilePhone().withMessage('Invalid phone number.'),
-  body('address').notEmpty().withMessage('Address is required.')
+  body('nationalNumber')
+    .isLength({ min: 11, max: 11 })
+    .withMessage('National number must be exactly 11 digits.')
+    .isNumeric()
+    .withMessage('National number must contain only numbers.'),
+  body('militaryNumber')
+    .isLength({ min: 4, max: 4 })
+    .withMessage('Military number must be exactly 4 digits.')
+    .isNumeric()
+    .withMessage('Military number must contain only numbers.'),
+  body('birthdate')
+    .isDate()
+    .withMessage('Invalid birthdate.'),
+  body('delayedTo')
+    .isDate()
+    .withMessage('Invalid delayedTo.'),
+  body('phoneNumber')
+    .matches(phoneNumberRegex)
+    .withMessage('Phone number must be 10 digits and start with 09.'),
+  body('address')
+    .notEmpty()
+    .withMessage('Address is required.')
 ];

@@ -13,7 +13,7 @@
                   <div><%= errorMessage %></div>
                 </div>
               <% } %>
-              <form action="/admin/<% if (editing) { %>editStudent<% } else { %>signStudent<% } %>" class="form" method="POST" novalidate>
+              <form action="/admin/<% if (editing) { %>editStudent<% } else { %>SignStudent<% } %>" class="form" method="POST" novalidate>
                 <div class="column">
                   <div class="input-box">
                     <label for="name">الاسم الكامل</label>
@@ -54,7 +54,7 @@
                       name="birthdate" 
                       id="birthdate"
                       placeholder="أدخل تاريخ الولادة"
-                      value="<% if (editing || hasError) { %><%= new Date(student.birthdate).toISOString().substring(0, 10) %><% } %>" 
+                      value="<% if (editing || hasError) { %><%= student.birthdate ? new Date(student.birthdate).toISOString().substring(0, 10) : '' %><% } %>" 
                       required />
                   </div>
                 </div>
@@ -76,7 +76,7 @@
                       name="delayedTo"
                       id="delayedTo"
                       placeholder="أدخل تاريخ الولادة" 
-                      value="<% if (editing || hasError) { %><%= new Date(student.delayedTo).toISOString().substring(0, 10) %><% } %>"  
+                      value="<% if (editing || hasError) { %><%= student.delayedTo ? new Date(student.delayedTo).toISOString().substring(0, 10) : '' %><% } %>"  
                       required />
                   </div>
                 </div>
@@ -126,7 +126,7 @@
                     value="<% if (hasError) { %><%= student.password %><% } %>"
                     required />
                 </div>
-                <% if (editing) { %>
+                <% if (editing) { %> 
                   <input type="hidden" value="<%= student._id %>" name="studentId">
                 <% } %>
                 <div class="col-md-12">

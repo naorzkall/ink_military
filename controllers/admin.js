@@ -44,7 +44,7 @@ exports.getEditStudent = (req, res, next) => {
       }
       res.render('admin/SignStudent', {
         pageTitle: 'Edit Student',
-        path: '/admin/SignAdmin',
+        path: '/admin/SignStudent',
         editing: editMode,
         student: student,
         hasError: false,
@@ -179,7 +179,7 @@ exports.deleteUser = async (req, res, next) => {
   const userId = req.params.userId;
   try {
     await User.findByIdAndDelete(userId);
-    res.redirect('/admin/Settings');
+    res.redirect('/admin/manageUsers');
   } catch (error) {
     console.error('Error deleting user:', error);
     next(error);
@@ -247,7 +247,7 @@ exports.postEditAdmin = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render('admin/SignAdmin', {
-      pageTitle: 'Sign Admin',
+      pageTitle: 'Edit Admin',
       path: '/admin/SignAdmin',
       editing: true,
       hasError: true,
@@ -428,7 +428,7 @@ exports.postSignStudent = (req, res, next) => {
   bcrypt
   .hash(password, 12)
   .then(hashedPassword => {
-    const employee = new Student({
+    const student = new Student({
       email: email,
       name:name,
       password: hashedPassword,
@@ -441,7 +441,7 @@ exports.postSignStudent = (req, res, next) => {
       address:address,
       balance:0,
     });
-    return employee.save();
+    return student.save();
   })
   .then(result => {
     res.redirect('/admin/SignStudent');
@@ -465,6 +465,29 @@ exports.postEditStudent = (req, res, next) => {
   let student = null;  
 
   const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('admin/SignStudent', {
+      pageTitle: 'Edit Student',
+      path: '/admin/SignAdmin',
+      editing: true,
+      hasError: true,
+      student: {
+        name: name,
+        email: email,
+        password: newPassword,
+        nationalNumber:nationalNumber,
+        militaryNumber:militaryNumber,
+        birthdate:birthdate,
+        phoneNumber:phoneNumber,
+        delayedTo:delayedTo,
+        division: division,
+        address:address,
+        _id:studentId
+      },
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array()
+    });
+  }
 
   User.findById(studentId)
     .then(user => {
