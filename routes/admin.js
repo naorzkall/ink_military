@@ -7,7 +7,7 @@ const Auth = require('../middleware/is-auth'); //isAuth: in future we will use i
 
 
 router.get('/SignStudent',Auth.isAuth, adminController.getSignStudent);
-// router.get('/editStudent/:studentId',Auth.isAuth, adminController.getEditStudent);
+router.get('/editStudent/:studentId',Auth.isAuth, adminController.getEditStudent);
 
 router.get('/SignEmployee',Auth.isAuth, adminController.getSignEmployee);
 router.get('/editEmployee/:employeeId',Auth.isAuth, adminController.getEditEmployee);
@@ -25,7 +25,7 @@ router.post('/signEmployee',Auth.isAuth, adminController.postSignEmployee);
 router.post('/editEmployee',Auth.isAuth, adminController.postEditEmployee);
 
 router.post('/signStudent',Auth.isAuth, adminController.postSignStudent);
-
+router.post('/editStudent',Auth.isAuth, adminController.postEditStudent);
 
 
 module.exports = router;
