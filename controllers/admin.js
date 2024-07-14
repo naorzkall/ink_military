@@ -34,6 +34,34 @@ exports.getSignStudent = (req, res, next) => {
     });
 };
 
+exports.getEditStudent = (req, res, next) => {
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect('/');
+  }
+  const userId = req.params.studentId;
+  User.findById(userId)
+    .then(student => {
+      if (!student) {
+        return res.redirect('/');
+      }
+      res.render('admin/SignStudent', {
+        pageTitle: 'Edit Student',
+        path: '/admin/SignAdmin',
+        editing: editMode,
+        student: student,
+        hasError: false,
+        errorMessage: null,
+        validationErrors: []
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
+
 exports.getSignEmployee= (req, res, next) => {
   res.render('admin/SignEmployee', {
     path: '/SignEmployee',
@@ -278,11 +306,7 @@ exports.postSignEmployee = (req, res, next) => {
 };
 
 exports.postEditEmployee = (req, res, next) => {
-  const employeeId = req.body.employeeId;
-  const name = req.body.name;
-  const email = req.body.email;
-  const newPassword = req.body.password;
-  const division = req.body.division;
+  const {name,email,password:newPassword,division,employeeId}=req.body;
   let employee = null;
 
   const errors = validationResult(req);
@@ -318,16 +342,7 @@ exports.postEditEmployee = (req, res, next) => {
 };
 
 exports.postSignStudent = (req, res, next) => {
-  const name = req.body.name;
-  const email = req.body.email;
-  const password = req.body.password;
-  const nationalNumber=req.body.nationalNumber;
-  const militaryNumber=req.body.militaryNumber;
-  const birthdate=req.body.birthdate;
-  const phoneNumber=req.body.phoneNumber;
-  const delayedTo=req.body.delayedTo;
-  const division=req.body.division;
-  const address=req.body.address;
+  const {name,email,password,nationalNumber,militaryNumber,birthdate,phoneNumber, delayedTo,division,address} = req.body;
 
   bcrypt
   .hash(password, 12)
@@ -363,3 +378,45 @@ exports.postSignStudent = (req, res, next) => {
     // return next(error);
   });  
 };
+
+exports.postEditStudent = (req, res, next) => {
+  const {name,email,password: newPassword,nationalNumber,militaryNumber,birthdate,phoneNumber, delayedTo,division,address,studentId} = req.body;
+  let student = null;  
+
+  const errors = validationResult(req);
+
+  User.findById(studentId)
+    .then(user => {
+      student = user;
+      student.name = name;
+      student.email = email;
+      student.nationalNumber = nationalNumber;
+      student.militaryNumber = militaryNumber;
+      student.birthdate = birthdate;
+      student.phoneNumber = phoneNumber;
+      student.delayedTo= delayedTo;
+      student.division = division;
+      student.address = address;
+      return bcrypt.hash(newPassword, 12);
+      })
+      .then(hashedPassword => {
+        student.password = hashedPassword;
+        return student.save();
+      })
+      .then(result => {
+        res.redirect('/');
+        return transporter.sendMail({
+          to: email,
+          from: process.env.NODEJS_GMAIL_APP_USER, // sender address,
+          subject: 'your acccount have been edit',
+          html: `
+            <p>info changed successfuly</p>
+          `
+        });
+      })
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
+}
