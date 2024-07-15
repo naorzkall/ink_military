@@ -1,0 +1,60 @@
+<%- include('../include/head.ejs') %>
+<style>
+  .request-detail {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .request-detail dt {
+    font-weight: bold;
+  }
+  .request-detail dd {
+    margin-bottom: 0.5rem;
+  }
+  .request-images img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 1rem;
+  }
+</style>
+</head>
+<body>
+  <%- include('../include/navigation.ejs') %>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">تفاصيل الطلب</h5>
+        <dl class="row request-detail">
+          <dt class="col-sm-3">اسم الطالب</dt>
+          <dd class="col-sm-9"><%= request.userId.name %></dd>
+
+          <dt class="col-sm-3">القسم</dt>
+          <dd class="col-sm-9"><%= request.division %></dd>
+
+          <dt class="col-sm-3">الهوية</dt>
+          <dd class="col-sm-9 request-images"><img src="/<%= request.identityUrl %>" alt="Identity Image"></dd>
+
+          <dt class="col-sm-3">الشهادة</dt>
+          <dd class="col-sm-9 request-images"><img src="/<%= request.certificateUrl %>" alt="Certificate Image"></dd>
+
+          <dt class="col-sm-3">الحالة</dt>
+          <dd class="col-sm-9"><%= request.status %></dd>
+
+          <dt class="col-sm-3">تاريخ الطلب</dt>
+          <dd class="col-sm-9"><%= request.createdAt.toLocaleDateString() %></dd>
+
+          <% if (request.status === 'مرفوض') { %>
+            <dt class="col-sm-3">سبب الرفض</dt>
+            <dd class="col-sm-9"><%= request.feedback %></dd>
+          <% } %>
+
+        </dl>
+        <a href="/deferment-requests/allRequests" class="btn btn-primary">العودة إلى الطلبات</a>
+        <form action="/deferment-requests/deleteRequest/<%= request._id %>" method="POST" style="display:inline;">
+          <button type="submit" class="btn btn-danger" onclick="return confirm('هل أنت متأكد من حذف هذا الطلب؟')">حـــــذف</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <%- include('../include/end.ejs') %>
+</body>

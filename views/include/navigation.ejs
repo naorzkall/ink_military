@@ -113,6 +113,22 @@
                 <span class="hide-menu">إدارة الصفحة الرئيسية</span>
               </a>
             </li>
+            <li class="sidebar-item" <%= path === '/manageHome' ? 'active' : '' %>>
+              <a class="sidebar-link" href="/deferment-requests/allRequests" aria-expanded="false">
+                <span>
+                  <i class="ti ti-text-plus"></i>
+                </span>
+                <span class="hide-menu">ادارة الطلبات</span>
+              </a>
+            </li>
+            <!-- <li class="sidebar-item" <%= path === '/manageHome' ? 'active' : '' %>>
+              <a class="sidebar-link" href="/admin/manageHome" aria-expanded="false">
+                <span>
+                  <i class="ti ti-text-plus"></i>
+                </span>
+                <span class="hide-menu">إدارة المواعيد</span>
+              </a>
+            </li> -->
             <% } %>
         </ul>
       </nav>

@@ -1,0 +1,88 @@
+<%- include('../include/head.ejs') %>
+<style>
+  /* Your CSS styles */
+</style>
+</head>
+<body>
+  <%- include('../include/navigation.ejs') %>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">إدارة الطلبات</h5>
+        <form action="/deferment-requests/allRequests" method="GET">
+          <div class="row mb-3">
+            <div class="col-md-4">
+                <select class="form-select" name="requestStatus" onchange="this.form.submit()">
+                    <option value="all" <%= currentStatus === 'all' ? 'selected' : '' %>>الكل</option>
+                    <option value="قيد المعالجة" <%= currentStatus === 'قيد المعالجة' ? 'selected' : '' %>>قيد المعالجة</option>
+                    <option value="مقبول" <%= currentStatus === 'مقبول' ? 'selected' : '' %>>مقبول</option>
+                    <option value="مرفوض" <%= currentStatus === 'مرفوض' ? 'selected' : '' %>>مرفوض</option>
+                    <option value="يعالج" <%= currentStatus === 'يعالج' ? 'selected' : '' %>>يعالج</option> 
+                </select>
+            </div>
+            <div class="col-md-8">
+              <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="ابحث" aria-label="Search" aria-describedby="button-addon2" value="<%= searchQuery %>">
+                <button class="btn" type="submit" id="button-addon2">
+                  <i class="ti ti-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="table-responsive">
+          <table class="table text-nowrap mb-0 align-middle">
+            <thead class="text-dark fs-4">
+              <tr>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">اسم الطالب</h6>
+                </th>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">الحالة</h6>
+                </th>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">تاريخ الطلب</h6>
+                </th>
+                <% if (currentStatus === 'مرفوض' || currentStatus === 'all') { %>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">سبب الرفض</h6>
+                </th>
+                <% } %>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">إجراءات</h6>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% requests.forEach(function(request) { %>
+                <tr>
+                  <td class="border-bottom-0"><h6 class="fw-semibold mb-0"><%= request.userId.name %></h6></td>
+                  <td class="border-bottom-0">
+                    <p class="mb-0 fw-normal"><%= request.status %></p>
+                  </td>
+                  <td class="border-bottom-0">
+                    <p class="mb-0 fw-normal"><%= request.createdAt.toLocaleDateString() %></p>
+                  </td>
+                  <% if (request.status === 'مرفوض') { %>
+                  <td class="border-bottom-0">
+                    <p class="mb-0 fw-normal"><%= request.feedback %></p>
+                  </td>
+                  <% } else if (currentStatus === 'all') { %>
+                  <td class="border-bottom-0"></td>
+                  <% } %>
+                  <td class="border-bottom-0">
+                    <a href="/deferment-requests/viewRequest/<%= request._id %>" class="btn btn-primary btn-sm mb-2">عرض</a>
+                    <form action="/deferment-requests/deleteRequest/<%= request._id %>" method="POST">
+                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من حذف هذا الطلب؟')">حـــــذف</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<%- include('../include/end.ejs') %>
