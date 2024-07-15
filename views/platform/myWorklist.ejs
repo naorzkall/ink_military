@@ -4,31 +4,35 @@
 
 <body>
   <%- include('../include/navigation.ejs') %>
-  <div class="container-fluid">
-    <h1>قيد العمل</h1>
-    <% if (cartItems.length === 0) { %>
-      <p>لا يوجد طلبات قيد العمل</p>
-    <% } else { %>
-      <div class="row">
-        <% cartItems.forEach(item => { %>
-          <div class="col-md-4 mb-3">
-            <div class="card">
-              <div class="card-header">
-                طلب رقم <%= item.request._id %>
+        <div class="container-fluid">
+          <div class="row">
+            <h1>قيد العمل</h1>
+            <% if (cartItems.length === 0) { %>
+              <p>لا يوجد طلبات قيد العمل</p>
+            <% } else { %>
+              <div class="row">
+                <% cartItems.forEach(item => { %>
+                  <div class="col-md-4 mb-3">
+                    <div class="card">
+                      <div class="card-header">
+                        طلب رقم <%= item.request._id %>
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">تفاصيل الطلب</h5>
+                        <p class="card-text">القسم: <%= item.request.division %></p>
+                        <p class="card-text">حالة الطلب: <%= item.request.status %></p>
+                        <form action="/deferment-requests/request/<%= item.request._id %>" method="POST" style="margin-top: 10px;">
+                          <button type="submit" class="btn btn-success">معالجة الطلب</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                <% }) %>
               </div>
-              <div class="card-body">
-                <h5 class="card-title">تفاصيل الطلب</h5>
-                <p class="card-text">القسم: <%= item.request.division %></p>
-                <p class="card-text">حالة الطلب: <%= item.request.status %></p>
-                <form action="/deferment-requests/request/<%= item.request._id %>" method="POST" style="margin-top: 10px;">
-                  <button type="submit" class="btn btn-success">معالجة الطلب</button>
-                </form>
-              </div>
-            </div>
+            <% } %>
           </div>
-        <% }) %>
-      </div>
-    <% } %>
-  </div>
+        </div>
+</div>
+</div>
 
 <%- include('../include/end.ejs') %>

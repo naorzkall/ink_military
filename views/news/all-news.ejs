@@ -19,7 +19,6 @@
                             <h4><%= item.title %></h4>
                         </div>
                         <div class="card-body">
-                            <p class="card-text">القسم: <%= item.division %></p>
                             <p class="card-text">تاريخ النشر: <%= new Date(item.createdAt).toLocaleDateString('ar-EG') %></p>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newsModal<%= item._id %>">
                             اقرأ المزيد
@@ -33,15 +32,14 @@
                         <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                            <h5 class="modal-title" id="newsModalLabel<%= item._id %>"><%= item.title %></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <h5 class="modal-title" id="newsModalLabel<%= item._id %>"><%= item.title %></h5>
                             </div>
                             <div class="modal-body">
                             <img src="/<%= item.imageUrl %>" class="img-fluid mb-3" alt="<%= item.title %>">
-                            <p><%= item.body %></p>
+                                <p><%= item.body %></p>
                             </div>
                             <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
                             </div>
                         </div>
                         </div>

@@ -1,25 +1,98 @@
 <%- include('../include/head.ejs') %>
+<style>
+  .form-container {
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  .form-title {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+  .form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 0.75rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  .form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #495057;
+  }
+  .custom-file-input {
+    cursor: pointer;
+  }
+  .custom-file-label {
+    border-radius: 8px;
+    height: calc(1.5em + 0.75rem + 2px);
+    line-height: 1.5;
+  }
+  .btn-submit {
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 0.75rem;
+    transition: background-color 0.15s ease-in-out;
+  }
+  .btn-submit:hover {
+    background-color: #0056b3;
+  }
+  .custom-file-label {
+      display: inline-block;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    .custom-file-label:hover {
+      background-color: #f8f9fa;
+    }
+    .custom-file-input:focus + .custom-file-label {
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+</style>
 </head>
 <body>
   <%- include('../include/navigation.ejs') %>
-  <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5">
-    <div class="card-body container text-center">
-      <h2 class="title mb-2">Add News</h2>
-      <form id="addNewsForm" method="POST" action="/news/add-news" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" name="title" required>
-        </div>
-        <div class="form-group">
-          <label for="body">Body</label>
-          <textarea class="form-control" id="body" name="body" rows="5" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="imageInput">Upload Image</label>
-          <input type="file" class="form-control-file" id="imageInput" name="image" required>
-        </div>
-        <button type="submit" class="btn btn-primary mt-2 w-100">Submit</button>
-      </form>
-    </div>   
+  <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="col-md-10 col-lg-8 col-xl-6">
+      <div class="form-container">
+        <h2 class="form-title text-center">إضافة خبر جديد</h2>
+        <form id="addNewsForm" method="POST" action="/news/add-news" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="title" class="form-label">العنوان</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="body" class="form-label">المحتوى</label>
+            <textarea class="form-control" id="body" name="body" rows="5" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="imageInput" class="form-label">رفع صورة</label>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input d-none" id="imageInput" name="image" required>
+              <label class="custom-file-label btn btn-outline-secondary w-100" for="imageInput">اختر ملفًا</label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-submit w-100 mt-3">إرسال</button>
+        </form>
+      </div>
+    </div>
   </div>
+  
+  <script>
+    document.getElementById('imageInput').addEventListener('change', function(e) {
+      var fileName = e.target.files[0].name;
+      var label = document.querySelector('.custom-file-label');
+      label.textContent = fileName || 'اختر ملفًا';
+    });
+  </script>
 <%- include('../include/end.ejs') %>
