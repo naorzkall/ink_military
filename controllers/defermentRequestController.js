@@ -146,7 +146,7 @@ exports.approveRequest = async (req, res) => {
 
         // Remove the request from employee's cart
         await Employee.updateOne(
-            { _id: request.userId },
+            { _id: req.user._id },
             { $pull: { 'cart.items': { request: requestId } } }
         );
 
@@ -175,7 +175,7 @@ exports.rejectRequest = async (req, res) => {
 
         // Remove the request from employee's cart
         await Employee.updateOne(
-            { _id: request.userId },
+            { _id: req.user._id },
             { $pull: { 'cart.items': { request: requestId } } }
         );
 
@@ -312,4 +312,3 @@ exports.deleteRequest = async (req, res) => {
         res.status(500).send('خطأ في السيرفر'); // Server Error
     }
 };
-
