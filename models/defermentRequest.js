@@ -26,6 +26,10 @@ const defermentRequestSchema = new Schema({
     },
     feedback: {
         type: String
+    },
+    processedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'Employee'
     }
 }, { timestamps: true });
 

@@ -83,7 +83,7 @@ exports.addRequestToCart = async (req, res) => {
         // Fetch the request and update the status to 'processing' if it's currently 'pending'
         const request = await DefermentRequest.findOneAndUpdate(
             { _id: requestId, status: 'قيد المعالجة' },
-            { status: 'يعالج' },
+            { status: 'يعالج' ,processedBy: req.user._id},
             { new: true }
         ).populate('userId', 'name email');
 
@@ -304,7 +304,10 @@ exports.deleteRequest = async (req, res) => {
         if (!request) {
             return res.status(404).send('الطلب غير موجود'); // Request not found
         }
-
+        await Employee.updateOne(
+            { _id: request.processedBy },
+            { $pull: { 'cart.items': { request: requestId } } }
+        );
         res.redirect('/deferment-requests/allRequests'); // Redirect to the requests list after deletion
     } catch (error) {
         // Log the error and send a 500 response with an error message
