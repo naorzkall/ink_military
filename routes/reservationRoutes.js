@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const reservationController = require('../controllers/reservationController');
+const Auth = require('../middleware/is-auth'); //isAuth: in future we will use it to athunticate user
+
 
 // Render the view appointments page
-router.get('/view', reservationController.getViewAppointmentsView);
+router.get('/view',Auth.isAuth,Auth.isAdmin, reservationController.getViewAppointmentsView);
 
 // Get available times for a specific date
 router.get('/available-times', reservationController.getAvailableTimes);

@@ -1,32 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const { isAuth, isStudent, isEmployee,isAdmin } = require('../middleware/is-auth');
+const Auth = require('../middleware/is-auth'); //isAuth: in future we will use it to athunticate user
 const defermentRequestController = require('../controllers/defermentRequestController');
 
 // استلام الطلب مع رفع الملفات
-router.post('/submit', defermentRequestController.submitDefermentRequest);
+router.post('/submit',Auth.isAuth, defermentRequestController.submitDefermentRequest);
 
 // عرض جميع الطلبات الواردة للموظف
-router.get('/all' ,defermentRequestController.getAllRequests);
+router.get('/all' ,Auth.isAuth,defermentRequestController.getAllRequests);
 
 //اضافة طلب للسلة
-router.post('/request/add-to-cart/:id', defermentRequestController.addRequestToCart);
+router.post('/request/add-to-cart/:id',Auth.isAuth, defermentRequestController.addRequestToCart);
 //قبول طلب
-router.post('/request/:id/approve', defermentRequestController.approveRequest);
+router.post('/request/:id/approve',Auth.isAuth, defermentRequestController.approveRequest);
 //رفض طلب
-router.post('/request/:id/reject', defermentRequestController.rejectRequest);
+router.post('/request/:id/reject',Auth.isAuth, defermentRequestController.rejectRequest);
 //طلبات اليوسر
-router.get('/my-requests', defermentRequestController.getUserRequests);
+router.get('/my-requests',Auth.isAuth, defermentRequestController.getUserRequests);
 //جيب السلة
-router.get('/my-requests-in-Progress', defermentRequestController.getEmployeeCart);
+router.get('/my-requests-in-Progress',Auth.isAuth,Auth.isEmployee, defermentRequestController.getEmployeeCart);
 // معالجة من السلة
-router.post('/request/:id', defermentRequestController.processRequest);
+router.post('/request/:id',Auth.isAuth, defermentRequestController.processRequest);
 
-router.get('/allRequests', defermentRequestController.getAllRequestsForAdmin);
+router.get('/allRequests',Auth.isAuth, defermentRequestController.getAllRequestsForAdmin);
 
-router.get('/viewRequest/:id', defermentRequestController.viewRequest);
+router.get('/viewRequest/:id',Auth.isAuth, defermentRequestController.viewRequest);
 
-router.post('/deleteRequest/:id', defermentRequestController.deleteRequest);
+router.post('/deleteRequest/:id',Auth.isAuth, defermentRequestController.deleteRequest);
 // عرض تفاصيل طلب محدد
 // router.get('/request/:requestId', defermentRequestController.getRequestDetails);
 

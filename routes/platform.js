@@ -2,11 +2,12 @@ const path = require('path');
 const express = require('express');
 const platformController = require('../controllers/platform');
 const Auth = require('../middleware/is-auth');
+const newsController = require('../controllers/news');
 
 
 const router = express.Router();
 
-router.get('/',Auth.isAuth, platformController.getIndex);
+router.get('/',Auth.isAuth, newsController.getAllNews);
 
 router.get('/myrequest',Auth.isAuth, platformController.getMyReq);
 

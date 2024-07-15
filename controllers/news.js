@@ -15,6 +15,7 @@ exports.getAllNews = async (req, res) => {
 
 // Get the form to add news
 exports.getAddNews = (req, res) => {
+    console.log("gg");
     res.render('news/add-news', { pageTitle: 'إضافة خبر', path: '/news/add-news' });
 };
 
@@ -23,9 +24,9 @@ exports.getAddNews = (req, res) => {
 exports.postAddNews = (req, res) => {
     try {
         console.log(req.files)
-      const { title, body } = req.body;
-      const {division} = req.user;
-      const imageFile = req.files['image'] ? req.files['image'][0] : null;
+        const { title, body } = req.body;
+        const {division} = req.user;
+        const imageFile = req.files['image'] ? req.files['image'][0] : null;
   
       
         // Save news item to database or perform other operations
@@ -38,7 +39,7 @@ exports.postAddNews = (req, res) => {
   
         news.save()
           .then(() => {
-            res.status(201).send('News item added successfully');
+            res.redirect('/');
           })
           .catch(err => {
             console.error(err);

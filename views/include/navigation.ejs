@@ -28,6 +28,7 @@
               <span class="hide-menu">الرئيسية</span>
             </a>
           </li>
+          <% if (userType==="Student" || userType==="Admin"){ %>
           <li class="sidebar-item <%= path === '/myrequest' ? 'active' : '' %>">
             <a class="sidebar-link" href="/myrequest" aria-expanded="false">
               <span>
@@ -44,6 +45,8 @@
               <span class="hide-menu">طلبي</span>
             </a>
           </li>
+          <% } %>
+          <% if (userType==="Employee" || userType==="Admin"){ %>
           <li class="sidebar-item <%= path === '/incomingRequests' ? 'active' : '' %>">
             <a class="sidebar-link" href="/deferment-requests/all" aria-expanded="false">
               <span>
@@ -60,10 +63,11 @@
               <span class="hide-menu">قيد العمل</span>
             </a>
           </li>
+          <% } %>
           <% if (userType==="Admin"){ %>
           <li class="nav-small-cap">
             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-            <span class="hide-menu">Admin</span>
+            <span class="hide-menu">آدمــــن</span>
           </li>
           <li class="sidebar-item" <%= path === '/reservations/view' ? 'active' : '' %>>
             <a class="sidebar-link" href="/reservations/view" aria-expanded="false">
@@ -105,8 +109,8 @@
                 <span class="hide-menu">إدارة المستخدمين</span>
               </a>
             </li>
-            <li class="sidebar-item" <%= path === '/manageHome' ? 'active' : '' %>>
-              <a class="sidebar-link" href="/admin/manageHome" aria-expanded="false">
+            <li class="sidebar-item" <%= path === '/add-news' ? 'active' : '' %>>
+              <a class="sidebar-link" href="/news/add-news" aria-expanded="false">
                 <span>
                   <i class="ti ti-text-plus"></i>
                 </span>
