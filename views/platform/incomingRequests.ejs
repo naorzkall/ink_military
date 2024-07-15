@@ -16,10 +16,12 @@
                 <!-- <h5 class="card-title"><%= request.division %></h5> -->
                 <p class="card-text">حالة الطلب: <%= request.status %></p>
                 <p class="card-text">تاريخ الطلب: <%= new Date(request.createdAt).toLocaleDateString() %></p>
+                <% if (userType === 'Employee') { %>
                 <form action="/deferment-requests/request/add-to-cart" method="POST">
                   <input type="hidden" value="<%= request._id %>" name="requestId">
                   <button type="submit" class="btn btn-primary">إضافة إلى قائمة العمل</button>
                 </form>
+                <% } %>
               </div>
             </div>
           </div>

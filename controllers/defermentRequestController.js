@@ -32,8 +32,9 @@ exports.submitDefermentRequest = async (req, res, next) => {
 
 exports.getAllRequests = async (req, res) => {
     try {
+        const userType = req.user.user_type;
+        console.log(userType);
         const { division } = req.user;
-        console.log('Request user:', req.user);
 
         // Fetch deferment requests from the database based on the user's division
         const requests = await DefermentRequest.find({ division, status:  'قيد المعالجة' }).populate('userId');
@@ -41,7 +42,8 @@ exports.getAllRequests = async (req, res) => {
         res.render('platform/incomingRequests', {
             requests,
             pageTitle: 'الطلبات الواردة', 
-            path: 'platform/incomingRequests'
+            path: 'platform/incomingRequests',
+            userType:userType
         });
     } catch (error) {
         // Log the error and send a 500 response with an error message

@@ -28,7 +28,7 @@
               <span class="hide-menu">الرئيسية</span>
             </a>
           </li>
-          <% if (userType==="Student" || userType==="Admin"){ %>
+          <% if (userType==="Student"){ %>
           <li class="sidebar-item <%= path === '/myrequest' ? 'active' : '' %>">
             <a class="sidebar-link" href="/myrequest" aria-expanded="false">
               <span>
@@ -55,6 +55,8 @@
               <span class="hide-menu">الطلبات الواردة</span>
             </a>
           </li>
+          <% } %>
+          <% if (userType==="Employee"){ %>
           <li class="sidebar-item" <%= path === '/InProgress' ? 'active' : '' %>>
             <a class="sidebar-link" href="/deferment-requests/myWorklist" aria-expanded="false">
               <span>

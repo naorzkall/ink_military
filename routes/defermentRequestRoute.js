@@ -10,17 +10,17 @@ router.post('/submit',Auth.isAuth, defermentRequestController.submitDefermentReq
 router.get('/all' ,Auth.isAuth,defermentRequestController.getAllRequests);
 
 //اضافة طلب للسلة
-router.post('/request/add-to-cart',Auth.isAuth, defermentRequestController.addRequestToCart);
+router.post('/request/add-to-cart',Auth.isAuth,Auth.isEmployee, defermentRequestController.addRequestToCart);
 //قبول طلب
-router.post('/request/:id/approve',Auth.isAuth, defermentRequestController.approveRequest);
+router.post('/request/:id/approve',Auth.isAuth,Auth.isEmployee, defermentRequestController.approveRequest);
 //رفض طلب
-router.post('/request/:id/reject',Auth.isAuth, defermentRequestController.rejectRequest);
+router.post('/request/:id/reject',Auth.isAuth,Auth.isEmployee, defermentRequestController.rejectRequest);
 //طلبات اليوسر
-router.get('/my-requests',Auth.isAuth, defermentRequestController.getUserRequests);
+router.get('/my-requests',Auth.isAuth,Auth.isStudent, defermentRequestController.getUserRequests);
 //جيب السلة
 router.get('/myWorklist',Auth.isAuth,Auth.isEmployee, defermentRequestController.getEmployeeCart);
 // معالجة من السلة
-router.get('/request/:id',Auth.isAuth, defermentRequestController.processRequest);
+router.get('/request/:id',Auth.isAuth,Auth.isEmployee, defermentRequestController.processRequest);
 
 router.get('/allRequests',Auth.isAuth, defermentRequestController.getAllRequestsForAdmin);
 
