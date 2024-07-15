@@ -6,7 +6,11 @@ const fs = require('fs');
 exports.getAllNews = async (req, res) => {
     try {
         const news = await News.find();
-        res.render('news/all-news', { news, pageTitle: 'الأخبار', path: '/news' });
+        res.render('news/all-news', { 
+          path: '/all-news',
+          pageTitle: 'Signin Student',
+          news,
+         });
     } catch (error) {
         console.error(error);
         res.status(500).send('خطأ في السيرفر');

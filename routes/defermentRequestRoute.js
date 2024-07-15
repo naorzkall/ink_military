@@ -10,7 +10,7 @@ router.post('/submit',Auth.isAuth, defermentRequestController.submitDefermentReq
 router.get('/all' ,Auth.isAuth,defermentRequestController.getAllRequests);
 
 //اضافة طلب للسلة
-router.post('/request/add-to-cart/:id',Auth.isAuth, defermentRequestController.addRequestToCart);
+router.post('/request/add-to-cart',Auth.isAuth, defermentRequestController.addRequestToCart);
 //قبول طلب
 router.post('/request/:id/approve',Auth.isAuth, defermentRequestController.approveRequest);
 //رفض طلب
@@ -18,7 +18,7 @@ router.post('/request/:id/reject',Auth.isAuth, defermentRequestController.reject
 //طلبات اليوسر
 router.get('/my-requests',Auth.isAuth, defermentRequestController.getUserRequests);
 //جيب السلة
-router.get('/my-requests-in-Progress',Auth.isAuth,Auth.isEmployee, defermentRequestController.getEmployeeCart);
+router.get('/myWorklist',Auth.isAuth,Auth.isEmployee, defermentRequestController.getEmployeeCart);
 // معالجة من السلة
 router.post('/request/:id',Auth.isAuth, defermentRequestController.processRequest);
 

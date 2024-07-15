@@ -77,9 +77,9 @@ exports.viewRequest = async (req, res) => {
 
 exports.addRequestToCart = async (req, res) => {
     try {
-        const requestId = req.params.id;
+        const requestId = req.body.requestId;
         console.log(requestId);
-
+        
         // Fetch the request and update the status to 'processing' if it's currently 'pending'
         const request = await DefermentRequest.findOneAndUpdate(
             { _id: requestId, status: 'قيد المعالجة' },
@@ -92,7 +92,9 @@ exports.addRequestToCart = async (req, res) => {
         }
 
         // Fetch the employee who made the request
-        const employee = await Employee.findById(request.userId._id);
+        const employee = req.user;
+        console.log(employee);
+
 
         if (!employee) {
             return res.status(404).send('Employee not found');
@@ -119,7 +121,7 @@ exports.addRequestToCart = async (req, res) => {
         await employee.save();
 
 
-        res.redirect(`/deferment-requests/my-requests-in-Progress`);
+        res.redirect(`/deferment-requests/myWorklist`);
 
     } catch (error) {
         console.error(error);
@@ -209,20 +211,20 @@ exports.getEmployeeCart = async (req, res) => {
 
         // Check if the cart is empty
         if (!employee.cart || !employee.cart.items || employee.cart.items.length === 0) {
-            return res.render('platform/InProgress', {
+            return res.render('platform/myWorklist', {
                 employee,
                 cartItems: [],
                 pageTitle: 'قيد العمل',
-                path: 'platform/InProgress',
+                path: 'platform/myWorklist',
                 message: 'السلة فارغة'
             });
         }
 
-        res.render('platform/InProgress', {
+        res.render('platform/myWorklist', {
             employee,
             cartItems: employee.cart.items,
             pageTitle: 'قيد العمل',
-            path: 'platform/InProgress'
+            path: 'platform/myWorklist'
         });
     } catch (error) {
         console.error(error);
