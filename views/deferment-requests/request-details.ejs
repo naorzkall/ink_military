@@ -1,57 +1,96 @@
 <%- include('../include/head.ejs') %>
+
 </head>
 
 <body>
   <%- include('../include/navigation.ejs') %>
-  <div class="container mt-5">
-    <div class="card">
-      <div class="card-header">
-        <h1 class="h3">تفاصيل الطلب</h1>
-      </div>
-      <div class="card-body">
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <p><strong>رقم الطلب:</strong> <%= request._id %></p>
-          </div>
-          <div class="col-md-6">
-            <p><strong>المستخدم:</strong> <%= request.userId.name %> (<%= request.userId.email %>)</p>
-          </div>
+      <div class="container-fluid d-flex justify-content-center align-items-center">
+        <div class="card-body container">
+                  <div class="card shadow-sm">
+                    <div class="card-header bg-light">
+                      <h2 class="card-title mb-0">تفاصيل الطلب</h2>
+                    </div>
+                    <div class="card-body">
+                      <div class="row g-4">
+                        <div class="col-md-6">
+                          <div class="d-flex align-items-center mb-3">
+                            <i class="ti ti-id fs-5 me-2 text-muted"></i>
+                            <span class="fw-bold">رقم الطلب:  </span>
+                            <span class="ms-2"><%= request._id %></span>
+                          </div>
+                          <div class="d-flex align-items-center mb-3">
+                            <i class="ti ti-user fs-5 me-2 text-muted"></i>
+                            <span class="fw-bold">المستخدم:  </span>
+                            <span class="ms-2"><%= request.userId.name %> (<%= request.userId.email %>)</span>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="d-flex align-items-center mb-3">
+                            <i class="ti ti-building fs-5 me-2 text-muted"></i>
+                            <span class="fw-bold">القسم:  </span>
+                            <span class="ms-2"><%= request.division %></span>
+                          </div>
+                          <div class="d-flex align-items-center mb-3">
+                            <i class="ti ti-flag fs-5 me-2 text-muted"></i>
+                            <span class="fw-bold">حالة الطلب:  </span>
+                            <span class=" ms-2"><%= request.status %></span>
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <div class="row g-4 mt-4">
+                        <div class="col-md-6">
+                          <h5 class="mb-3"><i class="ti ti-id-badge fs-5 me-2"></i>صورة الهوية</h5>
+                          <a href="/<%= request.identityUrl %>" target="_blank">
+                            <img src="/<%= request.identityUrl %>" class="img-fluid rounded shadow-sm" alt="Identity Document">
+                          </a>
+                        </div>
+                        <div class="col-md-6">
+                          <h5 class="mb-3"><i class="ti ti-certificate fs-5 me-2"></i>صورة المصدقة الدراسية</h5>
+                          <a href="/<%= request.certificateUrl %>" target="_blank">
+                            <img src="/<%= request.certificateUrl %>" class="img-fluid rounded shadow-sm" alt="Certificate Document">
+                          </a>
+                        </div>
+                      </div>
+                  
+                      <div class="mt-5">
+                        <form action="/deferment-requests/request/<%= request._id %>/approve" method="POST" class="d-inline-block me-2">
+                          <button type="submit" class="btn btn-success">
+                            <i class="ti ti-check me-2"></i>الموافقة على الطلب
+                          </button>
+                        </form>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">
+                          <i class="ti ti-x me-2"></i>رفـــــــض الـطـلـب
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Reject Modal -->
+                  <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="rejectModalLabel">رفض الطلب</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/deferment-requests/request/<%= request._id %>/reject" method="POST">
+                          <div class="modal-body">
+                            <div class="mb-3">
+                              <label for="feedback" class="form-label">سبب الرفض</label>
+                              <textarea class="form-control" id="feedback" name="feedback" rows="3" required></textarea>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلــغــاء</button>
+                            <button type="submit" class="btn btn-danger">تأكيد الرفض</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
         </div>
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <p><strong>القسم:</strong> <%= request.division %></p>
-          </div>
-          <div class="col-md-6">
-            <p><strong>حالة الطلب:</strong> <span class="badge badge-info"><%= request.status %></span></p>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <p><strong>صورة الهوية:</strong></p>
-            <img src="/<%= request.identityUrl %>" class="img-fluid img-thumbnail" alt="Identity Document">
-          </div>
-          <div class="col-md-6">
-            <p><strong>صورة المصدقة الدراسية:</strong></p>
-            <img src="/<%= request.certificateUrl %>" class="img-fluid img-thumbnail" alt="Certificate Document">
-          </div>
-        </div>
-
-        
-          <form action="/deferment-requests/request/<%= request._id %>/approve" method="POST" class="mb-3">
-            <button type="submit" class="btn btn-success">الموافقة على الطلب</button>
-          </form>
-          <form action="/deferment-requests/request/<%= request._id %>/reject" method="POST" class="mb-3">
-            <div class="form-group">
-              <label for="feedback">سبب الرفض</label>
-              <textarea class="form-control" id="feedback" name="feedback" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-danger">رفض الطلب</button>
-          </form>
-        
       </div>
     </div>
-  </div>
-  <script src="/path/to/your/scripts.js"></script>
-  <%- include('../include/end.ejs') %>
-</body>
-</html>
+</div>
+<%- include('../include/end.ejs') %>

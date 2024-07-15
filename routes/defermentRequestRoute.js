@@ -20,7 +20,7 @@ router.get('/my-requests',Auth.isAuth, defermentRequestController.getUserRequest
 //جيب السلة
 router.get('/myWorklist',Auth.isAuth,Auth.isEmployee, defermentRequestController.getEmployeeCart);
 // معالجة من السلة
-router.post('/request/:id',Auth.isAuth, defermentRequestController.processRequest);
+router.get('/request/:id',Auth.isAuth, defermentRequestController.processRequest);
 
 router.get('/allRequests',Auth.isAuth, defermentRequestController.getAllRequestsForAdmin);
 

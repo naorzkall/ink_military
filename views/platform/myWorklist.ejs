@@ -21,9 +21,8 @@
                         <h5 class="card-title">تفاصيل الطلب</h5>
                         <p class="card-text">القسم: <%= item.request.division %></p>
                         <p class="card-text">حالة الطلب: <%= item.request.status %></p>
-                        <form action="/deferment-requests/request/<%= item.request._id %>" method="POST" style="margin-top: 10px;">
-                          <button type="submit" class="btn btn-success">معالجة الطلب</button>
-                        </form>
+                        <a href="/deferment-requests/request/<%= item.request._id %>" 
+                          class="btn btn-primary btn-sm mb-2">معالجة الطلب</a>
                       </div>
                     </div>
                   </div>
