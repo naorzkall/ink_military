@@ -50,32 +50,30 @@ exports.getAllRequests = async (req, res) => {
     }
 };
 
-// exports.getRequestDetails = async (req, res) => {
-//     try {
+exports.viewRequest = async (req, res) => {
+    try {
+        const requestId = req.params.id;
 
-//         console.log(req.params)
+        // Fetch the specific request by ID from the database
+        const request = await DefermentRequest.findById(requestId).populate('userId');
 
-//         const {requestId} = req.params;
+        if (!request) {
+            return res.status(404).send('الطلب غير موجود'); // Request not found
+        }
 
-//         // Fetch the deferment request by ID and populate user details
-//         const request = await DefermentRequest.findById(requestId).populate('userId', 'name email');
-//         console.log(request)
-//         if (!request) {
-//             return res.status(404).send('Request not found');
-//         }
-
+        res.render('deferment-requests/viewRequest', {
+            request,
+            pageTitle: 'تفاصيل الطلب',
+            path: '/deferment-requests/viewRequest'
+        });
         
-//         res.render('deferment-requests/request-details', {
-//             request,
-//             pageTitle: 'تفاصيل الطلب', 
-//             path: 'deferment-requests/request-details'
-//         });
-//     } catch (error) {
-//         // Log the error and send a 500 response with an error message
-//         console.error(error);
-//         res.status(500).send('خطأ في السيرفر');
-//     }
-// };
+    } catch (error) {
+        // Log the error and send a 500 response with an error message
+        console.error(error);
+        res.status(500).send('خطأ في السيرفر'); // Server Error
+    }
+};
+
 
 exports.addRequestToCart = async (req, res) => {
     try {
@@ -232,8 +230,6 @@ exports.getEmployeeCart = async (req, res) => {
     }
 };
 
-
-
 exports.processRequest = async (req, res) => {
     try {
         const requestId = req.params.id;
@@ -257,3 +253,61 @@ exports.processRequest = async (req, res) => {
         res.status(500).send('خطأ في السيرفر');
     }
 };
+
+exports.getAllRequestsForAdmin = async (req, res) => {
+    try {
+        const { division } = req.user;
+        let { requestStatus = 'all', search = '' } = req.query;
+        console.log(search);
+        // Build query object based on filters
+        let query = { division };
+        
+        if (requestStatus !== 'all' && requestStatus !== 'يعالج') {
+            query.status = requestStatus;
+        } else if (requestStatus === 'يعالج') {
+            query.status = { $ne: 'مقبول', $ne: 'مرفوض' }; // Example condition for "in progress"
+        }
+
+        if (search) {
+            query.$or = [
+                { 'userId.name': { $regex: search, $options: 'i' } },
+                { 'status': { $regex: search, $options: 'i' } }
+            ];
+        }
+
+        // Fetch deferment requests from the database based on the user's division
+        const requests = await DefermentRequest.find(query).populate('userId');
+
+        res.render('admin/AllRequestsForAdmin', {
+            requests,
+            currentStatus: requestStatus,
+            searchQuery: search,
+            pageTitle: 'الطلبات الواردة',
+            path: 'admin/AllRequestsForAdmin'
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('خطأ في السيرفر');
+    }
+};
+
+
+exports.deleteRequest = async (req, res) => {
+    try {
+        const requestId = req.params.id;
+
+        // Find and delete the request by ID
+        const request = await DefermentRequest.findByIdAndDelete(requestId);
+
+        if (!request) {
+            return res.status(404).send('الطلب غير موجود'); // Request not found
+        }
+
+        res.redirect('/deferment-requests/allRequests'); // Redirect to the requests list after deletion
+    } catch (error) {
+        // Log the error and send a 500 response with an error message
+        console.error(error);
+        res.status(500).send('خطأ في السيرفر'); // Server Error
+    }
+};
+

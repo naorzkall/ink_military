@@ -22,7 +22,11 @@ router.get('/my-requests-in-Progress', defermentRequestController.getEmployeeCar
 // معالجة من السلة
 router.post('/request/:id', defermentRequestController.processRequest);
 
+router.get('/allRequests', defermentRequestController.getAllRequestsForAdmin);
 
+router.get('/viewRequest/:id', defermentRequestController.viewRequest);
+
+router.post('/deleteRequest/:id', defermentRequestController.deleteRequest);
 // عرض تفاصيل طلب محدد
 // router.get('/request/:requestId', defermentRequestController.getRequestDetails);
 
