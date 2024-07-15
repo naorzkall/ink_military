@@ -20,22 +20,29 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-exports.getSignStudent = (req, res, next) => {
+exports.getSignStudent = async(req, res, next) => {
+  const settings = await Settings.findOne();
+  const divisions = settings ? settings.divisions : [];
+  const userId = req.params.adminId;
     res.render('admin/SignStudent', {
       path: '/SignStudent',
       pageTitle: 'Signin Student',
       editing: false,
       hasError: false,
       errorMessage: null,
-      validationErrors: []
+      validationErrors: [],
+      divisions:divisions
     });
 };
 
-exports.getEditStudent = (req, res, next) => {
+exports.getEditStudent = async(req, res, next) => {
   const editMode = req.query.edit;
   if (!editMode) {
     return res.redirect('/');
   }
+
+  const settings = await Settings.findOne();
+  const divisions = settings ? settings.divisions : [];
   const userId = req.params.studentId;
   User.findById(userId)
     .then(student => {
@@ -49,7 +56,8 @@ exports.getEditStudent = (req, res, next) => {
         student: student,
         hasError: false,
         errorMessage: null,
-        validationErrors: []
+        validationErrors: [],
+        divisions:divisions
       });
     })
     .catch(err => {
@@ -59,22 +67,28 @@ exports.getEditStudent = (req, res, next) => {
     });
 };
 
-exports.getSignEmployee= (req, res, next) => {
+exports.getSignEmployee= async(req, res, next) => {
+  const settings = await Settings.findOne();
+  const divisions = settings ? settings.divisions : [];
   res.render('admin/SignEmployee', {
     path: '/SignEmployee',
     pageTitle: 'Signin Employee',
     editing: false,
     hasError: false,
     errorMessage: null,
-    validationErrors: []
+    validationErrors: [],
+    divisions:divisions
   });
 };
 
-exports.getEditEmployee = (req, res, next) => {
+exports.getEditEmployee = async(req, res, next) => {
   const editMode = req.query.edit;
   if (!editMode) {
     return res.redirect('/');
   }
+
+  const settings = await Settings.findOne();
+  const divisions = settings ? settings.divisions : [];
   const userId = req.params.employeeId;
   User.findById(userId)
     .then(employee => {
@@ -88,7 +102,8 @@ exports.getEditEmployee = (req, res, next) => {
         employee: employee,
         hasError: false,
         errorMessage: null,
-        validationErrors: []
+        validationErrors: [],
+        divisions:divisions
       });
     })
     .catch(err => {
@@ -98,22 +113,27 @@ exports.getEditEmployee = (req, res, next) => {
     });
 };
 
-exports.getSignAdmin= (req, res, next) => {
+exports.getSignAdmin= async (req, res, next) => {
+  const settings = await Settings.findOne();
+  const divisions = settings ? settings.divisions : [];
   res.render('admin/SignAdmin', {
     path: '/Signadmin',
     pageTitle: 'Signin Amin',
     editing: false,
     hasError: false,
     errorMessage: null,
-    validationErrors: []
+    validationErrors: [],
+    divisions:divisions
   });
 };
 
-exports.getEditAdmin = (req, res, next) => {
+exports.getEditAdmin = async(req, res, next) => {
   const editMode = req.query.edit;
   if (!editMode) {
     return res.redirect('/');
   }
+  const settings = await Settings.findOne();
+  const divisions = settings ? settings.divisions : [];
   const userId = req.params.adminId;
   User.findById(userId)
     .then(admin => {
@@ -127,7 +147,8 @@ exports.getEditAdmin = (req, res, next) => {
         admin: admin,
         hasError: false,
         errorMessage: null,
-        validationErrors: []
+        validationErrors: [],
+        divisions:divisions
       });
     })
     .catch(err => {
@@ -524,3 +545,51 @@ exports.postEditStudent = (req, res, next) => {
         return next(error);
       });
 }
+//***************************** division managment ****************************
+exports.getDivisions = async (req, res) => {
+  try {
+    const settings = await Settings.findOne();
+    const divisions = settings ? settings.divisions : [];
+    res.render('admin/manageDivisions', {
+      divisions: divisions,
+      pageTitle: 'إدارة الأقسام',
+      path: '/admin/manageDivisions'
+    });
+  } catch (error) {
+    console.error('Error fetching divisions:', error);
+    res.status(500).send('حدث خطأ أثناء جلب الأقسام');
+  }
+};
+
+exports.addDivision = async (req, res) => {
+  const { divisionName } = req.body;
+  try {
+    let settings = await Settings.findOne();
+    if (!settings) {
+      settings = new Settings({ divisions: [] });
+    }
+    if (!settings.divisions.includes(divisionName)) {
+      settings.divisions.push(divisionName);
+      await settings.save();
+    }
+    res.redirect('/admin/manageDivisions');
+  } catch (error) {
+    console.error('Error adding division:', error);
+    res.status(500).send('حدث خطأ أثناء إضافة القسم');
+  }
+};
+
+exports.deleteDivision = async (req, res) => {
+  const { divisionName } = req.body;
+  try {
+    const settings = await Settings.findOne();
+    if (settings) {
+      settings.divisions = settings.divisions.filter(dept => dept !== divisionName);
+      await settings.save();
+    }
+    res.redirect('/admin/manageDivisions');
+  } catch (error) {
+    console.error('Error deleting division:', error);
+    res.status(500).send('حدث خطأ أثناء حذف القسم');
+  }
+};

@@ -7,12 +7,6 @@ const PDFDocument = require('pdfkit');
 const Student = require('../models/student');
 
 
-exports.getIndex = (req, res, next) => {
-  res.render('platform/index', {
-    path: '/index',
-    pageTitle: 'index',
-  });
-};
 
 exports.getMyReq = (req, res, next) => {
   res.render('platform/myrequest', {

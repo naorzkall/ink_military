@@ -31,11 +31,9 @@
                             id="division" 
                             placeholder="اختر الشعبة...">
                           <option value="">اختر الشعبة</option>
-                          <option value="Qaymariya" <% if (editing|| hasError) { if (employee.division === 'Qaymariya') { %>selected<% } } %>>قيمرية</option>
-                          <option value="Salihiya" <% if (editing|| hasError) { if (employee.division === 'Salihiya') { %>selected<% } } %>>صالحية</option>
-                          <option value="Mezzeh" <% if (editing|| hasError) { if (employee.division === 'Mezzeh') { %>selected<% } } %>>مزة</option>
-                          <option value="Amara" <% if (editing|| hasError) { if (employee.division === 'Amara') { %>selected<% } } %>>عمارة</option>
-                          <option value="Maidan" <% if (editing|| hasError) { if (employee.division === 'Maidan') { %>selected<% } } %>>ميدان</option>
+                          <% divisions.forEach(function(division) { %>
+                            <option value="<%= division %>" <% if ((editing || hasError) && admin.division === division) { %>selected<% } %>><%= division %></option>
+                          <% }); %>
                       </select>              
                   </div>  
                   <div class="input-box">

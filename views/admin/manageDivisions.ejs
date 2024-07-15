@@ -1,0 +1,66 @@
+<%- include('../include/head.ejs') %>
+<style>
+  .table th, .table td {
+    padding: 1rem;
+    font-size: 1.25rem;
+  }
+  .table td .btn {
+    width: 80px;
+    text-align: center;
+  }
+  .table td form {
+    margin: 0;
+  }
+  .table td .d-flex {
+    gap: 10px;
+  }
+</style>
+</head>
+<body>
+  <%- include('../include/navigation.ejs') %>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">إدارة الأقسام</h5>
+        <form action="/admin/addDivision" method="POST" class="mb-4">
+          <div class="row">
+            <div class="col-md-8">
+              <input type="text" class="form-control" name="divisionName" placeholder="اسم القسم الجديد" required>
+            </div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-primary">إضافة قسم</button>
+            </div>
+          </div>
+        </form>
+        <div class="table-responsive">
+          <table class="table text-nowrap mb-0 align-middle">
+            <thead class="text-dark fs-4">
+              <tr>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">اسم القسم</h6>
+                </th>
+                <th class="border-bottom-0">
+                  <h6 class="fw-semibold mb-0">إجراءات</h6>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% divisions.forEach(function(division) { %>
+                <tr>
+                  <td class="border-bottom-0"><h6 class="fw-semibold mb-0"><%= division %></h6></td>
+                  <td class="border-bottom-0">
+                    <form action="/admin/deleteDivision" method="POST" style="display: inline;">
+                      <input type="hidden" name="divisionName" value="<%= division %>">
+                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من حذف هذا القسم؟')">حـــــذف</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../include/end.ejs') %>

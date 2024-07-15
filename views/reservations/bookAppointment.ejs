@@ -70,11 +70,9 @@
                       <label for="division" class="form-label">الشعبة</label>
                       <select id="division" name="division" class="form-select" required>
                         <option value="">اختر الشعبة</option>
-                        <option value="Qaymariya">قيمرية</option>
-                        <option value="Salihiya">صالحية</option>
-                        <option value="Mezzeh">مزة</option>
-                        <option value="Amara">عمارة</option>
-                        <option value="Maidan">ميدان</option>
+                        <% divisions.forEach(function(division) { %>
+                          <option value="<%= division %>"><%= division %></option>
+                        <% }); %>
                       </select>
                     </div>
                   </div>

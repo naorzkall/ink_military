@@ -1,14 +1,17 @@
 const Reservation = require('../models/reservationModel');
 const moment = require('moment');
+const Settings = require('../models/settings');
 
 // Render the booking appointment view
-exports.getBookAppointmentView = (req, res) => {
+exports.getBookAppointmentView = async (req, res) => {
+  const settings = await Settings.findOne();
+  const divisions = settings ? settings.divisions : [];
   res.render('reservations/bookAppointment', {
     pageTitle: 'حجز موعد',
     path: '/reservations/book',
     availableTimes: [],
     selectedDate: null,
-    divisions: ['Qaymariya', 'Salihiya', 'Mezzeh', 'Amara', 'Maidan']
+    divisions: divisions
   });
 };
 
@@ -23,13 +26,13 @@ exports.getAvailableTimes = async (req, res) => {
   }
 };
 
-const divisionNames = {
-  Qaymariya: 'قيمرية',
-  Salihiya: 'صالحية',
-  Mezzeh: 'مزة',
-  Amara: 'عمارة',
-  Maidan: 'ميدان'
-};
+// const divisionNames = {
+//   Qaymariya: 'قيمرية',
+//   Salihiya: 'صالحية',
+//   Mezzeh: 'مزة',
+//   Amara: 'عمارة',
+//   Maidan: 'ميدان'
+// };
 
 
 // Book a specific appointment
@@ -37,8 +40,7 @@ exports.bookSpecificAppointment = async (req, res) => {
   const { email, name, nationalNumber, date, time, division } = req.body;
   try {
     const reservation = await Reservation.bookSpecificAppointment(email, name, nationalNumber, new Date(date), time, division);
-    const divisionInArabic = divisionNames[division];
-    res.render('reservations/success', { time, division: divisionInArabic });
+    res.render('reservations/success', { time, division });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -72,7 +74,7 @@ exports.getViewAppointmentsViewA = async (req, res) => {
       path: '/reservations/view',
       appointments: appointments,
       moment: moment,
-      divisionNames: divisionNames,
+      // divisionNames: divisionNames,
       selectedDivision: selectedDivision
     });
   } catch (error) {
@@ -98,6 +100,9 @@ exports.getViewAppointmentsView = async (req, res) => {
     if (selectedDivision !== 'all') {
       query.division = selectedDivision;
     }
+    
+    const settings = await Settings.findOne();
+    const divisions = settings ? settings.divisions : [];
 
     const appointments = await Reservation.find(query);
 
@@ -106,7 +111,7 @@ exports.getViewAppointmentsView = async (req, res) => {
       path: '/reservations/view',
       appointments: appointments,
       moment: moment,
-      divisionNames: divisionNames,
+      divisionNames: divisions,
       selectedDivision: selectedDivision
     });
   } catch (error) {

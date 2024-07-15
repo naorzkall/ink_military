@@ -27,5 +27,8 @@ router.post('/editEmployee',validators.validateSignUp,Auth.isAuth,Auth.isAdmin, 
 router.post('/SignStudent',validators.validateStudentSignUp,Auth.isAuth,Auth.isAdmin, adminController.postSignStudent);
 router.post('/editStudent',validators.validateStudentSignUp,Auth.isAuth,Auth.isAdmin, adminController.postEditStudent);
 
+router.get('/manageDivisions', adminController.getDivisions);
+router.post('/addDivision', adminController.addDivision);
+router.post('/deleteDivision', adminController.deleteDivision);
 
 module.exports = router;

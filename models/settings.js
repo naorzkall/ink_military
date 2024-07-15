@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const settingsSchema = new mongoose.Schema({
-  departments: [String],  // حقل يحتوي على (Array) من أسماء الشعب
+  divisions: [String],  // حقل يحتوي على (Array) من أسماء الشعب
   // يمكن إضافة حقول أخرى تتعلق بالإعدادات هنا
 });
 

@@ -37,8 +37,8 @@ const reservationSchema = new Schema({
   },
   division: {
     type: String,
-    required: true,
-    enum: ['Qaymariya', 'Salihiya', 'Mezzeh', 'Amara', 'Maidan']
+    required: true
+    // ,enum: ['Qaymariya', 'Salihiya', 'Mezzeh', 'Amara', 'Maidan']
   },
   resetToken: String,
   resetTokenExpiration: Date
