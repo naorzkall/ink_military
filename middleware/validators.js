@@ -5,10 +5,11 @@ const moment = require('moment');
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nameRegex = /^[A-Za-z\s]{2,50}$/;
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-const divisionRegex = /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF\s\w]+$/;
+// const divisionRegex = /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF\s\w]+$/;
+const divisionRegex = /^[\u0600-\u06FF\s]+$/;
 const phoneNumberRegex = /^09\d{8}$/;
 
-exports.validateSignUp = [
+exports.commonValidations = [
   body('email')
     .isEmail()
     .withMessage('Please enter a valid email.')
@@ -27,8 +28,20 @@ exports.validateSignUp = [
     .withMessage('Division should only contain alphabets and spaces.')
 ];
 
-exports.validateStudentSignUp = [
-  ...exports.validateSignUp,
+exports.validateSignUp = [
+  ...exports.commonValidations,
+  body('email').custom((value, { req }) => {
+    return User.findOne({ email: value }).then(userDoc => {
+      if (userDoc) {
+        return Promise.reject('E-Mail exists already, please pick a different one.');
+      }
+    });
+  })
+];
+
+
+exports.commonValidationsStudent = [
+  ...exports.commonValidations,
   body('nationalNumber')
     .isLength({ min: 11, max: 11 })
     .withMessage('National number must be exactly 11 digits.')
@@ -66,4 +79,15 @@ exports.validateStudentSignUp = [
   body('address')
     .notEmpty()
     .withMessage('Address is required.')
+];
+
+exports.validateSignUpStudent =[
+  ...exports.commonValidationsStudent,
+  body('email').custom((value, { req }) => {
+    return User.findOne({ email: value }).then(userDoc => {
+      if (userDoc) {
+        return Promise.reject('E-Mail exists already, please pick a different one.');
+      }
+    });
+  })
 ];

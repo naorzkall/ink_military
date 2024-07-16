@@ -19,13 +19,13 @@ router.get('/manageUsers',Auth.isAuth,Auth.isAdmin, adminController.manageUsers)
 router.post('/delete-user/:userId',Auth.isAuth,Auth.isAdmin,adminController.deleteUser);
 
 router.post('/SignAdmin',validators.validateSignUp,Auth.isAuth,Auth.isAdmin, adminController.postSignAdmin);
-router.post('/editAdmin',validators.validateSignUp,Auth.isAuth,Auth.isAdmin, adminController.postEditAdmin);
+router.post('/editAdmin',validators.commonValidations,Auth.isAuth,Auth.isAdmin, adminController.postEditAdmin);
 
 router.post('/SignEmployee',validators.validateSignUp,Auth.isAuth,Auth.isAdmin, adminController.postSignEmployee);
-router.post('/editEmployee',validators.validateSignUp,Auth.isAuth,Auth.isAdmin, adminController.postEditEmployee);
+router.post('/editEmployee',validators.commonValidations,Auth.isAuth,Auth.isAdmin, adminController.postEditEmployee);
 
-router.post('/SignStudent',validators.validateStudentSignUp,Auth.isAuth,Auth.isAdmin, adminController.postSignStudent);
-router.post('/editStudent',validators.validateStudentSignUp,Auth.isAuth,Auth.isAdmin, adminController.postEditStudent);
+router.post('/SignStudent',validators.validateSignUpStudent,Auth.isAuth,Auth.isAdmin, adminController.postSignStudent);
+router.post('/editStudent',validators.commonValidationsStudent,Auth.isAuth,Auth.isAdmin, adminController.postEditStudent);
 
 router.get('/manageDivisions', adminController.getDivisions);
 router.post('/addDivision', adminController.addDivision);
