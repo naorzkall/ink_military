@@ -15,7 +15,7 @@ const Student = require('../models/student');
 const Employee = require('../models/employee');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // your email domain
+  service: 'gmail', 
   auth: {
       user: process.env.NODEJS_GMAIL_APP_USER,   // your email address
       pass: process.env.NODEJS_GMAIL_APP_PASSWORD // your password
