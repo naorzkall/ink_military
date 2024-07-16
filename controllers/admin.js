@@ -6,6 +6,8 @@ const dotenv = require('dotenv');
 dotenv.config({path:"config.env"});
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer'); 
+const generateEmailTemplate = require('../controllers/email');
+
 
 const Settings = require('../models/settings');
 const User = require('../models/user');
@@ -248,11 +250,12 @@ exports.postSignAdmin = async (req, res, next) => {
   })
   .then(result => {
     res.redirect('/admin/SignAdmin');
+    const emailHtml = generateEmailTemplate('Signup succeeded!', '<p>تم إنشاء حسابك بنجاح في منصة التأجيل العكسري</p>');
     return transporter.sendMail({
       from: process.env.NODEJS_GMAIL_APP_USER,
       to: email,
-      subject: 'Signup succeeded!',
-      html: "<h1>you successfully signed up.</h1>"
+      subject: 'تم التسجيل بنجاح - ink military',
+      html: emailHtml
     });
   })
   .catch(err => {
@@ -304,13 +307,12 @@ exports.postEditAdmin = async(req, res, next) => {
       })
       .then(result => {
         res.redirect('/');
+        const emailHtml = generateEmailTemplate('update info succeeded!', 'تم تعدبل تعدبل المعلومات في منصة التأجيل العكسري');
         return transporter.sendMail({
+          from: process.env.NODEJS_GMAIL_APP_USER,
           to: email,
-          from: process.env.NODEJS_GMAIL_APP_USER, // sender address,
-          subject: 'your acccount have been edit',
-          html: `
-            <p>info changed successfuly</p>
-          `
+          subject: 'تم تعدبل المعلومات بنجاح - ink military',
+          html: emailHtml
         });
       })
       .catch(err => {
@@ -359,11 +361,12 @@ exports.postSignEmployee = async(req, res, next) => {
   })
   .then(result => {
     res.redirect('/admin/SignEmployee');
+    const emailHtml = generateEmailTemplate('Signup succeeded!', 'تم إنشاء حسابك بنجاح في منصة التأجيل العكسري');
     return transporter.sendMail({
       from: process.env.NODEJS_GMAIL_APP_USER,
       to: email,
-      subject: 'Signup succeeded!',
-      html: "<h1>you successfully signed up.</h1>"
+      subject: 'تم التسجيل بنجاح - ink military',
+      html: emailHtml
     });
   })
   .catch(err => {
@@ -414,13 +417,12 @@ exports.postEditEmployee = async (req, res, next) => {
       })
       .then(result => {
         res.redirect('/');
+        const emailHtml = generateEmailTemplate('update info succeeded!', 'تم تعدبل تعدبل المعلومات في منصة التأجيل العكسري');
         return transporter.sendMail({
+          from: process.env.NODEJS_GMAIL_APP_USER,
           to: email,
-          from: process.env.NODEJS_GMAIL_APP_USER, // sender address,
-          subject: 'your acccount have been edit',
-          html: `
-            <p>info changed successfuly</p>
-          `
+          subject: 'تم تعدبل المعلومات بنجاح - ink military',
+          html: emailHtml
         });
       })
       .catch(err => {
@@ -481,11 +483,12 @@ exports.postSignStudent = async(req, res, next) => {
   })
   .then(result => {
     res.redirect('/admin/SignStudent');
+    const emailHtml = generateEmailTemplate('Signup succeeded!', 'تم إنشاء حسابك بنجاح في منصة التأجيل العكسري');
     return transporter.sendMail({
       from: process.env.NODEJS_GMAIL_APP_USER,
       to: email,
-      subject: 'Signup succeeded!',
-      html: "<h1>you successfully signed up.</h1>"
+      subject: 'تم التسجيل بنجاح - ink military',
+      html: emailHtml
     });
   })
   .catch(err => {
@@ -548,13 +551,12 @@ exports.postEditStudent = async(req, res, next) => {
       })
       .then(result => {
         res.redirect('/');
+        const emailHtml = generateEmailTemplate('update info succeeded!', 'تم تعدبل تعدبل المعلومات في منصة التأجيل العكسري');
         return transporter.sendMail({
+          from: process.env.NODEJS_GMAIL_APP_USER,
           to: email,
-          from: process.env.NODEJS_GMAIL_APP_USER, // sender address,
-          subject: 'your acccount have been edit',
-          html: `
-            <p>info changed successfuly</p>
-          `
+          subject: 'تم تعدبل المعلومات بنجاح - ink military',
+          html: emailHtml
         });
       })
       .catch(err => {
