@@ -5,14 +5,30 @@ dotenv.config({path:"config.env"});
 const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 const PDFDocument = require('pdfkit');
 const Student = require('../models/student');
+const DefermentRequest = require('../models/defermentRequest'); // Adjust the path as needed
 
+exports.addRequest = async (req, res, next) => {
+  try {
+    const studentId = req.user._id;
 
+    const existingRequest = await DefermentRequest.findOne({ userId: studentId });
 
-exports.getMyReq = (req, res, next) => {
-  res.render('platform/myrequest', {
-    path: '/myrequest',
-    pageTitle: 'myrequest'
-  });
+    if (existingRequest) {
+      return res.redirect('/deferment-requests/my-requests');
+    }
+
+    res.render('platform/addRequest', {
+      path: '/addRequest',
+      pageTitle: 'addRequest'
+    });
+  } catch (error) {
+    console.error('Error checking for existing deferment request:', error);
+    res.status(500).render('404', {
+      pageTitle: 'Error',
+      path: '/error',
+      error: 'An error occurred while processing your request.'
+    });
+  }
 };
 
 exports.getIncReqs = (req, res, next) => {

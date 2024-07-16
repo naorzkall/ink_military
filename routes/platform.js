@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/',Auth.isAuth, newsController.getAllNews);
 
-router.get('/myrequest',Auth.isAuth, platformController.getMyReq);
+router.get('/addRequest',Auth.isAuth, platformController.addRequest);
 
 router.get('/incomingRequests',Auth.isAuth, platformController.getIncReqs);
 
