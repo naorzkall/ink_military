@@ -17,13 +17,20 @@
                   <img src="/assets/images/logos/logo.svg" width="180" alt="margin-left: 30%" />
                 </a>
                 <p class="text-center">منصة التأجيل الدراسي</p>
+                <% if (errorMessage) { %>
+                  <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+                    <i class="ti ti-alert-circle-filled fs-5 me-2"></i>
+                    <div><%= errorMessage %></div>
+                  </div>
+                <% } %>
                 <form action="/login" method="POST">
                   <div class="mb-3">
                     <label for="email" class="form-label">العنوان البريدي</label>
                     <input type="email" 
                     class="form-control" 
                     name="email" 
-                    id="email"  
+                    id="email"
+                    value="<%= oldInput.email %>" 
                     aria-describedby="emailHelp">
                   </div>
                   <div class="mb-4">
@@ -31,7 +38,8 @@
                     <input type="password"
                       class="form-control" 
                       name="password" 
-                      id="password" >
+                      id="password" 
+                      value="<%= oldInput.password %>">
                   </div>
                   <div class="d-flex align-items-center justify-content-between mb-4">
                     <div class="form-check">

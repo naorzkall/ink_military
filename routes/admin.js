@@ -21,7 +21,16 @@ router.post('/delete-user/:userId',Auth.isAuth,Auth.isAdmin,adminController.dele
 router.post('/SignAdmin',validators.validateSignUp,Auth.isAuth,Auth.isAdmin, adminController.postSignAdmin);
 router.post('/editAdmin',validators.validateSignUp,Auth.isAuth,Auth.isAdmin, adminController.postEditAdmin);
 
-router.post('/SignEmployee',validators.validateSignUp,Auth.isAuth,Auth.isAdmin, adminController.postSignEmployee);
+router.post('/SignEmployee',validators.validateSignUp,[
+    body('email')
+    .custom((value, { req }) => {
+        return User.findOne({ email: value }).then(userDoc => {
+          if (userDoc) {
+            return Promise.reject('E-Mail exists already, please pick a different one.');
+          }
+        });
+      })
+],Auth.isAuth,Auth.isAdmin, adminController.postSignEmployee);
 router.post('/editEmployee',validators.validateSignUp,Auth.isAuth,Auth.isAdmin, adminController.postEditEmployee);
 
 router.post('/SignStudent',validators.validateStudentSignUp,Auth.isAuth,Auth.isAdmin, adminController.postSignStudent);

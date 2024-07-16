@@ -209,12 +209,14 @@ exports.deleteUser = async (req, res, next) => {
 
 // **************************************post request***************************************************88
 
-exports.postSignAdmin = (req, res, next) => {
+exports.postSignAdmin = async (req, res, next) => {
   const {name,email,password,division}=req.body;
 
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
+    const settings = await Settings.findOne();
+    const divisions = settings ? settings.divisions : [];
     return res.status(422).render('admin/SignAdmin', {
       pageTitle: 'Sign Admin',
       path: '/admin/edit-product',
@@ -227,7 +229,8 @@ exports.postSignAdmin = (req, res, next) => {
         division: division
       },
       errorMessage: errors.array()[0].msg,
-      validationErrors: errors.array()
+      validationErrors: errors.array(),
+      divisions:divisions
     });
   }
 
@@ -260,13 +263,15 @@ exports.postSignAdmin = (req, res, next) => {
   });  
 };
 
-exports.postEditAdmin = (req, res, next) => {
+exports.postEditAdmin = async(req, res, next) => {
   const {name,email,password:newPassword,division,adminId}=req.body;
 
   let admin = null;
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    const settings = await Settings.findOne();
+    const divisions = settings ? settings.divisions : [];
     return res.status(422).render('admin/SignAdmin', {
       pageTitle: 'Edit Admin',
       path: '/admin/SignAdmin',
@@ -280,7 +285,8 @@ exports.postEditAdmin = (req, res, next) => {
         _id:adminId
       },
       errorMessage: errors.array()[0].msg,
-      validationErrors: errors.array()
+      validationErrors: errors.array(),
+      divisions:divisions
     });
   }
 
@@ -314,12 +320,14 @@ exports.postEditAdmin = (req, res, next) => {
       });
 };
 
-exports.postSignEmployee = (req, res, next) => {
+exports.postSignEmployee = async(req, res, next) => {
   const {name,email,password,division}=req.body;
 
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
+    const settings = await Settings.findOne();
+    const divisions = settings ? settings.divisions : [];
     return res.status(422).render('admin/SignEmployee', {
       pageTitle: 'Sign Employee',
       path: '/admin/SignEmployee',
@@ -332,7 +340,8 @@ exports.postSignEmployee = (req, res, next) => {
         division: division
       },
       errorMessage: errors.array()[0].msg,
-      validationErrors: errors.array()
+      validationErrors: errors.array(),
+      divisions:divisions
     });
   }
 
@@ -365,12 +374,14 @@ exports.postSignEmployee = (req, res, next) => {
   });  
 };
 
-exports.postEditEmployee = (req, res, next) => {
+exports.postEditEmployee = async (req, res, next) => {
   const {name,email,password:newPassword,division,employeeId}=req.body;
   let employee = null;
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    const settings = await Settings.findOne();
+    const divisions = settings ? settings.divisions : [];
     return res.status(422).render('admin/SignEmployee', {
       pageTitle: 'Edit Employee',
       path: '/admin/SignEmployee',
@@ -384,7 +395,8 @@ exports.postEditEmployee = (req, res, next) => {
         _id:employeeId
       },
       errorMessage: errors.array()[0].msg,
-      validationErrors: errors.array()
+      validationErrors: errors.array(),
+      divisions:divisions
     });
   }
 
@@ -418,12 +430,14 @@ exports.postEditEmployee = (req, res, next) => {
       });
 };
 
-exports.postSignStudent = (req, res, next) => {
+exports.postSignStudent = async(req, res, next) => {
   const {name,email,password,nationalNumber,militaryNumber,birthdate,phoneNumber, delayedTo,division,address} = req.body;
 
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
+    const settings = await Settings.findOne();
+    const divisions = settings ? settings.divisions : [];
     return res.status(422).render('admin/SignStudent', {
       pageTitle: 'Sign Student',
       path: '/admin/SignStudent',
@@ -442,7 +456,8 @@ exports.postSignStudent = (req, res, next) => {
         address:address
       },
       errorMessage: errors.array()[0].msg,
-      validationErrors: errors.array()
+      validationErrors: errors.array(),
+      divisions:divisions
     });
   }
 
@@ -481,12 +496,14 @@ exports.postSignStudent = (req, res, next) => {
   });  
 };
 
-exports.postEditStudent = (req, res, next) => {
+exports.postEditStudent = async(req, res, next) => {
   const {name,email,password: newPassword,nationalNumber,militaryNumber,birthdate,phoneNumber, delayedTo,division,address,studentId} = req.body;
   let student = null;  
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    const settings = await Settings.findOne();
+    const divisions = settings ? settings.divisions : [];
     return res.status(422).render('admin/SignStudent', {
       pageTitle: 'Edit Student',
       path: '/admin/SignAdmin',
@@ -506,7 +523,8 @@ exports.postEditStudent = (req, res, next) => {
         _id:studentId
       },
       errorMessage: errors.array()[0].msg,
-      validationErrors: errors.array()
+      validationErrors: errors.array(),
+      divisions:divisions
     });
   }
 

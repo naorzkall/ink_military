@@ -5,7 +5,7 @@ const moment = require('moment');
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nameRegex = /^[A-Za-z\s]{2,50}$/;
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-const divisionRegex = /^[A-Za-z\s]+$/;
+const divisionRegex = /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF\s\w]+$/;
 const phoneNumberRegex = /^09\d{8}$/;
 
 exports.validateSignUp = [
@@ -14,14 +14,7 @@ exports.validateSignUp = [
     .withMessage('Please enter a valid email.')
     .matches(emailRegex)
     .withMessage('Invalid email format.')
-    .normalizeEmail()
-    .custom((value, { req }) => {
-      return User.findOne({ email: value }).then(userDoc => {
-        if (userDoc) {
-          return Promise.reject('E-Mail exists already, please pick a different one.');
-        }
-      });
-    }),
+    .normalizeEmail(),
   body('name')
     .matches(nameRegex)
     .withMessage('Name should only contain alphabets and spaces, and be between 2 and 50 characters long.')

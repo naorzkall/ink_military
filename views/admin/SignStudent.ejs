@@ -89,7 +89,7 @@
                             placeholder="اختر الشعبة...">
                           <option value="">اختر الشعبة</option>
                           <% divisions.forEach(function(division) { %>
-                            <option value="<%= division %>" <% if ((editing || hasError) && admin.division === division) { %>selected<% } %>><%= division %></option>
+                            <option value="<%= division %>" <% if ((editing || hasError) && student.division === division) { %>selected<% } %>><%= division %></option>
                           <% }); %>
                     </select>               
                   </div> 

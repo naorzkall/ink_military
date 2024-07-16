@@ -21,32 +21,17 @@ exports.getLogin = (req, res, next) => {
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'Login',
+    errorMessage:null,
     oldInput: {
       email: '',
       password: ''
-    },
-    validationErrors: []
-  });;
+    }
+    });
 };
 
 exports.postLogin = (req, res, next) => {
-  // console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
-
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return res.status(422).render('auth/login', {
-  //     path: '/login',
-  //     pageTitle: 'Login',
-  //     errorMessage: errors.array()[0].msg,
-  //     oldInput: {
-  //       email: email,
-  //       password: password
-  //     },
-  //     validationErrors: errors.array()
-  //   });
-  // }
 
   User.findOne({ email: email })
     .then(user => {
@@ -58,8 +43,7 @@ exports.postLogin = (req, res, next) => {
           oldInput: {
             email: email,
             password: password
-          },
-          validationErrors: []
+          }
         });
       }
       bcrypt
