@@ -4,12 +4,14 @@ const path = require('path');
 const fs = require('fs');
 // Get all news
 exports.getAllNews = async (req, res) => {
+    const userType= req.user.user_type;
     try {
         const news = await News.find();
         res.render('news/all-news', { 
           path: '/all-news',
           pageTitle: 'Signin Student',
           news,
+          userType:userType
          });
     } catch (error) {
         console.error(error);
@@ -53,5 +55,21 @@ exports.postAddNews = (req, res) => {
     } catch (error) {
       console.error(error);
       res.status(500).send('Server error');
+    }
+  };
+
+  exports.deleteNews = async (req, res, next) => {
+    // console.log("gg")
+    const newsId = req.body.newsId;
+    try {
+      const result = await News.findByIdAndDelete(newsId);
+  
+      if (!result) {
+        return res.status(404).json({ message: 'News item not found' });
+      }
+      res.redirect('/');
+    } catch (error) {
+      console.error('Error deleting news item:', error);
+      res.status(500).json({ message: 'An error occurred while deleting the news item' });
     }
   };

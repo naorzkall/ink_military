@@ -20,13 +20,20 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text">تاريخ النشر: <%= new Date(item.createdAt).toLocaleDateString('ar-EG') %></p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newsModal<%= item._id %>">
-                            اقرأ المزيد
-                            </button>
-                        </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newsModal<%= item._id %>">
+                                اقرأ المزيد
+                              </button>
+                              <% if (userType === 'Admin') { %>
+                                <form method="POST" action="/news/delete-news" enctype="multipart/form-data" class="m-0">
+                                  <input type="hidden" name="newsId" value="<%= item._id %>">
+                                  <button type="submit" class="btn btn-danger">حــــــــذف</button>
+                                </form>
+                              <% } %>
+                            </div>
+                          </div>
                         </div>
                     </div>
-            
                     <!-- Modal for news content -->
                     <div class="modal fade" id="newsModal<%= item._id %>" tabindex="-1" aria-labelledby="newsModalLabel<%= item._id %>" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
