@@ -213,6 +213,7 @@ exports.getUserRequests = async (req, res) => {
         const userId = req.user._id;
         const requests = await DefermentRequest.find({ userId }).populate('userId', 'name email');
         res.render('deferment-requests/user-requests', { 
+            mes:"",
             requests,
             pageTitle: 'طلباتي',
             path: 'deferment-requests/my-requests' });

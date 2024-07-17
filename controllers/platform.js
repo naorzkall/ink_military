@@ -12,10 +12,16 @@ exports.addRequest = async (req, res, next) => {
   try {
     const studentId = req.user._id;
 
-    const existingRequest = await DefermentRequest.findOne({ userId: studentId });
-
-    if (existingRequest) {
-      return res.redirect('/deferment-requests/my-requests');
+    const requests = await DefermentRequest.find({ userId: req.user._id, status: { $ne: 'مرفوض' } }).populate('userId');
+    
+    if (requests.length > 0) {
+        res.render('deferment-requests/user-requests', { 
+            mes: "لديك طلب تأجيل قيد المعالجة أو تم إنجازه.",
+            requests,
+            pageTitle: 'طلباتي',
+            path: 'deferment-requests/my-requests'
+        });
+        return;
     }
 
     res.render('platform/addRequest', {

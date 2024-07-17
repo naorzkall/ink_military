@@ -5,6 +5,13 @@
   <%- include('../include/navigation.ejs') %>
   <div class="container-fluid vh-100">
     <div class="row mt-4">
+      <% if (mes) { %>
+        <div class="col-md-12">
+          <div class="alert alert-info" role="alert">
+            <%= mes %>
+          </div>
+        </div>
+      <% } %>
       <% if (requests.length > 0) { %>
         <% requests.forEach(request => { %>
           <div class="col-md-4 mb-4">

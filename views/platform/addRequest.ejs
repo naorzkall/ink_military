@@ -9,11 +9,11 @@
       <form id="defermentForm" method="POST" action="/deferment-requests/submit" enctype="multipart/form-data">
         <div class="upload-box mb-4">
           <input type="file" name="identity" id="identityInput" required>
-          <label for="identityInput">Upload Identity Document</label>
+          <label for="identityInput">ارفع مصدقة التاجيل هنا </label>
         </div>
         <div class="upload-box mb-4">
           <input type="file" name="certificate" id="certificateInput" required>
-          <label for="certificateInput">Upload Certificate Document</label>
+          <label for="certificateInput">ارفع صورة الهوية هنا</label>
         </div>
         <button id="submitButton" class="btn btn-primary mt-2 w-100">إرسال الطلب</button>
       </form>
@@ -22,11 +22,11 @@
   </div>
   <script>
     document.getElementById('identityInput').addEventListener('change', function(event) {
-      handleFileUpload(event.target.files[0], 'identity');
+      handleFileUpload(event.target.files[0], 'مصدقة التاجيل');
     });
 
     document.getElementById('certificateInput').addEventListener('change', function(event) {
-      handleFileUpload(event.target.files[0], 'certificate');
+      handleFileUpload(event.target.files[0], 'صورة الهوية');
     });
 
     function handleFileUpload(file, type) {
