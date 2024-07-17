@@ -7,6 +7,7 @@ const PDFDocument = require('pdfkit');
 const Student = require('../models/student');
 const DefermentRequest = require('../models/defermentRequest'); // Adjust the path as needed
 
+
 exports.addRequest = async (req, res, next) => {
   try {
     const studentId = req.user._id;
@@ -46,9 +47,11 @@ exports.getInProgress = (req, res, next) => {
 };
 
 exports.getProfile = (req, res, next) => {
+  const student = req.user;
   res.render('platform/MyProfile', {
     path: '/MyProfile',
-    pageTitle: 'my profile'
+    pageTitle: 'my profile',
+    student:student
   });
 };
 
