@@ -13,9 +13,17 @@
                 <h2><%= request.userId.name %></h2>
               </div>
               <div class="card-body">
-                <!-- <h5 class="card-title"><%= request.division %></h5> -->
                 <p class="card-text">حالة الطلب: <%= request.status %></p>
                 <p class="card-text">تاريخ الطلب: <%= new Date(request.createdAt).toLocaleDateString() %></p>
+                
+                <% if (request.status === 'مقبول' && request.defermentDocumentUrl) { %>
+                  <div class="mt-3">
+                    <h5>مستند التأجيل:</h5>
+                    <a href="/<%= request.defermentDocumentUrl %>" class="btn btn-primary" download>
+                      <i class="ti ti-download me-2"></i>تحميل المستند
+                    </a>
+                  </div>
+                <% } %>
               </div>
             </div>
           </div>
@@ -27,6 +35,4 @@
       <% } %>
     </div>
   </div>
-  <%- include('../include/end.ejs') %>
-</body>
-</html>
+<%- include('../include/end.ejs') %>

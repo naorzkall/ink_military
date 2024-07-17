@@ -33,7 +33,7 @@ exports.submitDefermentRequest = async (req, res, next) => {
 exports.getAllRequests = async (req, res) => {
     try {
         const userType = req.user.user_type;
-        console.log(userType);
+        // console.log(userType);
         const { division } = req.user;
 
         // Fetch deferment requests from the database based on the user's division
@@ -136,13 +136,32 @@ exports.approveRequest = async (req, res) => {
     try {
         const requestId = req.params.id;
         
-        // Update the request status to 'approved'
+        let defermentDocumentUrl = null;
+
+        if (req.files && req.files.defermentDocument && req.files.defermentDocument[0]) {
+            const defermentDocument = req.files.defermentDocument[0];
+            defermentDocumentUrl = defermentDocument.path.replace("\\", "/");
+        }
+
+        // Update the request status to 'approved' and add the document URL if it exists
+        const updateData = { status: 'مقبول' };
+        if (defermentDocumentUrl) {
+            updateData.defermentDocumentUrl = defermentDocumentUrl;
+        }
+
         const request = await DefermentRequest.findOneAndUpdate(
             { _id: requestId, status: 'يعالج' },
-            { status: 'مقبول' }
+            updateData,
+            { new: true }
         );
         
         if (!request) {
+            // If a file was uploaded, delete it
+            if (defermentDocumentUrl) {
+                fs.unlink(path.join(__dirname, '..', defermentDocumentUrl), (err) => {
+                    if (err) console.error('Error deleting file:', err);
+                });
+            }
             return res.status(404).send('Request not found or not in processing state');
         }
 
@@ -193,7 +212,10 @@ exports.getUserRequests = async (req, res) => {
     try {
         const userId = req.user._id;
         const requests = await DefermentRequest.find({ userId }).populate('userId', 'name email');
-        res.render('deferment-requests/user-requests', { requests, pageTitle: 'طلباتي', path: 'deferment-requests/my-requests' });
+        res.render('deferment-requests/user-requests', { 
+            requests,
+            pageTitle: 'طلباتي',
+            path: 'deferment-requests/my-requests' });
     } catch (error) {
         console.error(error);
         res.status(500).send('خطأ في السيرفر');

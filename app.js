@@ -56,7 +56,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).fields([
   { name: 'identity', maxCount: 1 },
   { name: 'certificate', maxCount: 1 },
-  {name : 'image', maxCount: 1}
+  {name : 'image', maxCount: 1},
+  { name: 'defermentDocument', maxCount: 1 }
 ]));
 
 app.use(express.static(path.join(__dirname, 'public')));

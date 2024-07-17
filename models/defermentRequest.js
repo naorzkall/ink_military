@@ -27,6 +27,10 @@ const defermentRequestSchema = new Schema({
     feedback: {
         type: String
     },
+    defermentDocumentUrl: {
+        type: String,
+        default: null
+    },
     processedBy: {
         type: Schema.Types.ObjectId,
         ref: 'Employee'
