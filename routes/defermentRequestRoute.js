@@ -27,6 +27,9 @@ router.get('/allRequests',Auth.isAuth, defermentRequestController.getAllRequests
 router.get('/viewRequest/:id',Auth.isAuth, defermentRequestController.viewRequest);
 
 router.post('/deleteRequest/:id',Auth.isAuth, defermentRequestController.deleteRequest);
+
+router.post('/request/:id/reject-with-resend',Auth.isAuth,Auth.isEmployee, defermentRequestController.rejectRequestWithResend);
+
 // عرض تفاصيل طلب محدد
 // router.get('/request/:requestId', defermentRequestController.getRequestDetails);
 

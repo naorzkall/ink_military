@@ -2,51 +2,70 @@
 </head>
 <body>
   <%- include('../include/navigation.ejs') %>
-  <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
-    <div class="col-md-10 col-lg-8 col-xl-6">
-      <% if (request) { %>
-        <div class="card position-relative">
-          <div class="position-absolute top-0 start-50 translate-middle-x" style="margin-top: -25px;">
-            <% if (request.status === 'مقبول') { %>
-              <i class="ti ti-circle-check text-success" style="font-size: 5rem; background-color: white; border-radius: 50%; padding: 5px;"></i>
-            <% } else if (request.status === 'مرفوض') { %>
-              <i class="ti ti-circle-x text-danger" style="font-size: 5rem; background-color: white; border-radius: 50%; padding: 5px;"></i>
-            <% } else if (request.status === 'يعالج' || request.status === 'قيد المعالجة') { %>
-              <i class="ti ti-hourglass text-warning" style="font-size: 5rem; background-color: white; border-radius: 50%; padding: 5px;"></i>
-            <% } %>
+  <div class="container-fluid">
+    <% if (mes) { %>
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-6">
+          <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+            <%= mes %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
-          <div class="card-header text-center pt-5 mt-4">
-            <h2><%= request.userId.name %></h2>
-          </div>
-          <div class="card-body align-items-center">
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <h5 class="card-text"><strong>حالة الطلب:</strong>
-                  <span class="badge bg-<%= request.status === 'مقبول' ? 'success' : (request.status === 'مرفوض' ? 'danger' : 'warning') %> me-3">
-                    <%= request.status %>
-                  </span>
-                </h5>
-              </div>
-              <div class="col-md-6 mb-3">
-                <h5 class="card-text"><strong>تاريخ الطلب:</strong>&nbsp&nbsp&nbsp&nbsp<%= new Date(request.createdAt).toLocaleDateString('ar-EG') %></h5>
-              </div>
+        </div>
+      </div>
+    <% } %>
+    <div class="row justify-content-center align-items-center vh-100">
+      <div class="col-md-10 col-lg-8 col-xl-6">
+        <% if (request) { %>
+          <div class="card position-relative">
+            <div class="position-absolute top-0 start-50 translate-middle-x" style="margin-top: -25px;">
+              <% if (request.status === 'مقبول') { %>
+                <i class="ti ti-circle-check text-success" style="font-size: 5rem; background-color: white; border-radius: 50%; padding: 5px;"></i>
+              <% } else if (request.status === 'مرفوض' || request.status === 'مرفوض مع قابلية اعادة ارسال طلب') { %>
+                <i class="ti ti-circle-x text-danger" style="font-size: 5rem; background-color: white; border-radius: 50%; padding: 5px;"></i>
+              <% } else if (request.status === 'يعالج' || request.status === 'قيد المعالجة') { %>
+                <i class="ti ti-hourglass text-warning" style="font-size: 5rem; background-color: white; border-radius: 50%; padding: 5px;"></i>
+              <% } %>
             </div>
-           
-            <% if (request.status === 'مقبول' && request.defermentDocumentUrl) { %>
-              <div class="mt-4 d-inline-flex align-items-center">
-                <h5 class="mb-2 ms-3">مستند التأجيل:</h5>
-                <a href="/<%= request.defermentDocumentUrl %>" class="btn btn-primary mb-3" download>
-                  <i class="ti ti-download ms-2"></i>تحميل المستند
-                </a>
+            <div class="card-header text-center pt-5 mt-4">
+              <h2><%= request.userId.name %></h2>
+            </div>
+            <div class="card-body align-items-center">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <h5 class="card-text"><strong>حالة الطلب:</strong>
+                    <span class="badge bg-<%= request.status === 'مقبول' ? 'success' : (request.status === 'مرفوض' || request.status === 'مرفوض مع قابلية اعادة ارسال طلب' ? 'danger' : 'warning') %> me-3">
+                      <%= request.status %>
+                    </span>
+                  </h5>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <h5 class="card-text"><strong>تاريخ الطلب:</strong>&nbsp&nbsp&nbsp&nbsp<%= new Date(request.createdAt).toLocaleDateString('ar-EG') %></h5>
+                </div>
               </div>
-            <% } %>
+
+              <% if (request.status === 'مرفوض' || request.status === 'مرفوض مع قابلية اعادة ارسال طلب') { %>
+                <div class="alert alert-danger mt-3">
+                  <h5 class="mb-2"><strong>سبب الرفض:</strong></h5>
+                  <p class="mb-0"><%= request.feedback %></p>
+                </div>
+              <% } %>
+
+              <% if (request.status === 'مقبول' && request.defermentDocumentUrl) { %>
+                <div class="mt-4 d-inline-flex align-items-center">
+                  <h5 class="mb-2 ms-3">مستند التأجيل:</h5>
+                  <a href="/<%= request.defermentDocumentUrl %>" class="btn btn-primary mb-3" download>
+                    <i class="ti ti-download ms-2"></i>تحميل المستند
+                  </a>
+                </div>
+              <% } %>
+            </div>
           </div>
-        </div>
-      <% } else { %>
-        <div class="col-md-12">
-          <p class="text-center">لا يوجد طلب تاجيل مرسل في الوقت الراهن</p>
-        </div>
-      <% } %>
+        <% } else { %>
+          <div class="col-md-12">
+            <p class="text-center">لا يوجد طلب تاجيل مرسل في الوقت الراهن</p>
+          </div>
+        <% } %>
+      </div>
     </div>
   </div>
 </body>

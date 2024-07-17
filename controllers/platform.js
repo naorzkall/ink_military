@@ -12,12 +12,27 @@ exports.addRequest = async (req, res, next) => {
   try {
     const studentId = req.user._id;
 
-    const existingRequest = await DefermentRequest.findOne({ userId: studentId });
+    //const existingRequest = await DefermentRequest.findOne({ userId: studentId });
+    const currentYear = new Date().getFullYear();
+    const startOfYear = new Date(currentYear, 0, 1); // بداية السنة الحالية
+    const endOfYear = new Date(currentYear + 1, 0, 1); // بداية السنة القادمة
+    
+    const request = await DefermentRequest.findOne({
+      userId: studentId,
+      status: { $ne: 'مرفوض مع قابلية اعادة ارسال طلب' },
+      createdAt: { $gte: startOfYear, $lt: endOfYear }
+    }).populate('userId', 'name email');
+    console.log(request)
 
-    if (existingRequest) {
-      return res.redirect('/deferment-requests/my-request');
-    }
-
+    if (request) {
+        res.render('deferment-requests/user-request', { 
+            mes: "لديك طلب تأجيل قيد المعالجة أو تم إنجازه.",
+            request,
+            pageTitle: 'طلباتي',
+            path: 'deferment-requests/user-request'
+        });
+        return;
+      }
     res.render('platform/addRequest', {
       path: '/addRequest',
       pageTitle: 'addRequest'

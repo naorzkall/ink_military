@@ -207,13 +207,50 @@ exports.rejectRequest = async (req, res) => {
     }
 };
 
+exports.rejectRequestWithResend = async (req, res) => {
+    try {
+        const requestId = req.params.id;
+        const { feedback } = req.body;
+
+        // Update the request status to 'rejected' and add feedback
+        const request = await DefermentRequest.findOneAndUpdate(
+            { _id: requestId, status: 'يعالج' },
+            { status: 'مرفوض مع قابلية اعادة ارسال طلب', feedback }
+        );
+        
+        if (!request) {
+            return res.status(404).send('Request not found or not in processing state');
+        }
+
+        // Remove the request from employee's cart
+        await Employee.updateOne(
+            { _id: req.user._id },
+            { $pull: { 'cart.items': { request: requestId } } }
+        );
+
+        res.redirect(`/deferment-requests/all`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('خطأ في السيرفر');
+    }
+};
 
 exports.getUserRequest = async (req, res) => {
     try {
         const userId = req.user._id;
-        const request = await DefermentRequest.findOne({ userId }).populate('userId', 'name email');
+        const currentYear = new Date().getFullYear();
+        const startOfYear = new Date(currentYear, 0, 1); // بداية السنة الحالية
+        const endOfYear = new Date(currentYear + 1, 0, 1); // بداية السنة القادمة
+
+        const request = await DefermentRequest.findOne({
+            userId,
+            createdAt: { $gte: startOfYear, $lt: endOfYear } // تحديد الطلبات في السنة الحالية
+            }).sort({ createdAt: -1 }) // ترتيب تنازلي حسب تاريخ الإنشاء
+            .populate('userId', 'name email');
+
         console.log(request)
         res.render('deferment-requests/user-request', { 
+            mes:"",
             request,
             pageTitle: 'طلباتي',
             path: 'deferment-requests/my-request' 

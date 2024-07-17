@@ -87,7 +87,7 @@
               <h5 class="modal-title" id="rejectModalLabel">رفض الطلب</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/deferment-requests/request/<%= request._id %>/reject" method="POST">
+            <form id="rejectForm" action="/deferment-requests/request/<%= request._id %>/reject" method="POST">
               <div class="modal-body">
                 <div class="mb-3">
                   <label for="feedback" class="form-label">سبب الرفض</label>
@@ -96,7 +96,8 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلــغــاء</button>
-                <button type="submit" class="btn btn-danger">تأكيد الرفض</button>
+                <button type="button" class="btn btn-danger" id="rejectButton">تأكيد الرفض</button>
+                <button type="button" class="btn btn-danger" id="rejectWithResendButton">تأكيد الرفض مع قابلية اعادة الارسال</button>
               </div>
             </form>
           </div>
@@ -105,4 +106,17 @@
     </div>
   </div>
 </div>
+<script>
+  document.getElementById('rejectButton').addEventListener('click', function() {
+    var form = document.getElementById('rejectForm');
+    form.action = '/deferment-requests/request/<%= request._id %>/reject';
+    form.submit();
+  });
+
+  document.getElementById('rejectWithResendButton').addEventListener('click', function() {
+    var form = document.getElementById('rejectForm');
+    form.action = '/deferment-requests/request/<%= request._id %>/reject-with-resend';
+    form.submit();
+  });
+</script>
 <%- include('../include/end.ejs') %>
