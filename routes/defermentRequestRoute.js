@@ -16,7 +16,7 @@ router.post('/request/:id/approve',Auth.isAuth,Auth.isEmployee, defermentRequest
 //رفض طلب
 router.post('/request/:id/reject',Auth.isAuth,Auth.isEmployee, defermentRequestController.rejectRequest);
 //طلبات اليوسر
-router.get('/my-requests',Auth.isAuth,Auth.isStudent, defermentRequestController.getUserRequests);
+router.get('/my-request',Auth.isAuth,Auth.isStudent, defermentRequestController.getUserRequest);
 //جيب السلة
 router.get('/myWorklist',Auth.isAuth,Auth.isEmployee, defermentRequestController.getEmployeeCart);
 // معالجة من السلة

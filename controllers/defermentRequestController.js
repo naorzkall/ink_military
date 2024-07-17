@@ -208,15 +208,16 @@ exports.rejectRequest = async (req, res) => {
 };
 
 
-exports.getUserRequests = async (req, res) => {
+exports.getUserRequest = async (req, res) => {
     try {
         const userId = req.user._id;
-        const requests = await DefermentRequest.find({ userId }).populate('userId', 'name email');
-        res.render('deferment-requests/user-requests', { 
-            mes:"",
-            requests,
+        const request = await DefermentRequest.findOne({ userId }).populate('userId', 'name email');
+        console.log(request)
+        res.render('deferment-requests/user-request', { 
+            request,
             pageTitle: 'طلباتي',
-            path: 'deferment-requests/my-requests' });
+            path: 'deferment-requests/my-request' 
+        });
     } catch (error) {
         console.error(error);
         res.status(500).send('خطأ في السيرفر');
