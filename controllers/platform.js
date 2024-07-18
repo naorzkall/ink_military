@@ -19,7 +19,7 @@ exports.addRequest = async (req, res, next) => {
     
     const request = await DefermentRequest.findOne({
       userId: studentId,
-      status: { $ne: 'مرفوض مع قابلية اعادة ارسال طلب' },
+      status: { $ne: 'مرفوض - للتعديل' },
       createdAt: { $gte: startOfYear, $lt: endOfYear }
     }).populate('userId', 'name email');
     console.log(request)

@@ -215,7 +215,7 @@ exports.rejectRequestWithResend = async (req, res) => {
         // Update the request status to 'rejected' and add feedback
         const request = await DefermentRequest.findOneAndUpdate(
             { _id: requestId, status: 'يعالج' },
-            { status: 'مرفوض مع قابلية اعادة ارسال طلب', feedback }
+            { status: 'مرفوض - للتعديل', feedback }
         );
         
         if (!request) {
