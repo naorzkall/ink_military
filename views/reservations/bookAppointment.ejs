@@ -12,6 +12,12 @@
             <a href="/" class="d-flex align-items-center justify-content-center text-nowrap logo-img">
               <img src="/assets/images/logos/logo.svg" width="180" alt="margin-left: 30%" />
             </a>
+            <% if (errorMessage) { %>
+              <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+                <i class="ti ti-alert-circle-filled fs-5 me-2"></i>
+                <div><%= errorMessage %></div>
+              </div>
+            <% } %>
               <h5 class="text-center">حجز موعد</h5>
               <form action="/reservations/book" method="POST" class="form" id="bookForm">
                 <div class="row">

@@ -1,15 +1,18 @@
 const Reservation = require('../models/reservationModel');
 const moment = require('moment');
 const Settings = require('../models/settings');
+const { validationResult } = require('express-validator');
+
 
 // Render the booking appointment view
 exports.getBookAppointmentView = async (req, res) => {
   const settings = await Settings.findOne();
   const divisions = settings ? settings.divisions : [];
   res.render('reservations/bookAppointment', {
-    pageTitle: 'حجز موعد',
+    pageTitle: 'book Appointment',
     path: '/reservations/book',
     availableTimes: [],
+    errorMessage:null,
     selectedDate: null,
     divisions: divisions
   });
@@ -26,21 +29,42 @@ exports.getAvailableTimes = async (req, res) => {
   }
 };
 
-// const divisionNames = {
-//   Qaymariya: 'قيمرية',
-//   Salihiya: 'صالحية',
-//   Mezzeh: 'مزة',
-//   Amara: 'عمارة',
-//   Maidan: 'ميدان'
-// };
-
-
-// Book a specific appointment
 exports.bookSpecificAppointment = async (req, res) => {
   const { email, name, nationalNumber, date, time, division } = req.body;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.array()[0].msg);
+  
+    const settings = await Settings.findOne();
+    const divisions = settings ? settings.divisions : [];
+    return res.status(422).render('reservations/bookAppointment', {
+      pageTitle: 'book Appointment',
+      path: '/reservations/book',
+      hasError: true,
+      Appointment: {
+        name: name,
+        email: email,
+        nationalNumber: nationalNumber,
+        date: date,
+        time:time,
+        division:division
+      },
+      availableTimes: [],
+      selectedDate: null,
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array(),
+      divisions:divisions
+    });
+  }
+  
   try {
     const reservation = await Reservation.bookSpecificAppointment(email, name, nationalNumber, new Date(date), time, division);
-    res.render('reservations/success', { time, division });
+    res.render('reservations/success', {
+      pageTitle: 'Appointment successed',
+      path: '/reservations/success',
+      time, division 
+      });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

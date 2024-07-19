@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>تم الحجز بنجاح</title>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/assets/css/styles.min.css" />
     <style>
         .vh-100 {
@@ -26,7 +25,6 @@
 </head>
 
 <body>
-    <!-- Main Content -->
     <div class="container-fluid vh-100">
         <div class="centered-container">
             <div class="card text-center shadow-lg">
@@ -45,5 +43,32 @@
         </div>
     </div>
 </body>
+</html> -->
 
-</html>
+<%- include('../include/head.ejs') %>
+
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+      <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-4 ">
+          <div class="card-body container">
+                <a href="/" class="d-flex align-items-center justify-content-center text-nowrap logo-img">
+                  <img src="/assets/images/logos/logo.svg" width="180" alt="margin-left: 30%" />
+                </a>
+                <p class="text-center">منصة التأجيل الدراسي</p>
+                    <header class="mb-4">
+                        <h1 class="display-4 text-success">تم الحجز بنجاح</h1>
+                    </header>
+                    <p class="mb-2 text-center">وقت الحجز: <%= time %></p>
+                    <p class="mb-2 text-center">الشعبة: <%= division %></p>
+                    <a href="/" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">العودة إلى الصفحة الرئيسية</a>
+            </div>
+      </div>
+    </div>
+  </div>
+<%- include('../include/end.ejs') %>
+

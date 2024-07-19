@@ -3,7 +3,7 @@ const User = require('../models/user');
 const moment = require('moment');
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const nameRegex = /^[A-Za-z\s]{2,50}$/;
+const nameRegex = /^[\u0600-\u06FF\s]{8,50}$/;
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 // const divisionRegex = /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF\s\w]+$/;
 const divisionRegex = /^[\u0600-\u06FF\s]+$/;
@@ -12,20 +12,20 @@ const phoneNumberRegex = /^09\d{8}$/;
 exports.commonValidations = [
   body('email')
     .isEmail()
-    .withMessage('Please enter a valid email.')
+    .withMessage('يرجى إدخال البريد الإلكتروني الصحيح.')
     .matches(emailRegex)
-    .withMessage('Invalid email format.')
+    .withMessage('تنسيق البريد الإلكتروني غير صالح.')
     .normalizeEmail(),
   body('name')
     .matches(nameRegex)
-    .withMessage('Name should only contain alphabets and spaces, and be between 2 and 50 characters long.')
+    .withMessage('يجب أن يحتوي الاسم فقط على الأحرف الأبجدية العربية والمسافات، وأن يتراوح طوله بين 8 إلى 50 حرفًا.')
     .trim(),
   body('password')
     .matches(passwordRegex)
-    .withMessage('Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.'),
+    .withMessage('يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وتحتوي على حرف كبير واحد على الأقل وحرف صغير واحد ورقم واحد.'),
   body('division')
     .matches(divisionRegex)
-    .withMessage('Division should only contain alphabets and spaces.')
+    .withMessage('القسم يجب أن يحتوي على أحرف عربية ومسافات فقط.')
 ];
 
 exports.validateSignUp = [
@@ -33,7 +33,7 @@ exports.validateSignUp = [
   body('email').custom((value, { req }) => {
     return User.findOne({ email: value }).then(userDoc => {
       if (userDoc) {
-        return Promise.reject('E-Mail exists already, please pick a different one.');
+        return Promise.reject('ال Email مستخدم, استخدم Email أخر');
       }
     });
   })
@@ -44,41 +44,41 @@ exports.commonValidationsStudent = [
   ...exports.commonValidations,
   body('nationalNumber')
     .isLength({ min: 11, max: 11 })
-    .withMessage('National number must be exactly 11 digits.')
+    .withMessage('يجب أن يتكون الرقم الوطني من 11 رقمًا بالضبط.')
     .isNumeric()
-    .withMessage('National number must contain only numbers.'),
+    .withMessage('يجب أن يحتوي الرقم الوطني على أرقام فقط.'),
   body('militaryNumber')
     .isLength({ min: 4, max: 4 })
-    .withMessage('Military number must be exactly 4 digits.')
+    .withMessage('يجب أن يتكون الرقم العسكري من 4 أرقام بالضبط.')
     .isNumeric()
-    .withMessage('Military number must contain only numbers.'),
+    .withMessage('يجب أن يحتوي الرقم العسكري على أرقام فقط.'),
   body('birthdate')
     .isDate()
-    .withMessage('Invalid birthdate.')
+    .withMessage('خطأ في تاريخ الميلاد.')
     .custom((value) => {
       const birthDate = moment(value);
       const now = moment();
       const age = now.diff(birthDate, 'years');
       
       if (age < 17) {
-        throw new Error('You must be at least 17 years old.');
+        throw new Error('يجب أن يكون العمر 17 عاما على الأقل');
       }
       if (age > 27) {
-        throw new Error('You must be younger than 27 years old.');
+        throw new Error('يجب أن يكون العمر أقل من 27.');
       }
       return true;
     }),
   body('delayedTo')
     .isDate()
-    .withMessage('Invalid delayedTo date.')
+    .withMessage('تاريخ التأخير غير صالح.')
     .isAfter(new Date().toISOString())
-    .withMessage('DelayedTo date must be in the future.'),
+    .withMessage('يجب أن يكون تاريخ التأجيل في المستقبل.'),
   body('phoneNumber')
     .matches(phoneNumberRegex)
-    .withMessage('Phone number must be 10 digits and start with 09.'),
+    .withMessage('يجب أن يتكون رقم الهاتف من 10 أرقام ويبدأ بـ 09.'),
   body('address')
     .notEmpty()
-    .withMessage('Address is required.')
+    .withMessage('العنوان مطلوب.')
 ];
 
 exports.validateSignUpStudent =[
@@ -86,8 +86,29 @@ exports.validateSignUpStudent =[
   body('email').custom((value, { req }) => {
     return User.findOne({ email: value }).then(userDoc => {
       if (userDoc) {
-        return Promise.reject('E-Mail exists already, please pick a different one.');
+        return Promise.reject('ال Email مستخدم, استخدم Email أخر');
       }
     });
   })
+];
+
+exports.validateِِAppointment=[
+  body('email')
+  .isEmail()
+  .withMessage('يرجى إدخال البريد الإلكتروني الصحيح.')
+  .matches(emailRegex)
+  .withMessage('تنسيق البريد الإلكتروني غير صالح.')
+  .normalizeEmail(),
+body('name')
+  .matches(nameRegex)
+  .withMessage('يجب أن يحتوي الاسم فقط على الأحرف الأبجدية العربية والمسافات، وأن يتراوح طوله بين 8 إلى 50 حرفًا.')
+  .trim(),
+body('division')
+  .matches(divisionRegex)
+  .withMessage('القسم يجب أن يحتوي على أحرف عربية ومسافات فقط.'),
+body('nationalNumber')
+  .isLength({ min: 11, max: 11 })
+  .withMessage('يجب أن يتكون الرقم الوطني من 11 رقمًا بالضبط.')
+  .isNumeric()
+  .withMessage('يجب أن يحتوي الرقم الوطني على أرقام فقط.'),
 ];

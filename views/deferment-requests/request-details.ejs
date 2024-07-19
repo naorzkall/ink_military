@@ -21,7 +21,7 @@
                 <div class="d-flex align-items-center mb-3">
                   <i class="ti ti-user fs-5 me-2 text-muted"></i>
                   <span class="fw-bold">المستخدم:  </span>
-                  <span class="ms-2"><%= request.userId.name %> (<%= request.userId.email %>)</span>
+                  <span class="ms-2"><%= request.userId.name %></span>
                 </div>
               </div>
               <div class="col-md-6">
@@ -50,16 +50,6 @@
                 <img src="/<%= request.certificateUrl %>" class="img-fluid rounded shadow-sm" alt="Certificate Document">
               </a>
             </div>            
-            <div class="col-md-6">
-              <h5 class="mb-3"><i class="ti ti-file-upload fs-5 me-2"></i>مستند إثبات التأجيل</h5>
-              <% if (request.defermentDocumentUrl) { %>
-                <a href="/<%= request.defermentDocumentUrl %>" target="_blank">
-                  <img src="/<%= request.defermentDocumentUrl %>" class="img-fluid rounded shadow-sm" alt="Deferment Document">
-                </a>
-              <% } else { %>
-                <p>لم يتم تحميل مستند بعد</p>
-              <% } %>
-            </div>
           </div>
           
           <div class="mt-5">
