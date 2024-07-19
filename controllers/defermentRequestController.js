@@ -1,10 +1,17 @@
 const DefermentRequest = require('../models/defermentRequest');
 const Employee =require("../models/employee");
+const Student = require('../models/student');
+
 exports.submitDefermentRequest = async (req, res, next) => {
+
+    balance =  req.user.balance;
+
+    if (balance<5){
+        req.flash('errorMessage', 'محفظتك تحوي أقل من 5$')
+        return res.redirect('/addRequest');
+    }
+
     try {
-        console.log('Request body:', req.body);
-        console.log('Request files:', req.files);
-        console.log('Request user:', req.user);
 
         const { division } = req.user;
         const identityFile = req.files['identity'] ? req.files['identity'][0] : null;
@@ -80,8 +87,7 @@ exports.viewRequest = async (req, res) => {
 exports.addRequestToCart = async (req, res) => {
     try {
         const requestId = req.body.requestId;
-        console.log(requestId);
-        
+
         // Fetch the request and update the status to 'processing' if it's currently 'pending'
         const request = await DefermentRequest.findOneAndUpdate(
             { _id: requestId, status: 'قيد المعالجة' },
@@ -95,7 +101,7 @@ exports.addRequestToCart = async (req, res) => {
 
         // Fetch the employee who made the request
         const employee = req.user;
-        console.log(employee);
+
 
 
         if (!employee) {
@@ -118,7 +124,6 @@ exports.addRequestToCart = async (req, res) => {
             });
         }
 
-        console.log(employee);
         
         await employee.save();
 
@@ -164,6 +169,11 @@ exports.approveRequest = async (req, res) => {
             }
             return res.status(404).send('Request not found or not in processing state');
         }
+
+        await Student.updateOne(
+            { _id: request.userId },
+            { $inc: { balance: -5 } }
+        );
 
         // Remove the request from employee's cart
         await Employee.updateOne(
@@ -248,7 +258,6 @@ exports.getUserRequest = async (req, res) => {
             }).sort({ createdAt: -1 }) // ترتيب تنازلي حسب تاريخ الإنشاء
             .populate('userId', 'name email');
 
-        console.log(request)
         res.render('deferment-requests/user-request', { 
             mes:"",
             request,
@@ -298,7 +307,6 @@ exports.getEmployeeCart = async (req, res) => {
 exports.processRequest = async (req, res) => {
     try {
         const requestId = req.params.id;
-        console.log(requestId);
 
         const request = await DefermentRequest.findOne(
             { _id: requestId }
@@ -323,7 +331,7 @@ exports.getAllRequestsForAdmin = async (req, res) => {
     try {
         const { division } = req.user;
         let { requestStatus = 'all', search = '' } = req.query;
-        console.log(search);
+
         // Build query object based on filters
         let query = { division };
         

@@ -21,7 +21,6 @@ exports.getAllNews = async (req, res) => {
 
 // Get the form to add news
 exports.getAddNews = (req, res) => {
-    console.log("gg");
     res.render('news/add-news', { pageTitle: 'إضافة خبر', path: '/news/add-news' });
 };
 
@@ -29,7 +28,6 @@ exports.getAddNews = (req, res) => {
 // Handle POST request to add news
 exports.postAddNews = (req, res) => {
     try {
-        console.log(req.files)
         const { title, body } = req.body;
         const {division} = req.user;
         const imageFile = req.files['image'] ? req.files['image'][0] : null;

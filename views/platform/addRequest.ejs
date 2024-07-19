@@ -5,6 +5,12 @@
   <div class="container-fluid d-flex justify-content-center align-items-center vh-100 col-md-10 col-lg-9 col-xxl-5">
     <div class="card-body container text-center">
       <h2 class="title mb-2">طلب تأجيل</h2>
+      <% if (errorMessage) { %>
+        <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+          <i class="ti ti-alert-circle-filled fs-5 me-2"></i>
+          <div><%= errorMessage %></div>
+        </div>
+      <% } %>
       <p class="subtitle mb-4">يرجى إرسال مصدقة دراسية وصورة عن الهوية الشخصية</p>
       <form id="defermentForm" method="POST" action="/deferment-requests/submit" enctype="multipart/form-data">
         <div class="upload-box mb-4">

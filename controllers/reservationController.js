@@ -34,7 +34,6 @@ exports.bookSpecificAppointment = async (req, res) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log(errors.array()[0].msg);
   
     const settings = await Settings.findOne();
     const divisions = settings ? settings.divisions : [];
@@ -79,7 +78,7 @@ exports.getViewAppointmentsViewA = async (req, res) => {
     const selectedDivision = req.query.division || 'all';
     const today = moment().startOf('day').toDate();
     const tomorrow = moment().add(1, 'days').startOf('day').toDate();
-    console.log(division);
+
     let query = {
       date: {
         $gte: today,
@@ -149,7 +148,7 @@ exports.getAllAppointmentsForToday = async (req, res) => {
     const today = moment().startOf('day');
     const tomorrow = moment(today).add(1, 'days');
     const { division } = req.user;
-    console.log(division);
+
     const appointments = await Reservation.find({
       division : division,
       date: {

@@ -22,7 +22,6 @@ exports.addRequest = async (req, res, next) => {
       status: { $ne: 'مرفوض - للتعديل' },
       createdAt: { $gte: startOfYear, $lt: endOfYear }
     }).populate('userId', 'name email');
-    console.log(request)
 
     if (request) {
         res.render('deferment-requests/user-request', { 
@@ -33,10 +32,13 @@ exports.addRequest = async (req, res, next) => {
         });
         return;
       }
+
     res.render('platform/addRequest', {
       path: '/addRequest',
-      pageTitle: 'addRequest'
+      pageTitle: 'addRequest',
+      errorMessage : (flash = req.flash('errorMessage')).length > 0 ? flash : null    
     });
+
   } catch (error) {
     console.error('Error checking for existing deferment request:', error);
     res.status(500).render('404', {
@@ -111,16 +113,13 @@ exports.postcheckout = async (req, res, next) => {
 
 exports.getCheckoutSuccess = async (req, res, next) => {
   const sessionId = req.params.session_id;
-  console.log(sessionId);
   const userId = req.user._id;
   const balance = req.user.balance;
-  console.log( stripe.checkout.sessions.retrieve(sessionId))
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status === 'paid') {
       const amount = session.amount_total / 100; // تحويل من سنتات إلى دولارات
-      console.log(amount);
 
       Student.findOne({ _id: userId })
       .then(user => {
