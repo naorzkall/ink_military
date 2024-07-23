@@ -1,6 +1,17 @@
 const DefermentRequest = require('../models/defermentRequest');
 const Employee =require("../models/employee");
 const Student = require('../models/student');
+const fs = require('fs');
+
+const nodemailer = require('nodemailer'); 
+const generateEmailTemplate = require('../controllers/email');
+const transporter = nodemailer.createTransport({
+  service: 'gmail', 
+  auth: {
+      user: process.env.NODEJS_GMAIL_APP_USER,   // your email address
+      pass: process.env.NODEJS_GMAIL_APP_PASSWORD // your password
+  }
+});
 
 exports.submitDefermentRequest = async (req, res, next) => {
 
@@ -13,7 +24,7 @@ exports.submitDefermentRequest = async (req, res, next) => {
 
     try {
 
-        const { division } = req.user;
+        const { division,email } = req.user;
         const identityFile = req.files['identity'] ? req.files['identity'][0] : null;
         const certificateFile = req.files['certificate'] ? req.files['certificate'][0] : null;
 
@@ -26,7 +37,8 @@ exports.submitDefermentRequest = async (req, res, next) => {
             division,
             identityUrl: identityFile.path,
             certificateUrl: certificateFile.path,
-            status: 'قيد المعالجة'
+            status: 'قيد المعالجة',
+            email
         });
 
         await defermentRequest.save();
@@ -175,6 +187,14 @@ exports.approveRequest = async (req, res) => {
             { $inc: { balance: -5 } }
         );
 
+        const email = request.email;
+        const emailHtml = generateEmailTemplate('حالة طلب التأجيل', 'تمت الموافقة على طلب التأجيل');
+        await transporter.sendMail({
+          from: process.env.NODEJS_GMAIL_APP_USER,
+          to: email,
+          subject: 'حالة طلب التأجيل',
+          html: emailHtml
+        });
         // Remove the request from employee's cart
         await Employee.updateOne(
             { _id: req.user._id },
@@ -209,6 +229,14 @@ exports.rejectRequest = async (req, res) => {
             { _id: req.user._id },
             { $pull: { 'cart.items': { request: requestId } } }
         );
+        const email = request.email;
+        const emailHtml = generateEmailTemplate('حالة طلب التأجيل', 'تمت رفض طلب التأجيل');
+        await transporter.sendMail({
+          from: process.env.NODEJS_GMAIL_APP_USER,
+          to: email,
+          subject: 'حالة طلب التأجيل',
+          html: emailHtml
+        });
 
         res.redirect(`/deferment-requests/all`);
     } catch (error) {

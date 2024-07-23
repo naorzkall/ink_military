@@ -24,6 +24,10 @@ const defermentRequestSchema = new Schema({
         type: String, // pending/in progress/approved/rejected
         required: true
     },
+    email: {
+        type: String,
+        required: true
+    },
     feedback: {
         type: String
     },
