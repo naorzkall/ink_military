@@ -16,6 +16,8 @@ router.get('/incomingRequests',Auth.isAuth, platformController.getIncReqs);
 router.get('/InProgress',Auth.isAuth, platformController.getInProgress);
 
 router.get('/MyProfile',Auth.isAuth,Auth.isStudent, platformController.getProfile);
+router.post('/editProfile',Auth.isAuth, platformController.posteditProfile);
+
 
 // trying Auth.isStudent
 router.get('/MyWallet',Auth.isAuth, Auth.isStudent, platformController.getWallet);

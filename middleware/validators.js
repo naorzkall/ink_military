@@ -4,6 +4,7 @@ const moment = require('moment');
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nameRegex = /^[\u0600-\u06FF\s]{8,50}$/;
+const addressRegex = /^[\u0600-\u06FF\s]{5,50}$/;
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 // const divisionRegex = /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDCF\uFDF0-\uFDFF\uFE70-\uFEFF\s\w]+$/;
 const divisionRegex = /^[\u0600-\u06FF\s]+$/;
@@ -47,6 +48,10 @@ exports.commonValidationsStudent = [
     .withMessage('يجب أن يتكون الرقم الوطني من 11 رقمًا بالضبط.')
     .isNumeric()
     .withMessage('يجب أن يحتوي الرقم الوطني على أرقام فقط.'),
+  body('motherName')
+    .matches(nameRegex)
+    .withMessage('يجب أن يحتوي الاسم فقط على الأحرف الأبجدية العربية والمسافات، وأن يتراوح طوله بين 8 إلى 50 حرفًا.')
+    .trim(),
   body('militaryNumber')
     .isLength({ min: 4, max: 4 })
     .withMessage('يجب أن يتكون الرقم العسكري من 4 أرقام بالضبط.')
@@ -68,17 +73,13 @@ exports.commonValidationsStudent = [
       }
       return true;
     }),
-  body('delayedTo')
-    .isDate()
-    .withMessage('تاريخ التأخير غير صالح.')
-    .isAfter(new Date().toISOString())
-    .withMessage('يجب أن يكون تاريخ التأجيل في المستقبل.'),
   body('phoneNumber')
     .matches(phoneNumberRegex)
     .withMessage('يجب أن يتكون رقم الهاتف من 10 أرقام ويبدأ بـ 09.'),
   body('address')
     .notEmpty()
-    .withMessage('العنوان مطلوب.')
+    .matches(addressRegex)
+    .withMessage('يجب أن يحتوي العنوان فقط على الأحرف الأبجدية العربية والمسافات، وأن يتراوح طوله بين 5 إلى 50 حرفًا.')
 ];
 
 exports.validateSignUpStudent =[

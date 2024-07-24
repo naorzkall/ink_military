@@ -184,7 +184,18 @@ exports.approveRequest = async (req, res) => {
 
         await Student.updateOne(
             { _id: request.userId },
-            { $inc: { balance: -5 } }
+            [
+                { $set: { 
+                    balance: { $subtract: ['$balance', 5] },
+                    delayedTo: { 
+                        $dateAdd: {
+                            startDate: '$delayedTo',
+                            unit: 'year',
+                            amount: 1
+                        }
+                    }
+                }}
+            ]
         );
 
         const email = request.email;

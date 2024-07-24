@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config({path:"config.env"});
 const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 const PDFDocument = require('pdfkit');
+const User = require('../models/user');
 const Student = require('../models/student');
 const DefermentRequest = require('../models/defermentRequest'); // Adjust the path as needed
 
@@ -141,3 +142,34 @@ exports.getCheckoutSuccess = async (req, res, next) => {
     res.status(500).send('Internal Server Error');
   }
 };
+
+exports.posteditProfile = async(req, res, next) => {
+  const {email,phoneNumber,address,studentId} = req.body;
+  console.log(email);
+  let student = null;
+
+
+  User.findById(studentId)
+    .then(user => {
+        student = user;
+        student.email = email;
+        student.phoneNumber = phoneNumber;
+        student.address = address;
+        return student.save();
+      })
+      .then(result => {
+        res.redirect('/');
+        const emailHtml = generateEmailTemplate('update info succeeded!', 'تم تعدبل تعدبل المعلومات في منصة التأجيل العكسري');
+        return transporter.sendMail({
+          from: process.env.NODEJS_GMAIL_APP_USER,
+          to: email,
+          subject: 'تم تعدبل المعلومات بنجاح - ink military',
+          html: emailHtml
+        });
+      })
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
+}

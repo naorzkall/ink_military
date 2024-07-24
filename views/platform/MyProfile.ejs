@@ -15,23 +15,24 @@
                     <p class="mb-0 text-muted spacing-r"><%= student.email %></p>
                   </div>
                 </div>
-                <form>
+                <form action="/editProfile" class="form" method="POST">
                   <div class="mb-4">
                     <label for="delayedTo">تاريخ انتهاء التأجيل </label>
                     <input type="text" class="form-control" id="delayedTo" value="<%= student.delayedTo ? student.delayedTo.toLocaleDateString() : 'غير محدد' %>" disabled>
                   </div>
                   <div class="mb-4">
                     <label for="email">البريد الالكتروني</label>
-                    <input type="email" class="form-control" id="email" value="<%= student.email %>" disabled>
+                    <input type="email" class="form-control" id="email" value="<%= student.email %>" name="email">
                   </div>
                   <div class="mb-4">
                     <label for="phoneNumber">رقم الموبايل</label>
-                    <input type="text" class="form-control" id="phoneNumber" value="<%= student.phoneNumber || 'غير محدد' %>" disabled>
+                    <input type="text" class="form-control" id="phoneNumber" value="<%= student.phoneNumber || 'غير محدد' %>" name="phoneNumber">
                   </div>
                   <div class="mb-4">
                     <label for="address">عنوان السكن</label>
-                    <input type="text" class="form-control" id="address" value="<%= student.address || 'غير محدد' %>" disabled>
+                    <input type="text" class="form-control" id="address" value="<%= student.address || 'غير محدد' %>" name="address">
                   </div>
+                  <input type="hidden" value="<%= student._id %>" name="studentId">
                   <button type="submit" class="btn btn-primary">حفظ التغيرات</button>
                 </form>
  

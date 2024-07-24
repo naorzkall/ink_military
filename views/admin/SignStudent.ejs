@@ -38,13 +38,13 @@
                 </div>
                 <div class="column">
                   <div class="input-box">
-                    <label for="militaryNumber">رقم التجنيد</label>
-                    <input type="number" 
-                      class="form-control <%= validationErrors.find(e => e.path === 'militaryNumber') ? 'is-invalid' : '' %>"
-                      name="militaryNumber" 
-                      id="militaryNumber"
-                      placeholder="أدخل رقم التجنيد " 
-                      value="<% if (editing || hasError) { %><%= student.militaryNumber %><% } %>"
+                    <label for="motherName">اسم الأم</label>
+                    <input type="text"
+                      class="form-control <%= validationErrors.find(e => e.path === 'motherName') ? 'is-invalid' : '' %>" 
+                      name="motherName" 
+                      id="motherName"
+                      placeholder="أدخل اسم الأم " 
+                      value="<% if (editing || hasError) { %><%= student.motherName %><% } %>"
                       required />
                   </div>
                   <div class="input-box">
@@ -60,6 +60,16 @@
                 </div>
                 <div class="column">
                   <div class="input-box">
+                    <label for="militaryNumber">رقم التجنيد</label>
+                    <input type="number" 
+                      class="form-control <%= validationErrors.find(e => e.path === 'militaryNumber') ? 'is-invalid' : '' %>"
+                      name="militaryNumber" 
+                      id="militaryNumber"
+                      placeholder="أدخل رقم التجنيد " 
+                      value="<% if (editing || hasError) { %><%= student.militaryNumber %><% } %>"
+                      required />
+                  </div>
+                  <div class="input-box">
                     <label for="phoneNumber">رقم الموبايل</label>
                     <input type="number"
                       class="form-control <%= validationErrors.find(e => e.path === 'phoneNumber') ? 'is-invalid' : '' %>" 
@@ -67,16 +77,6 @@
                       id="phoneNumber"
                       placeholder="أدخل رقم الموبايل"
                       value="<% if (editing || hasError) { %><%= student.phoneNumber %><% } %>"  
-                      required />
-                  </div>
-                  <div class="input-box">
-                    <label for="delayedTo">أجل إلى تاريخ</label>
-                    <input type="date" 
-                      class="form-control <%= validationErrors.find(e => e.path === 'delayedTo') ? 'is-invalid' : '' %>"
-                      name="delayedTo"
-                      id="delayedTo"
-                      placeholder="أدخل تاريخ الولادة" 
-                      value="<% if (editing || hasError) { %><%= student.delayedTo ? new Date(student.delayedTo).toISOString().substring(0, 10) : '' %><% } %>"  
                       required />
                   </div>
                 </div>

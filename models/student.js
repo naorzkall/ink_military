@@ -11,6 +11,10 @@ const studentSchema = new Schema({
       maxlength: 11,
       match: /^[0-9]+$/ 
     },
+    motherName: {
+      type: String,
+      required: true
+    },
     militaryNumber:{
       type:String,
       required:true,

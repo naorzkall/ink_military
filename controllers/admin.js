@@ -433,7 +433,7 @@ exports.postEditEmployee = async (req, res, next) => {
 };
 
 exports.postSignStudent = async(req, res, next) => {
-  const {name,email,password,nationalNumber,militaryNumber,birthdate,phoneNumber, delayedTo,division,address} = req.body;
+  const {name,email,password,nationalNumber,motherName,militaryNumber,birthdate,phoneNumber,division,address} = req.body;
 
   const errors = validationResult(req);
 
@@ -450,10 +450,10 @@ exports.postSignStudent = async(req, res, next) => {
         email: email,
         password: password,
         nationalNumber:nationalNumber,
+        motherName:motherName,
         militaryNumber:militaryNumber,
         birthdate:birthdate,
         phoneNumber:phoneNumber,
-        delayedTo:delayedTo,
         division: division,
         address:address
       },
@@ -466,15 +466,18 @@ exports.postSignStudent = async(req, res, next) => {
   bcrypt
   .hash(password, 12)
   .then(hashedPassword => {
+    const currentYear = new Date().getFullYear();
+    const delayedToDate = new Date(currentYear, 2, 15);
     const student = new Student({
       email: email,
       name:name,
       password: hashedPassword,
       nationalNumber:nationalNumber,
+      motherName:motherName,
       militaryNumber:militaryNumber,
       birthdate:birthdate,
       phoneNumber:phoneNumber,
-      delayedTo:delayedTo,
+      delayedTo:delayedToDate,
       division:division,
       address:address,
       balance:0,
@@ -500,7 +503,7 @@ exports.postSignStudent = async(req, res, next) => {
 };
 
 exports.postEditStudent = async(req, res, next) => {
-  const {name,email,password: newPassword,nationalNumber,militaryNumber,birthdate,phoneNumber, delayedTo,division,address,studentId} = req.body;
+  const {name,email,password: newPassword,nationalNumber,motherName,militaryNumber,birthdate,phoneNumber,division,address,studentId} = req.body;
   let student = null;  
 
   const errors = validationResult(req);
@@ -517,10 +520,10 @@ exports.postEditStudent = async(req, res, next) => {
         email: email,
         password: newPassword,
         nationalNumber:nationalNumber,
+        motherName:motherName,
         militaryNumber:militaryNumber,
         birthdate:birthdate,
         phoneNumber:phoneNumber,
-        delayedTo:delayedTo,
         division: division,
         address:address,
         _id:studentId
@@ -537,10 +540,11 @@ exports.postEditStudent = async(req, res, next) => {
       student.name = name;
       student.email = email;
       student.nationalNumber = nationalNumber;
+      student.motherName = motherName;
       student.militaryNumber = militaryNumber;
       student.birthdate = birthdate;
       student.phoneNumber = phoneNumber;
-      student.delayedTo= delayedTo;
+      student.delayedTo= user.delayedTo;
       student.division = division;
       student.address = address;
       return bcrypt.hash(newPassword, 12);
