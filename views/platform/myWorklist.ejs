@@ -14,15 +14,12 @@
                 <% cartItems.forEach(item => { %>
                   <div class="col-md-4 mb-3">
                     <div class="card">
-                      <div class="card-header">
-                        طلب رقم <%= item.request._id %>
-                      </div>
                       <div class="card-body">
                         <h5 class="card-title">تفاصيل الطلب</h5>
                         <p class="card-text">القسم: <%= item.request.division %></p>
                         <p class="card-text">حالة الطلب: <%= item.request.status %></p>
                         <a href="/deferment-requests/request/<%= item.request._id %>" 
-                          class="btn btn-primary btn-sm mb-2">معالجة الطلب</a>
+                          class="btn btn-primary">معالجة الطلب</a>
                       </div>
                     </div>
                   </div>
